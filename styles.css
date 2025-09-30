@@ -810,8 +810,8 @@ summary:focus-visible {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  padding: 0 40px 0 16px;
-  height: 40px;
+  padding: 0 40px 0 18px;
+  height: 42px;
   gap: 8px;
   
   background: transparent;
@@ -870,9 +870,9 @@ summary:focus-visible {
   padding: 6px;
   list-style: none;
   
-  background: rgba(16, 18, 20, 0.28);
-  backdrop-filter: blur(10px) saturate(120%);
-  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  background: rgba(16, 18, 20, 0.88);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 16px;
   
@@ -884,23 +884,6 @@ summary:focus-visible {
   transition: opacity 120ms ease-out, transform 120ms ease-out;
   
   z-index: 90;
-  max-height: 280px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-}
-
-.dropdown-menu::-webkit-scrollbar {
-  width: 6px;
-}
-
-.dropdown-menu::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.dropdown-menu::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
 }
 
 .dropdown-menu.open {
@@ -910,7 +893,7 @@ summary:focus-visible {
 }
 
 .dropdown-menu li {
-  padding: 10px 14px;
+  padding: 10px 14px 10px 28px;
   min-height: 40px;
   color: #FBF8F3;
   cursor: pointer;
@@ -920,6 +903,7 @@ summary:focus-visible {
   transition: background-color 80ms ease;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .dropdown-menu li:hover {
@@ -933,7 +917,8 @@ summary:focus-visible {
 
 .dropdown-menu li[aria-selected="true"]::before {
   content: '•';
-  margin-right: 8px;
+  position: absolute;
+  left: 14px;
   color: rgba(203, 168, 98, 0.9);
   font-size: 18px;
   line-height: 1;
