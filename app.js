@@ -60,10 +60,12 @@ function bindUI(){
   areaSel.addEventListener('change', () => {
     state.area = areaSel.value;
     filterByArea(state.area);
-    setKicker(state.area);
     writeURL();
   });
-  qs('#new').onclick = () => nextAffirmation(true);
+  qs('#new').onclick = () => {
+    setKicker(state.area);
+    nextAffirmation(true);
+  };
   qs('#copy').onclick = () => copyCaption();
   qs('#share').onclick = () => shareImageOrCaption();
 }
