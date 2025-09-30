@@ -189,8 +189,8 @@ select:focus, button:focus {
 
 .card {
   position: relative;
-  width: clamp(480px, 70vw, 864px);
-  aspect-ratio: 4 / 5;
+  width: clamp(520px, 75vw, 980px);
+  min-height: 580px;
   background: white;
   border-radius: 32px;
   padding: var(--space-2xl) var(--space-xl) var(--space-lg);
