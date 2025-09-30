@@ -91,6 +91,19 @@ function bindUI(){
     }
   });
   
+  // Keyboard toggle: Enter/Space to open/close
+  dropdownButton.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const isOpen = dropdownButton.getAttribute('aria-expanded') === 'true';
+      if (isOpen) {
+        closeDropdown();
+      } else {
+        openDropdown();
+      }
+    }
+  });
+  
   // Select option
   dropdownMenu.addEventListener('click', (e) => {
     const li = e.target.closest('li');
@@ -101,6 +114,41 @@ function bindUI(){
     closeDropdown();
   });
   
+  // Keyboard navigation for dropdown menu
+  dropdownMenu.addEventListener('keydown', (e) => {
+    const options = Array.from(dropdownMenu.querySelectorAll('li'));
+    const currentIndex = options.findIndex(opt => opt === document.activeElement);
+    
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
+      options[nextIndex].focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prevIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
+      options[prevIndex].focus();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      options[0].focus();
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      options[options.length - 1].focus();
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const li = e.target.closest('li');
+      if (li) {
+        const value = li.getAttribute('data-value');
+        selectArea(value);
+        closeDropdown();
+        dropdownButton.focus();
+      }
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      closeDropdown();
+      dropdownButton.focus();
+    }
+  });
+  
   // Close on click outside
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.custom-dropdown')) {
@@ -108,7 +156,17 @@ function bindUI(){
     }
   });
   
-  // ESC key closes dropdown
+  // Close when focus leaves dropdown area
+  document.addEventListener('focusin', (e) => {
+    const dropdown = document.querySelector('.custom-dropdown');
+    if (dropdownButton.getAttribute('aria-expanded') === 'true') {
+      if (!dropdown.contains(e.target)) {
+        closeDropdown();
+      }
+    }
+  });
+  
+  // Global ESC key handler
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && dropdownButton.getAttribute('aria-expanded') === 'true') {
       closeDropdown();
@@ -127,6 +185,11 @@ function bindUI(){
 function openDropdown() {
   dropdownButton.setAttribute('aria-expanded', 'true');
   dropdownMenu.classList.add('open');
+  // Focus first option after opening
+  const firstOption = dropdownMenu.querySelector('li');
+  if (firstOption) {
+    setTimeout(() => firstOption.focus(), 50);
+  }
 }
 
 function closeDropdown() {

@@ -1,0 +1,165 @@
+Goal:
+Make the Marketing area dropdown and the Affirm Me button clearly visible over the floral hero, with a refined white‑outline liquid-glass look. The dropdown must look like a dropdown, open directly under the trigger, be keyboard accessible, and not visually fight the hero.
+
+0) House rules
+
+Don’t touch the Buy Me a Coffee button.
+
+Keep serif for headings/quotes; use system UI sans (600) for controls.
+
+Glass effects must use rgba(...) backgrounds + backdrop-filter. No parent with opacity:<1 or filter on the controls container (that flattens blur).
+
+1) Controls tray (visibility anchor for the dropdown + CTA)
+
+Create a small glass tray wrapper behind the dropdown trigger and the “Affirm Me” button (not full‑width).
+
+position: relative; display: inline-flex; gap: 10px; align-items: center;
+
+Padding: 6px 12px; Radius: 999px
+
+background: rgba(0,0,0,.12);
+
+backdrop-filter: blur(20px) saturate(130%);
+
+-webkit-backdrop-filter: blur(20px) saturate(130%);
+
+Shadow: 0 8px 24px rgba(0,0,0,.35);
+
+No border.
+This gives the controls a subtle base so they don’t vanish into petals.
+
+2) Outline styles (trigger + CTA)
+
+Apply a shared outline recipe:
+
+Font: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, sans-serif; 600
+
+Height: 42–44px (CTA), 40–42px (dropdown trigger)
+
+Padding: CTA 0 18px; Trigger 0 16px (plus room for chevron)
+
+Radius: 999px
+
+Border: 1.5px solid rgba(255,255,255,.80) (hover to .95)
+
+Fill: default transparent; on hover add 6–8% white wash (rgba(255,255,255,.08))
+
+Text: #FFFFFFEE
+
+Motion:
+
+Hover: translateY(-1px); 140ms cubic-bezier(.2,.8,.2,1)
+
+Active: transform: translateY(0) scale(.985); 90ms
+
+Focus: inner 1px white + outer 3–4px soft gold (#CBA86266)
+
+Respect prefers-reduced-motion: disable translate/scale; keep color/border changes only.
+
+3) Dropdown trigger (the pill you click)
+
+Add a chevron element inside the trigger on the right:
+
+Size ~ 12px; opacity:.9
+
+Rotate 0° → 180° when open (120ms)
+
+Increase right padding to clear the chevron (about +20–24px).
+
+4) Dropdown menu (matte glass panel, readable)
+
+Menu must open directly below the trigger, left‑aligned to the trigger’s left edge.
+
+Positioning & alignment
+
+Ensure the trigger’s wrapper is position: relative.
+
+Menu: position: absolute; top: calc(100% + 8px); left: 0;
+
+z-index: 90 so it sits above the card edge.
+
+Prevent it from centering over the page (current bug): tie it to the trigger, not the viewport.
+
+Panel visual
+
+Background: rgba(16,18,20,.28) (dark matte glass)
+
+backdrop-filter: blur(10px) saturate(120%)
+
+Border: 1px solid rgba(255,255,255,.14)
+
+Radius: 14–16px
+
+Shadow: 0 14px 36px rgba(0,0,0,.45)
+
+Max-height: 280px with vertical scroll
+
+Scrollbar: thin, low‑contrast; don’t show until needed
+
+Menu items
+
+Each option: padding 10–12px 14px; radius 10px
+
+Text color: #FBF8F3
+
+Hover: background rgba(255,255,255,.06)
+
+Selected: add a small gold dot • before the label (no full highlight)
+
+Touch target ≥ 40px height
+
+Open/close animation
+
+Menu: opacity 120ms ease-out (0→1) + transform: translateY(6px→0)
+
+On close: reverse
+
+Chevron rotates with the same timing
+
+5) Accessibility (must-haves)
+
+Trigger: aria-haspopup="listbox" and aria-expanded="true/false"
+
+Menu: role="listbox"; items: role="option" with aria-selected="true" on the current one
+
+Keyboard:
+
+Enter/Space: open/close
+
+Esc: close and return focus to trigger
+
+Up/Down: move active option
+
+Home/End: jump to first/last
+
+Close on outside click and on focus leaving the menu.
+
+Do not trap focus globally; keep focus within trigger + menu while open.
+
+6) Card buttons (“Share”, “Copy”) consistency
+
+Use the light version of the outline/glass to remain secondary on the card:
+
+Border: 1px soft gold rgba(203,168,98,.40) (hover .60)
+
+Fill: rgba(255,255,255,.22) + backdrop-filter: blur(10px) saturate(120%)
+
+Text: deep green #17382F
+
+Height: 38–40px; Padding 0 16px
+
+Hover: translateY(-1px) + brightness +3%
+
+Focus: same white+gold ring
+
+Keep a 12–16px gap between the two; ensure container doesn’t clip focus rings
+
+7) Acceptance criteria
+
+The dropdown opens under its trigger, not centered on the page; chevron rotates; menu is readable over florals.
+
+The Affirm Me button and dropdown are clearly visible at a glance thanks to the tray + thicker outline + subtle fill on hover.
+
+Share/Copy look related but visibly secondary on the light card.
+
+All controls have consistent motion, focus rings, and respect prefers-reduced-motion.

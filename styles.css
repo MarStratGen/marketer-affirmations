@@ -127,19 +127,20 @@ body {
 
 /* ====== Controls ====== */
 .controls {
-  display: flex;
-  gap: 11px;
-  justify-content: center;
+  position: relative;
+  display: inline-flex;
+  gap: 10px;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: center;
   margin-bottom: 28px;
-  padding: 8px 16px;
-  background: transparent;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.12);
   border-radius: 999px;
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   opacity: 0;
   animation: fadeInControls 0.6s ease 0.2s forwards;
-  backdrop-filter: none;
-  position: relative;
   z-index: 10;
 }
 
@@ -299,7 +300,7 @@ button:not(.liquid-button):not(.liquid-button--light) {
 /* ====== Actions ====== */
 .actions {
   display: flex;
-  gap: 13px;
+  gap: 14px;
   justify-content: center;
   flex-wrap: wrap;
   padding-top: 40px;
@@ -307,34 +308,6 @@ button:not(.liquid-button):not(.liquid-button--light) {
   margin-top: 0;
   opacity: 0;
   animation: fadeInActions 0.6s ease 0.5s forwards;
-}
-
-.actions button {
-  background: rgba(26, 58, 46, 0.05);
-  border: 1px solid rgba(26, 58, 46, 0.15);
-  color: rgba(26, 58, 46, 0.8);
-  font-size: 13px;
-  padding: 9px 14px;
-  border-radius: 999px;
-  box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.06),
-    0 1px 2px rgba(0, 0, 0, 0.04);
-  font-weight: 500;
-  backdrop-filter: blur(4px);
-}
-
-.actions button:hover {
-  background: rgba(212, 175, 55, 0.15);
-  border-color: rgba(212, 175, 55, 0.4);
-  color: rgba(26, 58, 46, 1);
-  box-shadow: 
-    0 4px 12px rgba(212, 175, 55, 0.25),
-    0 2px 6px rgba(0, 0, 0, 0.08);
-  transform: translateY(-1px);
-}
-
-.actions button:active {
-  transform: translateY(0);
 }
 
 @keyframes fadeInActions {
@@ -480,7 +453,6 @@ body[data-theme="A"] select:not(.liquid-select):hover {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
   }
   
   .header,
@@ -740,14 +712,15 @@ summary:focus-visible {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 11px 28px;
+  padding: 0 18px;
+  height: 42px;
   gap: 8px;
   
   background: transparent;
-  border: 1.5px solid rgba(255, 255, 255, 0.55);
-  border-radius: 48px;
+  border: 1.5px solid rgba(255, 255, 255, 0.80);
+  border-radius: 999px;
   
-  color: rgba(255, 255, 255, 0.95);
+  color: #FFFFFFEE;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
@@ -764,14 +737,13 @@ summary:focus-visible {
 }
 
 .liquid-button:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.95);
   transform: translateY(-1px);
-  backdrop-filter: blur(3px);
 }
 
 .liquid-button:active {
-  transform: scale(0.985) translateY(0);
+  transform: translateY(0) scale(0.985);
   border-color: rgba(255, 255, 255, 0.80);
   transition: all 90ms cubic-bezier(0.3, 0.7, 0.4, 1);
 }
@@ -780,29 +752,32 @@ summary:focus-visible {
   outline: none;
   box-shadow: 
     inset 0 0 0 1px rgba(255, 255, 255, 1),
-    0 0 0 4px rgba(203, 168, 98, 0.4);
+    0 0 0 3px rgba(203, 168, 98, 0.4);
 }
 
-/* Light buttons (card surfaces) - keep existing subtle style */
+/* Light buttons (card surfaces) - soft gold glass for Share/Copy */
 .liquid-button--light {
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 11px 20px;
+  padding: 0 16px;
+  height: 38px;
   gap: 8px;
   
-  background: rgba(26, 58, 46, 0.05);
-  border: 1px solid rgba(26, 58, 46, 0.15);
-  border-radius: 48px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(203, 168, 98, 0.40);
+  border-radius: 999px;
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
   
-  color: rgba(26, 58, 46, 0.8);
+  color: #17382F;
   font-size: 13px;
+  font-weight: 600;
   
-  box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.06),
-    0 1px 2px rgba(0, 0, 0, 0.04);
+  box-shadow: none;
+  transition: all 140ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .liquid-button--light::before,
@@ -811,40 +786,39 @@ summary:focus-visible {
 }
 
 .liquid-button--light:hover {
-  background: rgba(212, 175, 55, 0.15);
-  border-color: rgba(212, 175, 55, 0.4);
-  color: rgba(26, 58, 46, 1);
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(203, 168, 98, 0.60);
+  filter: brightness(1.03);
   transform: translateY(-1px);
-  box-shadow: 
-    0 4px 12px rgba(212, 175, 55, 0.25),
-    0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .liquid-button--light:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.985);
+  transition: all 90ms cubic-bezier(0.3, 0.7, 0.4, 1);
 }
 
 .liquid-button--light:focus-visible {
   outline: none;
   box-shadow: 
-    0 0 0 3px rgba(26, 58, 46, 0.3),
-    0 1px 3px rgba(0, 0, 0, 0.06);
+    inset 0 0 0 1px rgba(255, 255, 255, 1),
+    0 0 0 3px rgba(203, 168, 98, 0.4);
 }
 
-/* Dropdown selector - white outline with SVG chevron */
+/* Dropdown selector - white outline with chevron */
 .liquid-select {
   position: relative;
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  padding: 11px 36px 11px 20px;
+  padding: 0 40px 0 16px;
+  height: 40px;
   gap: 8px;
   
-  background-color: transparent;
-  border: 1.5px solid rgba(255, 255, 255, 0.55);
-  border-radius: 48px;
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.80);
+  border-radius: 999px;
   
-  color: rgba(255, 255, 255, 0.95);
+  color: #FFFFFFEE;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Inter, "Helvetica Neue", Arial, sans-serif;
   font-size: 0.92rem;
   font-weight: 600;
@@ -858,15 +832,17 @@ summary:focus-visible {
 .liquid-select::after {
   content: '';
   position: absolute;
-  right: 16px;
+  right: 14px;
   top: 50%;
   transform: translateY(-50%);
   width: 0;
   height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid rgba(255, 255, 255, 0.95);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid rgba(255, 255, 255, 0.9);
+  opacity: 0.9;
   pointer-events: none;
+  transition: transform 120ms ease;
 }
 
 .liquid-select span {
@@ -884,31 +860,47 @@ summary:focus-visible {
   transform: translateY(-50%) rotate(180deg);
 }
 
-/* Dropdown menu */
+/* Dropdown menu - dark matte glass */
 .dropdown-menu {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  right: 0;
+  min-width: 100%;
   margin: 0;
   padding: 6px;
   list-style: none;
   
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(16, 18, 20, 0.28);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
   border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 12px;
+  border-radius: 16px;
   
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
   
   opacity: 0;
   transform: translateY(6px);
   pointer-events: none;
   transition: opacity 120ms ease-out, transform 120ms ease-out;
   
-  z-index: 1000;
+  z-index: 90;
   max-height: 280px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.dropdown-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
 }
 
 .dropdown-menu.open {
@@ -918,13 +910,16 @@ summary:focus-visible {
 }
 
 .dropdown-menu li {
-  padding: 10px 12px;
-  color: #1a1a1a;
+  padding: 10px 14px;
+  min-height: 40px;
+  color: #FBF8F3;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 10px;
   font-size: 14px;
   font-weight: 500;
   transition: background-color 80ms ease;
+  display: flex;
+  align-items: center;
 }
 
 .dropdown-menu li:hover {
@@ -932,35 +927,28 @@ summary:focus-visible {
 }
 
 .dropdown-menu li[aria-selected="true"] {
-  background: rgba(0, 0, 0, 0.04);
+  background: transparent;
   font-weight: 600;
 }
 
 .dropdown-menu li[aria-selected="true"]::before {
-  content: '✓';
+  content: '•';
   margin-right: 8px;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(203, 168, 98, 0.9);
+  font-size: 18px;
+  line-height: 1;
 }
 
 .liquid-select:hover {
-  border-color: rgba(255, 255, 255, 0.90);
-  background-color: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.95);
   transform: translateY(-1px);
-  backdrop-filter: blur(2px);
 }
 
 .liquid-select:active {
-  transform: scale(0.985);
+  transform: translateY(0) scale(0.985);
   border-color: rgba(255, 255, 255, 0.80);
   transition: all 90ms cubic-bezier(0.3, 0.7, 0.4, 1);
-}
-
-.liquid-select:focus {
-  outline: none;
-  border-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 
-    inset 0 0 0 1px rgba(255, 255, 255, 1),
-    0 0 0 3px rgba(203, 168, 98, 0.4);
 }
 
 .liquid-select:focus-visible {
@@ -978,22 +966,24 @@ summary:focus-visible {
   padding: 8px 12px;
 }
 
-/* Reduced motion - keep only color/border transitions */
+/* Reduced motion - disable transforms, keep color/border transitions */
 @media (prefers-reduced-motion: reduce) {
   .liquid-button,
   .liquid-button--light,
   .liquid-select {
-    transition: border-color 140ms ease, background-color 140ms ease !important;
+    transition: border-color 140ms ease, background-color 140ms ease, filter 140ms ease !important;
   }
   
   .liquid-button:hover,
   .liquid-button--light:hover,
-  .liquid-select:hover {
+  .liquid-select:hover,
+  .liquid-button:active,
+  .liquid-button--light:active,
+  .liquid-select:active {
     transform: none !important;
   }
   
-  .liquid-button:active,
-  .liquid-select:active {
-    transform: none !important;
+  .dropdown-menu {
+    transition: opacity 120ms ease-out !important;
   }
 }
