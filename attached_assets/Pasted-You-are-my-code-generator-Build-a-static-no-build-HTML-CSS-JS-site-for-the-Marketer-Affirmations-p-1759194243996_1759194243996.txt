@@ -1,0 +1,233 @@
+You are my code generator. Build a static, no‑build HTML/CSS/JS site for the Marketer Affirmations project. Generate and write all files with full contents. Do not use frameworks or build tools.
+
+Purpose
+
+A single‑page app that:
+
+shows a random satirical marketer affirmation,
+
+filters by one marketing area at a time,
+
+applies 3 switchable themes (ornate / ribbon / glass),
+
+renders a 1080×1080 PNG on <canvas> with:
+
+floral background (BURGUNDY GARDEN style placeholder),
+
+centered quote (auto‑wrap + auto‑fit),
+
+small footer “marketeraffirmations.com”.
+
+No user accounts. No waitlist. No merch CTA. This is a visual test only.
+
+File structure (create exactly this)
+index.html
+styles.css
+app.js
+data/affirmations.json
+public/graphics/
+  bg-main.jpg
+  bg-gold.jpg
+  florals-corners.png
+  tape.png
+  stamp-ma.png
+  grain.png
+README.md
+
+
+If you cannot embed real images, create small placeholder images programmatically at first run and save them into public/graphics/ so paths remain valid. Otherwise, ship simple base64 placeholders baked into the code and write them out to those filenames.
+
+Design system
+
+Visual direction: Maximalist floral (BURGUNDY GARDEN vibe) with elegant typography.
+
+Themes:
+
+A: Ornate — floral corners overlay, subtle paper grain, gold tint.
+
+B: Ribbon — ribbon top bar (uses tape.png), stamp logo accent.
+
+C: Glass — frosted “glass card” over the background, soft vignette.
+
+Typography: Prefer Playfair Display or Cormorant for headings, Inter for body.
+
+Include self‑hosted fallbacks via system fonts: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial.
+
+For dev convenience, include optional Google Fonts <link> tags for Playfair, Cormorant, and Inter (commented with instructions to self‑host later).
+
+Colours:
+
+Burgundy / gold primary accents.
+
+High‑contrast text for accessibility.
+
+Accessibility: Keyboard focus visible, aria‑labels on controls, sufficient contrast.
+
+Marketing areas (dropdown, single‑select only)
+
+general, social, brand, performance, seo, email, content, product, events, growth
+(“analytics” removed)
+
+Features
+
+Header: Title + theme switcher (A/B/C) + area dropdown.
+
+Card: affirmation text; small ID chip like #A041; micro‑footer marketeraffirmations.com.
+
+Buttons:
+
+New affirmation
+
+Copy caption (uses format below)
+
+Download PNG (1080×1080)
+
+Share (Web Share API if available → shares PNG; otherwise copies caption + shows hint)
+
+Caption format (no em dashes):
+
+{quote}
+from Marketer Affirmations
+marketeraffirmations.com/a/{id}
+
+
+Auto‑fit text: binary‑search font size inside safe bounds; hard wrap at word boundaries; max ~240 chars.
+
+Worker stubs (optional)
+
+Add config in app.js:
+
+const WORKER_BASE = ""; // leave empty for this visual test
+function postLog() { /* no-op in test mode */ }
+
+
+All logging calls must no‑op if WORKER_BASE is empty.
+
+data/affirmations.json (seed ~60 items)
+
+JSON array of objects:
+
+[
+  {"id":"A001","tags":["general"],"text":"If it moves, I will funnel it."},
+  {"id":"A002","tags":["brand"],"text":"Our brand voice is \"please approve this by EOD\"."},
+  {"id":"A003","tags":["performance"],"text":"Today I accept that CPA is a feeling."},
+  {"id":"A004","tags":["social"],"text":"If it worked once on TikTok, it’s now a strategy."},
+  {"id":"A005","tags":["growth"],"text":"Scale first, apologise in the retro we never book."}
+]
+
+
+Populate to ~60 entries, spreading across the listed areas. Tone: dry, dark, satirical, not abusive.
+
+index.html (requirements)
+
+<head>: title “Marketer Affirmations”, responsive meta, OG/Twitter tags pointing to public/graphics/bg-main.jpg. Include optional commented Google Fonts links.
+
+<body>:
+
+Header: brand title; theme switch (A/B/C); area dropdown.
+
+Main: affirmation card; action buttons.
+
+Hidden <canvas id="exportCanvas" width="1080" height="1080">.
+
+Load app.js at end.
+
+styles.css (requirements)
+
+Root CSS vars for palette (burgundy, gold, ink, paper).
+
+Layout: centered max‑width; card with variants per theme:
+
+Ornate: floral corners (florals-corners.png) as overlay; subtle paper grain (grain.png) multiply blend; gold accent.
+
+Ribbon: top ribbon/“tape” bar (tape.png); stamp mark (stamp-ma.png) positioned as a corner seal.
+
+Glass: backdrop blur card over background image; soft shadow; vignette.
+
+Buttons: clean text buttons with focus rings; no icons needed.
+
+Respect reduced‑motion for any subtle transitions.
+
+app.js (implementation outline)
+
+State:
+
+const state = {
+  data: [],
+  filtered: [],
+  current: null,
+  area: 'general',
+  theme: 'A', // 'A' | 'B' | 'C'
+  assets: {},
+};
+
+
+Init: load JSON, cache images (or generate placeholders), set area/theme from URL params if present, then pick random.
+
+Area filter: only include items whose tags contains the selected area or general where appropriate.
+
+Random pick: avoid immediate repeats; update DOM and URL query (?area=growth&theme=B) for easy testing.
+
+Themes:
+
+Apply data-theme="A|B|C" on root and switch CSS layers.
+
+Show/hide overlays based on theme (floral corners, tape, stamp, glass).
+
+Canvas export:
+
+Draw background (bg-main.jpg by default; bg-gold.jpg for theme A option).
+
+Apply vignette + grain (from grain.png) at low opacity.
+
+If theme A: draw florals-corners.png in corners.
+
+If theme B: draw tape.png top; draw stamp-ma.png near a corner.
+
+If theme C: draw frosted panel and drop shadow; then text.
+
+Draw wrapped text centered; font pairing: serif for headline, Inter for fallback.
+
+Draw footer “marketeraffirmations.com” bottom‑right.
+
+Trigger PNG download affirmation-{id}.png.
+
+Share:
+
+If Web Share API + file supported: export Blob, share with { title, files }, then hint “Shared image”.
+
+Else: copy caption to clipboard and show hint “Caption copied”.
+
+Caption: exactly per format block above.
+
+No backend: guard all logging behind WORKER_BASE.
+
+Placeholder asset behaviour
+
+If actual images aren’t present, generate simple canvases at start and save blobs as files to public/graphics/*.png/*.jpg so the rest of the app uses file paths (keeps future swap simple). Use burgundy (#5a1025) and gold (#b98b2e) gradients plus a faint floral‑like pattern made from radial noise for placeholders.
+
+README.md (contents)
+
+What this is (visual test sandbox).
+
+How to run in Replit preview.
+
+How to replace the floral assets in public/graphics/.
+
+How to add more affirmations to data/affirmations.json.
+
+How to tweak type pairings (Playfair/Cormorant + Inter).
+
+How to export PNGs.
+
+Note: Worker logging and /a/:id OG pages are not part of this test build.
+
+Deliverables
+
+Create all files listed above with full code.
+
+Seed ~60 affirmations across the specified areas.
+
+Implement theme switcher and working PNG export.
+
+Print “Visual test build complete” and list created files.
