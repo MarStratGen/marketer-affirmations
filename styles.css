@@ -179,31 +179,7 @@ body {
   letter-spacing: 0.01em;
 }
 
-select:not(.liquid-select), button:not(.liquid-button):not(.liquid-button--light) {
-  appearance: none;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 11px 20px;
-  border-radius: 100px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
-select:not(.liquid-select) {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-select:not(.liquid-select) option {
-  background: #ffffff;
-  color: #1a1a1a;
-}
-
-select:not(.liquid-select):hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
-}
 
 
 
