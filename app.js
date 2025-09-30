@@ -24,6 +24,7 @@ const state = {
 (async function init(){
   populateAreas();
   bindUI();
+  initParallax();
   await preloadAssets();
   await loadAffirmations();
   const deepLinked = checkDeepLink();
@@ -135,16 +136,42 @@ function setQuote(text){
   // Animate quote change if supported
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     quoteEl.style.opacity = '0';
-    quoteEl.style.transform = 'translateY(2px)';
+    quoteEl.style.transform = 'translateY(12px)';
     
     setTimeout(() => {
       quoteEl.textContent = clean;
       quoteEl.style.opacity = '1';
       quoteEl.style.transform = 'translateY(0)';
-    }, 150);
+    }, 200);
   } else {
     quoteEl.textContent = clean;
   }
+}
+
+// ========= Parallax Effect =========
+function initParallax(){
+  // Only enable parallax if reduced motion is not preferred
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  
+  let ticking = false;
+  
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const scrolled = window.pageYOffset;
+        const background = document.querySelector('body[data-theme="A"]::before');
+        
+        // Apply subtle parallax to background (5px movement)
+        if (body.getAttribute('data-theme') === 'A') {
+          const parallaxOffset = scrolled * 0.15;
+          body.style.setProperty('--parallax-offset', `${parallaxOffset}px`);
+        }
+        
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
 }
 
 // ========= Caption =========
