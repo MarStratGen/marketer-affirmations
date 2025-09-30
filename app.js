@@ -80,15 +80,32 @@ function bindUI(){
     writeURL();
   });
   
-  // Rotate chevron when dropdown opens
+  // Rotate chevron when dropdown opens/closes
+  let dropdownTimeout;
+  
   areaSel.addEventListener('mousedown', () => {
     areaSel.classList.add('dropdown-open');
   });
+  
   areaSel.addEventListener('blur', () => {
+    // Small delay to ensure dropdown has closed
+    dropdownTimeout = setTimeout(() => {
+      areaSel.classList.remove('dropdown-open');
+    }, 50);
+  });
+  
+  areaSel.addEventListener('change', () => {
+    clearTimeout(dropdownTimeout);
     areaSel.classList.remove('dropdown-open');
   });
-  areaSel.addEventListener('change', () => {
-    areaSel.classList.remove('dropdown-open');
+  
+  areaSel.addEventListener('click', (e) => {
+    // Toggle chevron on each click
+    if (areaSel.classList.contains('dropdown-open')) {
+      setTimeout(() => {
+        areaSel.classList.remove('dropdown-open');
+      }, 100);
+    }
   });
   
   qs('#new').onclick = () => {
