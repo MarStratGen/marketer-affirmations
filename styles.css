@@ -812,15 +812,9 @@ summary:focus-visible {
 }
 
 /* Dropdown trigger specific styles */
-.liquid-select {
-  padding-right: 34px;
-}
-
 .liquid-select .chev {
-  position: relative;
   width: 12px;
   height: 12px;
-  margin-left: 8px;
   background: currentColor;
   opacity: .9;
   -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='black' d='M2.2 4.2 6 8l3.8-3.8.9.9L6 9.7 1.3 5.1z'/></svg>") center/contain no-repeat;
@@ -828,6 +822,7 @@ summary:focus-visible {
   transform: translateY(1px);
   transition: transform .12s ease;
   pointer-events: none;
+  flex-shrink: 0;
 }
 
 .liquid-select[aria-expanded="true"] .chev {
