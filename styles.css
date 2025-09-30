@@ -209,7 +209,7 @@
     /* C) GLASS — frosted panel over floral BG */
     [data-theme="C"] .stage{
       background:
-        url("/public/graphics/bg-main.jpg") center/cover no-repeat;
+        url("/public/graphics/bg-main.png") center/cover no-repeat;
       padding: 36px 0;
       border-radius: 28px;
     }

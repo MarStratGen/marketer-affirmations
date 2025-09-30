@@ -242,7 +242,7 @@ async function postLog(event){
 // ========= Assets / Canvas =========
 async function preloadAssets(){
   const paths = {
-    bgMain: '/public/graphics/bg-main.jpg',
+    bgMain: '/public/graphics/bg-main.png',
     bgGold: '/public/graphics/bg-gold.png',
     florals: '/public/graphics/florals-corners.png',
     tape: '/public/graphics/tape.png',
