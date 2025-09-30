@@ -733,6 +733,7 @@ summary:focus-visible {
   letter-spacing: .2px;
   cursor: pointer;
   transition: transform .14s cubic-bezier(.2,.8,.2,1), border-color .14s, background-color .14s, filter .14s;
+  box-sizing: border-box;
 }
 
 .liquid-button:hover,
