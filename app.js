@@ -3,6 +3,19 @@ const AREAS = ["general","brand","content","email","events","growth","performanc
 const WORKER_BASE = ""; // leave empty in visual test. Hook up later.
 const SITE_BASE   = window.location.origin;
 
+const KICKERS = {
+  general: "A Strategically Aligned Statement",
+  brand: "In Keeping with the Brand Platform",
+  content: "For Inclusion in the Content Calendar",
+  social: "Suitable for Public Consumption",
+  performance: "Optimised for Plausible Uplift",
+  seo: "Semantically Relevant and Crawlable",
+  email: "Approved for Limited Distribution",
+  product: "Now With Additional Context",
+  events: "To Be Read Aloud With Confidence",
+  growth: "Ambitious, If Not Advisable"
+};
+
 // ========= DOM helpers =========
 const qs = s => document.querySelector(s);
 const body = document.body;
@@ -25,12 +38,14 @@ const state = {
   populateAreas();
   bindUI();
   initParallax();
+  setKicker(state.area);
   await preloadAssets();
   await loadAffirmations();
   const deepLinked = checkDeepLink();
   if (!deepLinked) {
     fromURL();
     filterByArea(state.area);
+    setKicker(state.area);
     nextAffirmation(true);
   }
 })();
@@ -45,11 +60,17 @@ function bindUI(){
   areaSel.addEventListener('change', () => {
     state.area = areaSel.value;
     filterByArea(state.area);
+    setKicker(state.area);
     writeURL();
   });
   qs('#new').onclick = () => nextAffirmation(true);
   qs('#copy').onclick = () => copyCaption();
   qs('#share').onclick = () => shareImageOrCaption();
+}
+
+function setKicker(area){
+  const el = document.getElementById('kicker');
+  if(el) el.textContent = KICKERS[area] || KICKERS.general;
 }
 
 
@@ -67,6 +88,7 @@ function checkDeepLink(){
     areaSel.value = state.area;
     fromURL();
     filterByArea(state.area);
+    setKicker(state.area);
     setQuote(found.text);
     return true;
   } else {
@@ -237,7 +259,9 @@ async function postLog(event){
 // ========= Assets / Canvas =========
 async function preloadAssets(){
   const paths = {
-    fallPattern: '/public/graphics/fall-pattern-02.png'
+    fallPattern: '/public/graphics/fall-pattern-02.png',
+    bgMain: '/public/graphics/bg-main.png',
+    florals: '/public/graphics/florals-corners.png'
   };
   const load = src => new Promise(res => {
     const img = new Image(); img.onload = () => res(img); img.onerror = () => res(null); img.src = src;
@@ -250,40 +274,61 @@ async function preloadAssets(){
 async function renderCanvasToBlob(){
   const id = state.current?.id || 'A000';
   const text = quoteEl.textContent || '';
+  const kickerText = KICKERS[state.area] || KICKERS.general;
 
   ctx.clearRect(0,0,1080,1080);
 
-  // Background: Black base
-  ctx.fillStyle = '#1a1a1a';
+  // Background: Charcoal gradient
+  const bgGradient = ctx.createRadialGradient(540, -100, 300, 540, 540, 900);
+  bgGradient.addColorStop(0, '#24282c');
+  bgGradient.addColorStop(0.55, '#1b1f23');
+  bgGradient.addColorStop(1, '#181b1e');
+  ctx.fillStyle = bgGradient;
   ctx.fillRect(0,0,1080,1080);
   
-  // Fall pattern wallpaper
-  if (state.assets.fallPattern) {
-    ctx.globalAlpha = 0.35;
-    drawCoverImage(state.assets.fallPattern, 1080, 1080);
+  // Background floral image
+  if (state.assets.bgMain) {
+    ctx.globalAlpha = 0.64;
+    drawCoverImage(state.assets.bgMain, 1080, 1080);
     ctx.globalAlpha = 1;
   }
   
-  // Dark vignette
-  const vignette = ctx.createRadialGradient(540, 320, 200, 540, 540, 700);
-  vignette.addColorStop(0, 'transparent');
-  vignette.addColorStop(1, 'rgba(0, 0, 0, 0.7)');
-  ctx.fillStyle = vignette;
+  // Corner florals overlay
+  if (state.assets.florals) {
+    ctx.globalAlpha = 0.68;
+    drawCoverImage(state.assets.florals, 1080, 1080);
+    ctx.globalAlpha = 1;
+  }
+  
+  // Light edge vignette
+  const v = ctx.createRadialGradient(540, 540, 120, 540, 540, 540);
+  v.addColorStop(0, 'rgba(0,0,0,0)');
+  v.addColorStop(1, 'rgba(0,0,0,0.16)');
+  ctx.fillStyle = v;
   ctx.fillRect(0,0,1080,1080);
+  
+  // Soft center brighten to mimic mask
+  ctx.globalCompositeOperation = 'lighter';
+  const c = ctx.createRadialGradient(540, 540, 0, 540, 540, 430);
+  c.addColorStop(0, 'rgba(255,255,255,0.38)');
+  c.addColorStop(0.75, 'rgba(255,255,255,0)');
+  ctx.fillStyle = c;
+  ctx.fillRect(0,0,1080,1080);
+  ctx.globalCompositeOperation = 'source-over';
   
   // Card background - warm ivory gradient
   const cardX = 90, cardY = 180, cardW = 900, cardH = 720;
-  const cardGradient = ctx.createLinearGradient(cardX, cardY, cardX + cardW, cardY + cardH);
-  cardGradient.addColorStop(0, '#fdfcfb');
-  cardGradient.addColorStop(1, '#f7f4ef');
+  const cardGradient = ctx.createLinearGradient(cardX, cardY, cardX, cardY + cardH);
+  cardGradient.addColorStop(0, '#ffffff');
+  cardGradient.addColorStop(1, '#fbf9f6');
   
   // Card with rounded corners and shadow
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+  ctx.shadowColor = 'rgba(12, 12, 14, 0.16)';
   ctx.shadowBlur = 60;
   ctx.shadowOffsetY = 20;
   
   ctx.fillStyle = cardGradient;
-  roundRect(ctx, cardX, cardY, cardW, cardH, 24);
+  roundRect(ctx, cardX, cardY, cardW, cardH, 22);
   ctx.fill();
   
   // Reset shadow for text
@@ -291,13 +336,21 @@ async function renderCanvasToBlob(){
   ctx.shadowBlur = 0;
   ctx.shadowOffsetY = 0;
   
-  // Text color
-  ctx.fillStyle = '#1a3a2e';
+  // Kicker text (centered, above quote)
+  ctx.font = `600 11px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(0,0,0,0.45)';
+  ctx.letterSpacing = '1.76px';
+  ctx.fillText(kickerText.toUpperCase(), 540, 230);
+  
+  // Quote text color
+  ctx.fillStyle = '#141516';
 
   // Text rendering
   const padding = 140;
   const maxWidth = 1080 - padding*2;
-  const maxHeight = 1080 - 400;
+  const maxHeight = 1080 - 480;
 
   const { fontSize, lines, lineHeight } = fitText(
     text, 
@@ -311,9 +364,10 @@ async function renderCanvasToBlob(){
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.font = `500 ${fontSize}px "Playfair Display","Cormorant Garamond",Georgia,serif`;
+  ctx.letterSpacing = '0.15px';
 
   const totalH = lines.length * lineHeight;
-  let y = (1080 / 2) - (totalH / 2) + 40;
+  let y = (1080 / 2) - (totalH / 2) + 70;
   for (const ln of lines){
     ctx.fillText(ln, 540, y);
     y += lineHeight;
@@ -323,6 +377,7 @@ async function renderCanvasToBlob(){
   ctx.font = `24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
   ctx.textAlign = 'right';
   ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+  ctx.letterSpacing = '0px';
   ctx.fillText('marketeraffirmations.com', 1020, 1020);
 
   return await new Promise(res => canvas.toBlob(res, 'image/png', 0.94));

@@ -1,0 +1,286 @@
+A) Spacing & sizing (de‑cramp + trim card padding)
+
+Hero stack (desktop)
+
+Title → tagline: 20px
+
+Tagline → controls: 18px
+
+Controls → card: 48–56px
+
+If the title crashes the florals, reduce title font‑size 6% on desktop only.
+
+Card interior padding
+
+Desktop: 32px top, 36px sides, 44px bottom
+
+Mobile ≤640px: 22px top, 18px sides, 26px bottom
+
+Quote block
+
+Line‑height 1.22, letter‑spacing 0.15px.
+
+Under‑rule: height:1px; background: rgba(185,139,46,.18); margin:22px 0 16px;
+
+Buttons row
+
+Gap 12–14px; top margin 18px from rule.
+
+Font 13px; padding 9px 14px; pill radius 999px.
+
+Hover: translateY(-1px); active: reset.
+
+B) Centered kicker (replace the right‑aligned label)
+
+HTML (inside the card, immediately above the quote):
+
+<div class="kicker" id="kicker">A Strategically Aligned Statement</div>
+
+
+CSS:
+
+/* remove any top-right absolute label rules */
+.kicker{
+  text-align:center;
+  font-size:12px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color: rgba(0,0,0,.48);
+  margin: 8px 0 14px;
+}
+@media (max-width:640px){
+  .kicker{ font-size:11px; margin:6px 0 10px; }
+}
+
+
+JS (area‑aware text; call on init and when area changes):
+
+const KICKERS = {
+  general:"A Strategically Aligned Statement",
+  brand:"In Keeping with the Brand Platform",
+  content:"For Inclusion in the Content Calendar",
+  social:"Suitable for Public Consumption",
+  performance:"Optimised for Plausible Uplift",
+  seo:"Semantically Relevant and Crawlable",
+  email:"Approved for Limited Distribution",
+  product:"Now With Additional Context",
+  events:"To Be Read Aloud With Confidence",
+  growth:"Ambitious, If Not Advisable"
+};
+function setKicker(area){
+  const el=document.getElementById('kicker');
+  if(el) el.textContent = KICKERS[area] || KICKERS.general;
+}
+
+
+If you prefer a single fixed line: “Suitable for Professional Circulation.”
+
+C) Brighten the hero & feature the florals (no new sections)
+
+Use your existing hero wrapper (e.g., .stage). Add/update these pseudo‑layers so the florals are visible but never invade the text zone.
+
+/* lighter charcoal background */
+body{
+  background: radial-gradient(1200px 900px at 50% -10%,
+              #24282c 0%, #1b1f23 55%, #181b1e 100%);
+}
+
+.stage{ position:relative; }
+
+/* back floral image */
+.stage::before{
+  content:""; position:absolute; inset:-8%;
+  background:url("/public/graphics/bg-main.jpg") center/cover no-repeat;
+  filter: brightness(1.12) contrast(1.06) saturate(1.08);
+  opacity:.64; transform: translateY(-10px) scale(1.06);
+  pointer-events:none; z-index:0;
+}
+/* corner florals overlay with center kept clear */
+.stage::after{
+  content:""; position:absolute; inset:-8%;
+  background:url("/public/graphics/florals-corners.png") center/cover no-repeat;
+  filter: brightness(1.08) contrast(1.04) saturate(1.06);
+  opacity:.70; transform: translateY(-6px) scale(1.08);
+  pointer-events:none; z-index:0;
+  -webkit-mask-image: radial-gradient(46% 38% at 50% 52%, transparent 58%, #000 60%);
+          mask-image: radial-gradient(46% 38% at 50% 52%, transparent 58%, #000 60%);
+}
+
+@media (max-width:640px){
+  .stage::before{ opacity:.54; transform: translateY(-4px) scale(1.04); }
+  .stage::after{  opacity:.60; transform: translateY(-2px) scale(1.06); }
+}
+
+
+Card surface (separate from brighter hero):
+
+.card{
+  background: linear-gradient(180deg,#ffffff 0%,#fbf9f6 100%);
+  border:1px solid rgba(0,0,0,.05);
+  box-shadow:0 20px 60px rgba(12,12,14,.16), 0 2px 10px rgba(12,12,14,.06);
+  padding:32px 36px 44px;  /* match A2 */
+  border-radius:22px;
+}
+.quote{ color:#141516; }
+
+D) FAQ (crawlable) + FAQPage JSON‑LD
+
+Place this below the card (before the footer). Keep it minimal and indexable with native <details>.
+
+HTML:
+
+<section id="faq" class="faq">
+  <h2>FAQ</h2>
+
+  <details open>
+    <summary>What is Marketer Affirmations?</summary>
+    <div>
+      <p><strong>Marketer Affirmations</strong> is an affirmation generator for marketers. The lines are satirical but honest—short, shareable truths for brand, content, performance, CRM, SEO, social and growth teams.</p>
+    </div>
+  </details>
+
+  <details open>
+    <summary>How does it work?</summary>
+    <div>
+      <ul>
+        <li>Select a marketing area or stay on <em>General</em>.</li>
+        <li>Click <em>Inspire me</em> for a new affirmation.</li>
+        <li>Share, copy, or download a 1080×1080 image.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Are these real affirmations?</summary>
+    <div><p>They’re real in spirit: unvarnished truths phrased like affirmations—elegant, dry, and uncomfortably accurate.</p></div>
+  </details>
+
+  <details>
+    <summary>Who is this for?</summary>
+    <div><p>In‑house marketers and agency folk across brand, content, performance, CRM, SEO, social, product, and growth.</p></div>
+  </details>
+
+  <details>
+    <summary>Can I use these on social?</summary>
+    <div><p>Yes. Please keep the site credit visible.</p></div>
+  </details>
+
+  <details>
+    <summary>Can I submit an affirmation?</summary>
+    <div><p>Yes—send one with its area tag. The good ones make it in.</p></div>
+  </details>
+</section>
+
+
+FAQ styles (append to CSS):
+
+.faq{max-width:860px;margin:56px auto 72px;padding:0 20px}
+.faq h2{font-family:var(--serif, Georgia, serif);font-size:28px;margin:0 0 18px}
+.faq details{border-top:1px solid rgba(255,255,255,.08);padding:16px 0;color:rgba(255,255,255,.86)}
+.faq details:last-of-type{border-bottom:1px solid rgba(255,255,255,.08)}
+.faq summary{cursor:pointer;font-weight:600;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq details > div{margin-top:10px;color:rgba(255,255,255,.78);line-height:1.6}
+.faq a{color:inherit;text-decoration:underline}
+
+
+FAQ structured data (place before </body>):
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"What is Marketer Affirmations?","acceptedAnswer":{"@type":"Answer","text":"Marketer Affirmations is an affirmation generator for marketers. The lines are satirical but honest—short, shareable truths for brand, content, performance, CRM, SEO, social and growth teams."}},
+    {"@type":"Question","name":"How does it work?","acceptedAnswer":{"@type":"Answer","text":"Select a marketing area, click Inspire me, then share, copy, or download a 1080×1080 image. No account required."}},
+    {"@type":"Question","name":"Are these real affirmations?","acceptedAnswer":{"@type":"Answer","text":"They are real in spirit: unvarnished truths phrased like affirmations—elegant, dry, and accurate."}},
+    {"@type":"Question","name":"Who is this for?","acceptedAnswer":{"@type":"Answer","text":"In‑house marketers and agency folk across brand, content, performance, CRM, SEO, social, product, and growth."}},
+    {"@type":"Question","name":"Can I use these on social?","acceptedAnswer":{"@type":"Answer","text":"Yes. Please keep the site credit visible."}},
+    {"@type":"Question","name":"Can I submit an affirmation?","acceptedAnswer":{"@type":"Answer","text":"Yes—send one with its area tag."}}
+  ]
+}
+</script>
+
+E) Footer + Buy Me a Coffee (dark, minimal)
+
+HTML (end of <body> after FAQ):
+
+<footer class="site-foot" role="contentinfo">
+  <div class="foot-inner">
+    <small class="foot-copy">© <span id="foot-year"></span> marketeraffirmations.com · <a href="#faq" class="foot-link--text">FAQ</a></small>
+    <nav class="foot-nav" aria-label="Utility">
+      <a class="foot-link" href="https://www.buymeacoffee.com/YOURID" target="_blank" rel="noopener">Buy me a coffee</a>
+    </nav>
+  </div>
+</footer>
+<script>(() => { const y=document.getElementById('foot-year'); if(y) y.textContent=new Date().getFullYear(); })();</script>
+
+
+Replace YOURID.
+
+CSS:
+
+.site-foot{ margin:44px 0 28px; color:rgba(255,255,255,.72); font-size:12px }
+.foot-inner{ max-width:1100px; margin:0 auto; padding:0 20px; display:flex; gap:16px; align-items:center; justify-content:center; flex-wrap:wrap }
+.foot-link--text{ color:inherit; text-decoration:underline }
+.foot-nav{ display:flex; gap:16px; align-items:center }
+.foot-link{
+  color:rgba(255,255,255,.86); text-decoration:none;
+  border:1px solid rgba(255,255,255,.16); border-radius:999px; padding:8px 12px;
+  background:rgba(255,255,255,.06); box-shadow:0 2px 10px rgba(0,0,0,.18)
+}
+.foot-link:hover{ background:rgba(255,255,255,.10); transform:translateY(-1px) }
+.foot-link:focus-visible{ outline:3px solid rgba(91,147,255,.35); outline-offset:2px }
+
+
+Optional floating BMC widget (only if you want both):
+
+<script data-name="BMC-Widget" data-cfasync="false"
+  src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+  data-id="YOURID" data-description="Support this project"
+  data-message="Enjoying these? Fuel the florals."
+  data-color="#1f2937" data-position="Right" data-x_margin="20" data-y_margin="20"></script>
+
+F) Canvas export parity (match brighter hero)
+
+Adjust your canvas renderer so downloads reflect the visible florals:
+
+// after bg image
+if (assets.florals){
+  ctx.globalAlpha = 0.68; // brighter than before
+  drawCoverImage(assets.florals,1080,1080);
+  ctx.globalAlpha = 1;
+}
+// light edge vignette
+const v = ctx.createRadialGradient(540,540,120, 540,540,540);
+v.addColorStop(0,'rgba(0,0,0,0)'); v.addColorStop(1,'rgba(0,0,0,0.16)');
+ctx.fillStyle=v; ctx.fillRect(0,0,1080,1080);
+// soft center brighten to mimic mask
+ctx.globalCompositeOperation='lighter';
+const c=ctx.createRadialGradient(540,540,0, 540,540,430);
+c.addColorStop(0,'rgba(255,255,255,0.38)'); c.addColorStop(0.75,'rgba(255,255,255,0)');
+ctx.fillStyle=c; ctx.fillRect(0,0,1080,1080);
+ctx.globalCompositeOperation='source-over';
+// draw kicker centered ~22px above first quote line (11px Inter, rgba(0,0,0,.45))
+
+G) Accessibility
+
+Visible focus rings on all interactive elements: outline:3px solid rgba(91,147,255,.35); outline-offset:2px.
+
+Respect prefers-reduced-motion.
+
+Ensure quote color contrast on the card ≥ 7:1.
+
+Acceptance (reply with what changed)
+
+Spacing fixed (A1) and card padding reduced (A2).
+
+Centered kicker present with new wording (B).
+
+Hero brighter, florals clearly visible, center clean (C).
+
+FAQ appears under the card, styled, with FAQPage JSON‑LD (D).
+
+Footer + Buy Me a Coffee added and styled (E).
+
+Canvas PNG mirrors brighter look (F).

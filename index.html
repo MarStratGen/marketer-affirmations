@@ -37,7 +37,7 @@
       <article class="card" aria-live="polite">
         <i class="stamp hidden" id="stamp" aria-hidden="true"></i>
         <div class="quote-wrap">
-          <div class="brand-chip">For Motivational Use Only</div>
+          <div class="kicker" id="kicker">A Strategically Aligned Statement</div>
           <div id="quote" class="quote">Loading…</div>
         </div>
         <div class="actions">
@@ -47,12 +47,77 @@
       </article>
     </section>
 
-    <p class="footer-brand">© marketeraffirmations.com</p>
+    <section id="faq" class="faq">
+      <h2>FAQ</h2>
+
+      <details open>
+        <summary>What is Marketer Affirmations?</summary>
+        <div>
+          <p><strong>Marketer Affirmations</strong> is an affirmation generator for marketers. The lines are satirical but honest—short, shareable truths for brand, content, performance, CRM, SEO, social and growth teams.</p>
+        </div>
+      </details>
+
+      <details open>
+        <summary>How does it work?</summary>
+        <div>
+          <ul>
+            <li>Select a marketing area or stay on <em>General</em>.</li>
+            <li>Click <em>Inspire me</em> for a new affirmation.</li>
+            <li>Share, copy, or download a 1080×1080 image.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Are these real affirmations?</summary>
+        <div><p>They're real in spirit: unvarnished truths phrased like affirmations—elegant, dry, and uncomfortably accurate.</p></div>
+      </details>
+
+      <details>
+        <summary>Who is this for?</summary>
+        <div><p>In‑house marketers and agency folk across brand, content, performance, CRM, SEO, social, product, and growth.</p></div>
+      </details>
+
+      <details>
+        <summary>Can I use these on social?</summary>
+        <div><p>Yes. Please keep the site credit visible.</p></div>
+      </details>
+
+      <details>
+        <summary>Can I submit an affirmation?</summary>
+        <div><p>Yes—send one with its area tag. The good ones make it in.</p></div>
+      </details>
+    </section>
   </div>
+
+  <footer class="site-foot" role="contentinfo">
+    <div class="foot-inner">
+      <small class="foot-copy">© <span id="foot-year"></span> marketeraffirmations.com · <a href="#faq" class="foot-link--text">FAQ</a></small>
+      <nav class="foot-nav" aria-label="Utility">
+        <a class="foot-link" href="https://www.buymeacoffee.com/marketeraffirmations" target="_blank" rel="noopener">Buy me a coffee</a>
+      </nav>
+    </div>
+  </footer>
 
   <!-- Hidden export canvas -->
   <canvas id="exportCanvas" width="1080" height="1080" class="hidden"></canvas>
 
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"What is Marketer Affirmations?","acceptedAnswer":{"@type":"Answer","text":"Marketer Affirmations is an affirmation generator for marketers. The lines are satirical but honest—short, shareable truths for brand, content, performance, CRM, SEO, social and growth teams."}},
+      {"@type":"Question","name":"How does it work?","acceptedAnswer":{"@type":"Answer","text":"Select a marketing area, click Inspire me, then share, copy, or download a 1080×1080 image. No account required."}},
+      {"@type":"Question","name":"Are these real affirmations?","acceptedAnswer":{"@type":"Answer","text":"They are real in spirit: unvarnished truths phrased like affirmations—elegant, dry, and accurate."}},
+      {"@type":"Question","name":"Who is this for?","acceptedAnswer":{"@type":"Answer","text":"In‑house marketers and agency folk across brand, content, performance, CRM, SEO, social, product, and growth."}},
+      {"@type":"Question","name":"Can I use these on social?","acceptedAnswer":{"@type":"Answer","text":"Yes. Please keep the site credit visible."}},
+      {"@type":"Question","name":"Can I submit an affirmation?","acceptedAnswer":{"@type":"Answer","text":"Yes—send one with its area tag."}}
+    ]
+  }
+  </script>
+
   <script src="app.js"></script>
+  <script>(() => { const y=document.getElementById('foot-year'); if(y) y.textContent=new Date().getFullYear(); })();</script>
 </body>
 </html>
