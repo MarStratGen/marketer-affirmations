@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="A">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketer Affirmations</title>
+  
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:title" content="Marketer Affirmations">
+  <meta property="og:description" content="Satirical affirmations for the modern marketer">
+  <meta property="og:image" content="public/graphics/bg-main.jpg">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Marketer Affirmations">
+  <meta name="twitter:description" content="Satirical affirmations for the modern marketer">
+  <meta name="twitter:image" content="public/graphics/bg-main.jpg">
+  
+  <!-- Google Fonts (optional - can self-host later) -->
+  <!-- Uncomment to use Google Fonts: -->
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"> -->
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Floral corners overlay (theme A) -->
+  <div id="florals-overlay" class="floral-overlay"></div>
+  
+  <!-- Tape/ribbon bar (theme B) -->
+  <div id="tape-bar" class="tape-bar"></div>
+  
+  <!-- Stamp mark (theme B) -->
+  <div id="stamp-mark" class="stamp-mark"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1 class="brand-title">Marketer Affirmations</h1>
+      
+      <div class="controls">
+        <!-- Theme Switcher -->
+        <div class="control-group">
+          <label for="theme-select" class="sr-only">Theme</label>
+          <select id="theme-select" class="theme-select" aria-label="Select theme">
+            <option value="A">Theme A: Ornate</option>
+            <option value="B">Theme B: Ribbon</option>
+            <option value="C">Theme C: Glass</option>
+          </select>
+        </div>
+        
+        <!-- Area Filter -->
+        <div class="control-group">
+          <label for="area-select" class="sr-only">Marketing Area</label>
+          <select id="area-select" class="area-select" aria-label="Filter by marketing area">
+            <option value="general">General</option>
+            <option value="social">Social</option>
+            <option value="brand">Brand</option>
+            <option value="performance">Performance</option>
+            <option value="seo">SEO</option>
+            <option value="email">Email</option>
+            <option value="content">Content</option>
+            <option value="product">Product</option>
+            <option value="events">Events</option>
+            <option value="growth">Growth</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <!-- Affirmation Card -->
+      <div class="card">
+        <div class="card-inner">
+          <div id="affirmation-text" class="affirmation-text">
+            Loading affirmation...
+          </div>
+          <div class="card-footer">
+            <span id="affirmation-id" class="affirmation-id">#A000</span>
+            <span class="site-tag">marketeraffirmations.com</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="actions">
+        <button id="btn-new" class="btn btn-primary" aria-label="Get new affirmation">
+          New Affirmation
+        </button>
+        <button id="btn-copy" class="btn" aria-label="Copy caption to clipboard">
+          Copy Caption
+        </button>
+        <button id="btn-download" class="btn" aria-label="Download as PNG image">
+          Download PNG
+        </button>
+        <button id="btn-share" class="btn" aria-label="Share affirmation">
+          Share
+        </button>
+      </div>
+
+      <!-- Status message -->
+      <div id="status-message" class="status-message" role="status" aria-live="polite"></div>
+    </main>
+  </div>
+
+  <!-- Hidden canvas for export -->
+  <canvas id="exportCanvas" width="1080" height="1080" style="display: none;"></canvas>
+
+  <script src="app.js"></script>
+</body>
+</html>
