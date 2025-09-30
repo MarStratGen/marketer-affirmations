@@ -785,23 +785,33 @@ summary:focus-visible {
 /* Light liquid button (card surfaces) */
 .liquid-button--light {
   position: relative;
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   padding: 11px 20px;
+  gap: 8px;
   
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), 
+              linear-gradient(0deg, #f5f5f5, #f5f5f5), 
+              rgba(245, 245, 245, 0.1);
+  background-blend-mode: normal, plus-lighter, color-burn;
   
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: none;
+  border-radius: 48px;
   
   color: #1a3a2e;
   font-size: 14px;
   
   box-shadow: 
-    0 2px 6px rgba(0, 0, 0, 0.06),
-    0 1px 2px rgba(0, 0, 0, 0.04);
+    inset -4.5px -4.5px 1.5px -5.25px rgba(255, 255, 255, 0.8), 
+    inset 4.5px 4.5px 1.5px -5.25px rgba(255, 255, 255, 0.8), 
+    inset 3px 4.5px 1.5px -3px rgba(200, 200, 200, 0.2), 
+    inset -3px -4.5px 1.5px -3px rgba(200, 200, 200, 0.3), 
+    inset 0px 0px 33px rgba(255, 255, 255, 0.6);
+  
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .liquid-button--light::before {
