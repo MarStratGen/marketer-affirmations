@@ -675,6 +675,9 @@ body[data-theme="A"] .controls button:not(.btn-affirm):hover {
   word-wrap: break-word;
   gap: 16px;
   letter-spacing: 0.015em;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 
 .faq summary::after {
@@ -778,11 +781,19 @@ summary:focus-visible {
 @media (max-width: 480px) {
   .controls {
     width: 100%;
+    padding: 10px 12px;
+    gap: 9px;
   }
   
-  select, button {
-    flex: 1;
-    min-width: 120px;
+  select {
+    min-width: 110px;
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+  
+  .btn-affirm {
+    font-size: 14px;
+    padding: 11px 24px;
   }
   
   .actions button {
