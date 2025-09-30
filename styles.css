@@ -812,6 +812,7 @@ summary:focus-visible {
   align-items: center;
   padding: 0 40px 0 18px;
   height: 42px;
+  min-width: 150px;
   gap: 8px;
   
   background: transparent;
@@ -865,7 +866,7 @@ summary:focus-visible {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  min-width: 100%;
+  width: 100%;
   margin: 0;
   padding: 6px;
   list-style: none;
