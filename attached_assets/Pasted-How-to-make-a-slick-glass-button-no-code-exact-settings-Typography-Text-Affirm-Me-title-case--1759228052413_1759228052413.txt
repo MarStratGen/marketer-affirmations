@@ -1,0 +1,93 @@
+How to make a slick glass button (no code, exact settings)
+
+Typography
+
+Text: Affirm Me (title case)
+
+Font: your system sans, weight 600
+
+Letter‑spacing: a tiny bump so it breathes
+
+Base look
+
+Shape: full pill, a touch taller and wider than the dropdown pill so it reads as primary
+
+Fill: transparent with a very subtle peach tint over it
+Think “clear glass with a whisper of burnt apricot,” not opaque peach
+
+Frosted glass
+
+Backdrop blur: 6–8 px
+
+Background opacity: 8–12% total. If the florals still shout through, nudge to 15%
+
+Add a 1 px border in semi‑opaque off‑white so the edge stays crisp over busy petals
+
+Specular highlight (the slick bit)
+
+Add a soft top highlight that fades down by about 35–40% of the button height
+
+Keep it very low opacity so it suggests curvature without going glossy
+
+Color accents so it belongs to Theme A
+
+Edge accent: a thin inner stroke in soft gold to echo your underline color
+
+Text color: near‑white, not grey
+
+Optional: a very light peach tint in the glass (2–4%) so it harmonises with the flower and your peach CTA experiments
+
+Shadow
+
+Short, soft shadow so it lifts off the floral noise
+
+If it looks “app‑y,” reduce opacity, not blur
+
+States
+
+Hover: +3% brightness, rise 1 px
+
+Active: drop back to baseline, same brightness as default
+
+Focus: visible ring that matches your system
+
+thin inner light ring
+
+soft gold outer ring
+This keeps it accessible on dark florals
+
+Control bar behind it
+
+Remove the black translucent slab behind the controls
+
+If you must have a base, use a very faint clear glass strip with less blur than the button so the button still feels “premium”
+
+Spacing
+
+Keep 10–12 px gap between the dropdown and the button
+
+Align their vertical centers
+
+On mobile, let the button wrap under and stay tap‑friendly (do not shrink height)
+
+When glass looks bad
+
+If the background is too busy right behind the button, the glass will go muddy
+
+Fix by raising the backdrop blur one step or nudging the controls to a calmer patch of the hero
+
+Is “glass” still current?
+
+Yes, when it is subtle and functional. The current look is:
+
+very low opacity
+
+restrained blur
+
+crisp 1 px borders
+
+tiny specular highlight
+
+no neon gradients, no heavy glow
+
+Follow the numbers above and the button will look slick as hell without feeling like a 2021 UI kit.
