@@ -203,11 +203,13 @@ select:focus, button:focus {
   position: absolute;
   inset: -8%;
   background: url("/public/graphics/bg-main.png") center/cover no-repeat;
-  filter: brightness(1.12) contrast(1.06) saturate(1.08);
-  opacity: 0.64;
+  filter: brightness(1.28) contrast(1.12) saturate(1.24);
+  opacity: 0.68;
   transform: translateY(-10px) scale(1.06);
   pointer-events: none;
   z-index: 0;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 350px, #000 550px);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 350px, #000 550px);
 }
 
 .stage::after {
@@ -215,23 +217,27 @@ select:focus, button:focus {
   position: absolute;
   inset: -8%;
   background: url("/public/graphics/florals-corners.png") center/cover no-repeat;
-  filter: brightness(1.08) contrast(1.04) saturate(1.06);
-  opacity: 0.70;
+  filter: brightness(1.22) contrast(1.08) saturate(1.18);
+  opacity: 0.72;
   transform: translateY(-6px) scale(1.08);
   pointer-events: none;
   z-index: 0;
-  -webkit-mask-image: radial-gradient(46% 38% at 50% 52%, transparent 58%, #000 60%);
-  mask-image: radial-gradient(46% 38% at 50% 52%, transparent 58%, #000 60%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 380px, #000 600px);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 380px, #000 600px);
 }
 
 @media (max-width: 640px) {
   .stage::before {
-    opacity: 0.54;
+    opacity: 0.58;
     transform: translateY(-4px) scale(1.04);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 180px, #000 320px);
+    mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 180px, #000 320px);
   }
   .stage::after {
-    opacity: 0.60;
+    opacity: 0.62;
     transform: translateY(-2px) scale(1.06);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 200px, #000 360px);
+    mask-image: radial-gradient(circle at 50% 50%, transparent 0%, transparent 200px, #000 360px);
   }
 }
 
@@ -375,7 +381,7 @@ select:focus, button:focus {
 
 /* ====== THEME A: Deep Forest Ornate ====== */
 body[data-theme="A"] {
-  background: radial-gradient(1200px 900px at 50% -10%, #24282c 0%, #1b1f23 55%, #181b1e 100%);
+  background: linear-gradient(180deg, #24282c 0%, #1b1f23 40%, #181b1e 100%);
   position: relative;
 }
 
@@ -521,8 +527,21 @@ body[data-theme="A"] .controls button:hover {
 /* ====== FAQ Section ====== */
 .faq {
   max-width: 860px;
-  margin: 56px auto 72px;
-  padding: 0 20px;
+  margin: 0 auto 72px;
+  padding: 120px 20px 0;
+  position: relative;
+}
+
+.faq::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 300px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 50%, transparent 100%);
 }
 
 .faq h2 {
