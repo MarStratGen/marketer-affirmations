@@ -6,10 +6,8 @@ const SITE_BASE   = window.location.origin;
 // ========= DOM helpers =========
 const qs = s => document.querySelector(s);
 const body = document.body;
-const themeSel = qs('#theme');
 const areaSel  = qs('#area');
 const quoteEl  = qs('#quote');
-const stampEl  = qs('#stamp');
 const canvas   = qs('#exportCanvas');
 const ctx      = canvas.getContext('2d');
 
@@ -19,7 +17,6 @@ const state = {
   pool: [],
   current: null,
   area: 'general',
-  theme: 'A',
   assets: {},
 };
 
@@ -32,7 +29,6 @@ const state = {
   const deepLinked = checkDeepLink();
   if (!deepLinked) {
     fromURL();
-    applyTheme(state.theme);
     filterByArea(state.area);
     nextAffirmation(true);
   }
@@ -44,29 +40,16 @@ function populateAreas(){
 }
 
 function bindUI(){
-  themeSel.addEventListener('change', () => {
-    state.theme = themeSel.value;
-    applyTheme(state.theme);
-    writeURL();
-  });
   areaSel.addEventListener('change', () => {
     state.area = areaSel.value;
     filterByArea(state.area);
-    nextAffirmation(true);
     writeURL();
   });
   qs('#new').onclick = () => nextAffirmation(true);
-  qs('#again').onclick = () => nextAffirmation(true);
   qs('#copy').onclick = () => copyCaption();
-  qs('#download').onclick = () => downloadPng();
   qs('#share').onclick = () => shareImageOrCaption();
 }
 
-function applyTheme(t){
-  body.setAttribute('data-theme', t);
-  if (t === 'B') stampEl.classList.remove('hidden');
-  else stampEl.classList.add('hidden');
-}
 
 function checkDeepLink(){
   const path = location.pathname;
@@ -81,7 +64,6 @@ function checkDeepLink(){
     state.area = found.tags[0] || 'general';
     areaSel.value = state.area;
     fromURL();
-    applyTheme(state.theme);
     filterByArea(state.area);
     setQuote(found.text);
     return true;
@@ -95,7 +77,6 @@ function showNotFound(){
   quoteEl.innerHTML = '<div style="text-align:center"><div style="font-size:48px;margin-bottom:12px">🤷</div><div>Affirmation not found</div></div>';
   setTimeout(() => {
     fromURL();
-    applyTheme(state.theme);
     filterByArea(state.area);
     nextAffirmation(true);
   }, 2000);
@@ -103,11 +84,7 @@ function showNotFound(){
 
 function fromURL(){
   const u = new URL(location.href);
-  const theme = u.searchParams.get('theme');
   const area  = u.searchParams.get('area');
-  if (theme && ['A','B','C'].includes(theme)) {
-    state.theme = theme; themeSel.value = theme;
-  }
   if (area && AREAS.includes(area)) {
     state.area = area; areaSel.value = area;
   }
@@ -115,7 +92,6 @@ function fromURL(){
 
 function writeURL(){
   const u = new URL(location.href);
-  u.searchParams.set('theme', state.theme);
   u.searchParams.set('area', state.area);
   history.replaceState({}, '', u);
 }
@@ -242,12 +218,7 @@ async function postLog(event){
 // ========= Assets / Canvas =========
 async function preloadAssets(){
   const paths = {
-    bgMain: '/public/graphics/bg-main.png',
-    bgGold: '/public/graphics/bg-gold.png',
-    florals: '/public/graphics/florals-corners.png',
-    tape: '/public/graphics/tape.png',
-    stamp: '/public/graphics/stamp-ma.png',
-    grain: '/public/graphics/grain.png'
+    fallPattern: '/public/graphics/fall-pattern-02.png'
   };
   const load = src => new Promise(res => {
     const img = new Image(); img.onload = () => res(img); img.onerror = () => res(null); img.src = src;
@@ -263,109 +234,46 @@ async function renderCanvasToBlob(){
 
   ctx.clearRect(0,0,1080,1080);
 
-  // Theme-specific rendering
-  if (state.theme === 'A') {
-    // Theme A: Deep Forest Ornate
-    const gradient = ctx.createLinearGradient(0, 0, 1080, 1080);
-    gradient.addColorStop(0, '#f8f6f3');
-    gradient.addColorStop(1, '#ebe8e3');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0,0,1080,1080);
-    
-    // Subtle gold radial accent
-    const goldGrad = ctx.createRadialGradient(300, 200, 0, 300, 200, 500);
-    goldGrad.addColorStop(0, 'rgba(212, 175, 55, 0.08)');
-    goldGrad.addColorStop(1, 'transparent');
-    ctx.fillStyle = goldGrad;
-    ctx.fillRect(0,0,1080,1080);
-    
-    // Florals with radial mask
-    if (state.assets.florals){
-      ctx.save();
-      ctx.globalCompositeOperation = 'multiply';
-      ctx.globalAlpha = 0.15;
-      drawCoverImage(state.assets.florals,1080,1080);
-      ctx.restore();
-    }
-    
-    // Text color
-    ctx.fillStyle = '#1a3a2e';
-    
-  } else if (state.theme === 'B') {
-    // Theme B: Editorial Blush
-    const gradient = ctx.createLinearGradient(0, 0, 1080, 1080);
-    gradient.addColorStop(0, '#faf8f6');
-    gradient.addColorStop(1, '#f2ede9');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0,0,1080,1080);
-    
-    // Subtle grain
-    if (state.assets.grain){
-      ctx.globalAlpha = 0.04;
-      ctx.globalCompositeOperation = 'multiply';
-      drawCoverImage(state.assets.grain,1080,1080);
-      ctx.globalAlpha = 1;
-      ctx.globalCompositeOperation = 'source-over';
-    }
-    
-    // Tape bar
-    if (state.assets.tape){
-      ctx.globalAlpha = 0.7;
-      const w = 600, h = (state.assets.tape.height/state.assets.tape.width)*w;
-      ctx.drawImage(state.assets.tape, (1080-w)/2, 60, w, h);
-      ctx.globalAlpha = 1;
-    }
-    
-    // Stamp
-    if (state.assets.stamp){
-      ctx.globalAlpha = 0.4;
-      const s = 140;
-      ctx.drawImage(state.assets.stamp, 1080 - s - 80, 80, s, s);
-      ctx.globalAlpha = 1;
-    }
-    
-    // Text color
-    ctx.fillStyle = '#4a3f3f';
-    
-  } else {
-    // Theme C: Cool Slate Glass
-    const bg = state.assets.bgMain;
-    if (bg) {
-      drawCoverImage(bg, 1080,1080);
-      // Dark overlay
-      const overlay = ctx.createLinearGradient(0, 0, 1080, 1080);
-      overlay.addColorStop(0, 'rgba(52, 73, 94, 0.6)');
-      overlay.addColorStop(1, 'rgba(44, 62, 80, 0.75)');
-      ctx.fillStyle = overlay;
-      ctx.fillRect(0,0,1080,1080);
-    } else {
-      const gradient = ctx.createLinearGradient(0, 0, 1080, 1080);
-      gradient.addColorStop(0, '#34495e');
-      gradient.addColorStop(1, '#2c3e50');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0,0,1080,1080);
-    }
-    
-    // Vignette
-    const vignette = ctx.createRadialGradient(540, 320, 100, 540, 540, 700);
-    vignette.addColorStop(0, 'transparent');
-    vignette.addColorStop(1, 'rgba(0, 0, 0, 0.4)');
-    ctx.fillStyle = vignette;
-    ctx.fillRect(0,0,1080,1080);
-    
-    // Subtle grain
-    if (state.assets.grain){
-      ctx.globalAlpha = 0.06;
-      drawCoverImage(state.assets.grain,1080,1080);
-      ctx.globalAlpha = 1;
-    }
-    
-    // Text color with shadow
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
-    ctx.shadowBlur = 20;
-    ctx.shadowOffsetY = 2;
+  // Background: Black base
+  ctx.fillStyle = '#1a1a1a';
+  ctx.fillRect(0,0,1080,1080);
+  
+  // Fall pattern wallpaper
+  if (state.assets.fallPattern) {
+    ctx.globalAlpha = 0.35;
+    drawCoverImage(state.assets.fallPattern, 1080, 1080);
+    ctx.globalAlpha = 1;
   }
+  
+  // Dark vignette
+  const vignette = ctx.createRadialGradient(540, 320, 200, 540, 540, 700);
+  vignette.addColorStop(0, 'transparent');
+  vignette.addColorStop(1, 'rgba(0, 0, 0, 0.7)');
+  ctx.fillStyle = vignette;
+  ctx.fillRect(0,0,1080,1080);
+  
+  // Card background - warm ivory gradient
+  const cardX = 90, cardY = 180, cardW = 900, cardH = 720;
+  const cardGradient = ctx.createLinearGradient(cardX, cardY, cardX + cardW, cardY + cardH);
+  cardGradient.addColorStop(0, '#fdfcfb');
+  cardGradient.addColorStop(1, '#f7f4ef');
+  
+  // Card with rounded corners and shadow
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+  ctx.shadowBlur = 60;
+  ctx.shadowOffsetY = 20;
+  
+  ctx.fillStyle = cardGradient;
+  roundRect(ctx, cardX, cardY, cardW, cardH, 24);
+  ctx.fill();
+  
+  // Reset shadow for text
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetY = 0;
+  
+  // Text color
+  ctx.fillStyle = '#1a3a2e';
 
   // Text rendering
   const padding = 140;
@@ -392,20 +300,10 @@ async function renderCanvasToBlob(){
     y += lineHeight;
   }
 
-  // Reset shadow
-  ctx.shadowColor = 'transparent';
-  ctx.shadowBlur = 0;
-
-  // Footer - theme-specific color
+  // Footer
   ctx.font = `24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
   ctx.textAlign = 'right';
-  
-  if (state.theme === 'C') {
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-  } else {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
-  }
-  
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
   ctx.fillText('marketeraffirmations.com', 1020, 1020);
 
   return await new Promise(res => canvas.toBlob(res, 'image/png', 0.94));
@@ -417,6 +315,20 @@ function drawCoverImage(img, W, H){
   const nw = iw * r, nh = ih * r;
   const nx = (W - nw)/2, ny = (H - nh)/2;
   ctx.drawImage(img, nx, ny, nw, nh);
+}
+
+function roundRect(context, x, y, width, height, radius){
+  context.beginPath();
+  context.moveTo(x + radius, y);
+  context.lineTo(x + width - radius, y);
+  context.quadraticCurveTo(x + width, y, x + width, y + radius);
+  context.lineTo(x + width, y + height - radius);
+  context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  context.lineTo(x + radius, y + height);
+  context.quadraticCurveTo(x, y + height, x, y + height - radius);
+  context.lineTo(x, y + radius);
+  context.quadraticCurveTo(x, y, x + radius, y);
+  context.closePath();
 }
 
 // Fit text with binary search + word wrap
