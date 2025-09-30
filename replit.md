@@ -12,6 +12,8 @@ A satirical single-page web application that displays random marketing affirmati
 
 **Floral Masking Refinement (Sept 30, 2025)**: Critical fix to eliminate petal overlap with card content. Implemented proper radial masking with 700-800px diameter clear center zones (350px/380px transparent cores with 200px/220px feathered transitions). Enhanced floral brightness/saturation (1.22-1.28 brightness, 1.18-1.24 saturation) for luxurious dark wallpaper aesthetic. Replaced radial background gradient with cleaner linear vertical gradient. Added 120px top spacing and gradient divider to FAQ section for improved visual separation.
 
+**Button & UX Refinement (Sept 30, 2025)**: Upgraded "Affirm me" button to burnt apricot palette (#C98B5F base, #B3744B hover, #905936 outline) with richer color that stands out against dark florals. System sans font weight 600, sentence case with 0.25px letter-spacing. Enhanced with subtle top highlight gradient, soft shadow, and intentional interaction states. Controls bar improved with raised opacity backdrop (rgba 0,0,0,0.18) for better stability. Fixed FAQ text selection issue with user-select: none. Optimized mobile controls (@480px) with tighter padding (10px/12px), reduced gap (9px), and proportional sizing adjustments.
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
