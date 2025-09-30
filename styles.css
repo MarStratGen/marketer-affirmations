@@ -361,7 +361,7 @@ body[data-theme="A"]::before {
   left: -20%;
   right: -20%;
   bottom: -50%;
-  background: url("/public/graphics/florals-corners.png") center/cover no-repeat;
+  background: url("/public/graphics/fall-pattern-01.png") center/cover no-repeat;
   filter: brightness(1.04) contrast(1.02) saturate(1.03);
   opacity: 0.38;
   pointer-events: none;
