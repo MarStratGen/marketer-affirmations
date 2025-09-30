@@ -857,6 +857,11 @@ summary:focus-visible {
   background-size: 10px 6px;
 }
 
+/* Rotate chevron when dropdown is open */
+.liquid-select.dropdown-open {
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5L5 1L9 5' stroke='rgba(255,255,255,0.95)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
 .liquid-select:hover {
   border-color: rgba(255, 255, 255, 0.90);
   background-color: rgba(255, 255, 255, 0.05);

@@ -79,6 +79,18 @@ function bindUI(){
     filterByArea(state.area);
     writeURL();
   });
+  
+  // Rotate chevron when dropdown opens
+  areaSel.addEventListener('mousedown', () => {
+    areaSel.classList.add('dropdown-open');
+  });
+  areaSel.addEventListener('blur', () => {
+    areaSel.classList.remove('dropdown-open');
+  });
+  areaSel.addEventListener('change', () => {
+    areaSel.classList.remove('dropdown-open');
+  });
+  
   qs('#new').onclick = () => {
     setDryCaption();
     nextAffirmation(true);
