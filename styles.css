@@ -76,7 +76,7 @@ body {
 /* ====== Header & Hero ====== */
 .header {
   text-align: center;
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-lg);
   opacity: 0;
   animation: fadeInHeader 0.8s ease forwards;
 }
@@ -103,11 +103,13 @@ body {
 }
 
 .sub {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 0.01em;
-  margin-bottom: var(--space-lg);
+  font-family: var(--font-display);
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.02em;
+  margin-bottom: var(--space-md);
 }
 
 /* ====== Controls ====== */
@@ -150,8 +152,8 @@ select {
 }
 
 select option {
-  background: #2a2a2a;
-  color: #ffffff;
+  background: #ffffff;
+  color: #1a1a1a;
 }
 
 select:hover {
@@ -160,17 +162,20 @@ select:hover {
 }
 
 button {
-  background: transparent;
-  color: rgba(255, 255, 255, 0.9);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.25);
   font-weight: 500;
   letter-spacing: 0.02em;
+  backdrop-filter: blur(8px);
 }
 
 button:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
   color: rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 button:active {
@@ -196,16 +201,29 @@ select:focus, button:focus {
   position: relative;
   width: clamp(480px, 60vw, 760px);
   min-height: 480px;
-  background: white;
+  background: linear-gradient(135deg, #ffffff 0%, #fdfcfb 50%, #faf8f6 100%);
   border-radius: 24px;
   padding: var(--space-xl) var(--space-xl) var(--space-lg);
   box-shadow: 
-    0 40px 80px rgba(0, 0, 0, 0.12),
-    0 10px 20px rgba(0, 0, 0, 0.08);
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 8px 16px rgba(0, 0, 0, 0.04),
+    0 24px 48px rgba(0, 0, 0, 0.08),
+    0 60px 120px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: var(--space-md);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.03),
+    0 8px 16px rgba(0, 0, 0, 0.06),
+    0 24px 48px rgba(0, 0, 0, 0.1),
+    0 60px 120px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 
@@ -219,11 +237,12 @@ select:focus, button:focus {
 }
 
 .brand-chip {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.2em;
+  font-family: var(--font-body);
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(212, 175, 55, 0.5);
+  color: rgba(212, 175, 55, 0.6);
   text-align: center;
   opacity: 0;
   animation: fadeInChip 0.6s ease 0.3s forwards;
@@ -267,21 +286,24 @@ select:focus, button:focus {
 }
 
 .actions button {
-  background: transparent;
-  border: 1px solid rgba(26, 58, 46, 0.15);
-  color: rgba(26, 58, 46, 0.7);
+  background: rgba(26, 58, 46, 0.04);
+  border: 1px solid rgba(26, 58, 46, 0.12);
+  color: rgba(26, 58, 46, 0.75);
   font-size: 13px;
-  padding: 8px 16px;
-  box-shadow: none;
+  padding: 9px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   font-weight: 500;
+  backdrop-filter: blur(4px);
 }
 
 .actions button:hover {
-  background: rgba(212, 175, 55, 0.08);
-  border-color: rgba(212, 175, 55, 0.3);
-  color: rgba(26, 58, 46, 0.9);
-  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.15);
-  transform: translateY(-1px);
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.35);
+  color: rgba(26, 58, 46, 0.95);
+  box-shadow: 
+    0 2px 8px rgba(212, 175, 55, 0.2),
+    0 4px 16px rgba(212, 175, 55, 0.1);
+  transform: translateY(-2px);
 }
 
 @keyframes fadeInActions {
