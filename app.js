@@ -34,7 +34,9 @@ const DRY_CAPTIONS = [
 // ========= DOM helpers =========
 const qs = s => document.querySelector(s);
 const body = document.body;
-const areaSel  = qs('#area');
+const dropdownButton = qs('#dropdownButton');
+const dropdownMenu = qs('#dropdownMenu');
+const dropdownValue = qs('#dropdownValue');
 const quoteEl  = qs('#quote');
 const canvas   = qs('#exportCanvas');
 const ctx      = canvas.getContext('2d');
@@ -69,28 +71,49 @@ function populateAreas(){
     if (str === 'seo') return 'SEO';
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
-  areaSel.innerHTML = AREAS.map(a => `<option value="${a}">${capitalize(a)}</option>`).join("");
-  areaSel.value = "general";
+  
+  dropdownMenu.innerHTML = AREAS.map((area, idx) => 
+    `<li role="option" data-value="${area}" aria-selected="${area === 'general'}" tabindex="0">${capitalize(area)}</li>`
+  ).join("");
+  
+  dropdownValue.textContent = 'General';
 }
 
 function bindUI(){
-  areaSel.addEventListener('change', () => {
-    state.area = areaSel.value;
-    filterByArea(state.area);
-    writeURL();
+  // Custom dropdown toggle
+  dropdownButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = dropdownButton.getAttribute('aria-expanded') === 'true';
+    if (isOpen) {
+      closeDropdown();
+    } else {
+      openDropdown();
+    }
   });
   
-  // Rotate chevron when dropdown opens/closes
-  areaSel.addEventListener('mousedown', () => {
-    areaSel.classList.add('dropdown-open');
+  // Select option
+  dropdownMenu.addEventListener('click', (e) => {
+    const li = e.target.closest('li');
+    if (!li) return;
+    
+    const value = li.getAttribute('data-value');
+    selectArea(value);
+    closeDropdown();
   });
   
-  areaSel.addEventListener('blur', () => {
-    areaSel.classList.remove('dropdown-open');
+  // Close on click outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.custom-dropdown')) {
+      closeDropdown();
+    }
   });
   
-  areaSel.addEventListener('change', () => {
-    areaSel.classList.remove('dropdown-open');
+  // ESC key closes dropdown
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && dropdownButton.getAttribute('aria-expanded') === 'true') {
+      closeDropdown();
+      dropdownButton.focus();
+    }
   });
   
   qs('#new').onclick = () => {
@@ -99,6 +122,34 @@ function bindUI(){
   };
   qs('#copy').onclick = () => copyCaption();
   qs('#share').onclick = () => shareImageOrCaption();
+}
+
+function openDropdown() {
+  dropdownButton.setAttribute('aria-expanded', 'true');
+  dropdownMenu.classList.add('open');
+}
+
+function closeDropdown() {
+  dropdownButton.setAttribute('aria-expanded', 'false');
+  dropdownMenu.classList.remove('open');
+}
+
+function selectArea(area) {
+  const capitalize = str => {
+    if (str === 'seo') return 'SEO';
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+  
+  state.area = area;
+  dropdownValue.textContent = capitalize(area);
+  
+  // Update aria-selected
+  dropdownMenu.querySelectorAll('li').forEach(li => {
+    li.setAttribute('aria-selected', li.getAttribute('data-value') === area);
+  });
+  
+  filterByArea(state.area);
+  writeURL();
 }
 
 function setDryCaption(){
@@ -121,7 +172,7 @@ function checkDeepLink(){
   if (found) {
     state.current = found;
     state.area = found.tags[0] || 'general';
-    areaSel.value = state.area;
+    selectArea(state.area);
     fromURL();
     filterByArea(state.area);
     setDryCaption();

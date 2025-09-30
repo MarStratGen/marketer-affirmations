@@ -30,8 +30,19 @@
 
     <section class="stage">
       <div class="controls">
-        <label for="area" class="area-label">Marketing area:</label>
-        <select id="area" class="liquid-select" aria-label="Select marketing area"></select>
+        <label class="area-label" id="area-label">Marketing area:</label>
+        <div class="custom-dropdown" id="customDropdown">
+          <button 
+            type="button" 
+            class="liquid-select" 
+            id="dropdownButton" 
+            aria-haspopup="listbox" 
+            aria-expanded="false"
+            aria-labelledby="area-label dropdownButton">
+            <span id="dropdownValue">General</span>
+          </button>
+          <ul class="dropdown-menu" id="dropdownMenu" role="listbox" aria-labelledby="area-label"></ul>
+        </div>
         <button id="new" class="liquid-button">Affirm Me</button>
       </div>
       
