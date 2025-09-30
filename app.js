@@ -188,20 +188,6 @@ async function shareImageOrCaption(){
   await copyCaption();
 }
 
-async function downloadPng(){
-  const blob = await renderCanvasToBlob();
-  if (!blob) return;
-  const a = document.createElement('a');
-  const id = state.current?.id || 'A000';
-  a.href = URL.createObjectURL(blob);
-  a.download = `affirmation-${id}.png`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  showToast('Downloaded');
-  postLog("download");
-}
-
 // ========= Worker logging (no-op in visual test) =========
 async function postLog(event){
   if (!WORKER_BASE) return;
