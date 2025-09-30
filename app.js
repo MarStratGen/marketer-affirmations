@@ -1,5 +1,5 @@
 // ========= Config =========
-const AREAS = ["general","social","brand","performance","seo","email","content","product","events","growth"];
+const AREAS = ["general","brand","content","email","events","growth","performance","product","seo","social"];
 const WORKER_BASE = ""; // leave empty in visual test. Hook up later.
 const SITE_BASE   = window.location.origin;
 
