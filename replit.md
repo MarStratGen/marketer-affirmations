@@ -2,9 +2,9 @@
 
 ## Overview
 
-A satirical single-page web application that displays random marketing affirmations with Awwwards-level visual design and export capabilities. The project is a static, no-build HTML/CSS/JavaScript application featuring 70 seeded affirmations across 10 marketing categories, three immersive visual themes with full-bleed wallpapers, premium typography, and PNG export functionality for social sharing.
+A satirical single-page web application that displays random marketing affirmations with Awwwards-level visual design and export capabilities. The project is a static, no-build HTML/CSS/JavaScript application featuring 70 seeded affirmations across 10 marketing categories (alphabetically sorted with General first), single premium theme with full-bleed Fall-Pattern-02 botanical wallpaper, luxury typography, and PNG export functionality for social sharing.
 
-**Recent Major Update (Sept 2025)**: Complete visual redesign to achieve Awwwards nominee-level quality with full-bleed wallpaper backgrounds, luxury typography (Playfair Display, Cormorant), cinematic depth effects, and premium shadow systems.
+**Recent Major Update (Sept 2025)**: Complete visual redesign to achieve Awwwards nominee-level quality with improved hierarchy, toned-down floral backgrounds, enhanced card legibility, refined spacing, premium button interactions, and subtle parallax scroll effects. Micro label "For Motivational Use Only" replaces redundant branding. Tagline updated to "Unvarnished truths, elegantly phrased as affirmations."
 
 ## User Preferences
 
@@ -25,20 +25,27 @@ Preferred communication style: Simple, everyday language.
 - **styles.css**: CSS custom properties (variables) for theme management with burgundy garden color palette
 - **app.js**: Application logic handling state, DOM manipulation, filtering, theme switching, and canvas-based export
 
-### Visual Theme System
+### Visual Design System
 
-**Three-Theme Architecture with Immersive Wallpapers**
-- **Theme A (Deep Forest Ornate)**: Full-bleed bg-gold.png wallpaper with forest green palette, masked florals, gold accents, and atmospheric vignette
-- **Theme B (Editorial Blush)**: Full-bleed florals-corners.png wallpaper with warm blush tones, decorative tape bar, vintage stamp, and grain texture
-- **Theme C (Cool Slate Glass)**: Full-bleed bg-main.png wallpaper with dark slate atmosphere, true glassmorphism card with backdrop-blur, and cinematic depth overlay
-- Theme switching implemented via `data-theme` attribute on `<body>` element, triggering CSS pseudo-element wallpaper layers and custom property cascades
+**Single Premium Theme (Deep Forest Ornate)**
+- Full-bleed Fall-Pattern-02.png botanical wallpaper at 25% opacity with 1px blur
+- Enhanced radial vignette (ellipse 70% 50%) with gradient from rgba(0,0,0,0.3) to rgba(0,0,0,0.8)
+- Forest green palette with gold accents for highlights and interactions
+- Glass-morphic card with 97% white opacity and 12px backdrop blur
+- Subtle parallax scroll effect on background (15% movement rate, respects prefers-reduced-motion)
+
+**Visual Hierarchy**
+- **Title**: Dominant Playfair Display at clamp(52px, 7vw, 96px) with enhanced shadow
+- **Tagline**: Delicate Playfair italic at 18px - "Unvarnished truths, elegantly phrased as affirmations."
+- **Micro Label**: "For Motivational Use Only" in 9px uppercase with subtle forest green
+- **Quote**: Bold serif at clamp(32px, 4vw, 48px) with generous padding for legibility
 
 **Wallpaper Implementation**
-- Each theme uses `body::before` for fixed-position full-bleed background image
-- Each theme uses `body::after` for atmospheric vignette/depth overlay
-- Layered approach: wallpaper → vignette → content → card with theme-specific shadows
+- `body::before` for fixed-position background image with parallax transform
+- `body::after` for atmospheric vignette/depth overlay
+- Layered approach: blurred wallpaper → vignette → content → high-opacity glass card
 
-**Design Rationale**: Attribute-based theme switching with pseudo-element layers delivers immersive Awwwards-level visual quality while maintaining declarative CSS architecture
+**Design Rationale**: Single-theme focus allows refined polish and cohesive aesthetic without complexity of theme switching. Toned-down florals, enhanced vignette, and high-opacity card ensure excellent text legibility while maintaining visual richness.
 
 ### Data Management
 
