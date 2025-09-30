@@ -192,16 +192,12 @@ function initParallax(){
       window.requestAnimationFrame(() => {
         const scrolled = window.pageYOffset;
         
-        // Apply layered parallax to body pseudo-elements
+        // Apply parallax to body background
         if (body.getAttribute('data-theme') === 'A') {
-          const bgParallax = scrolled * 0.25;  // Background layer moves slower
-          const floralParallax = scrolled * 0.35;  // Floral layer moves faster
+          const floralParallax = scrolled * 0.3;
           
           styleEl.textContent = `
             body[data-theme="A"]::before {
-              transform: translate3d(0, ${bgParallax}px, 0);
-            }
-            body[data-theme="A"]::after {
               transform: translate3d(0, ${floralParallax}px, 0);
             }
           `;

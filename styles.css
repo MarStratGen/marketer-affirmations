@@ -96,7 +96,10 @@ body {
   line-height: 0.95;
   margin-bottom: 20px;
   color: rgba(255, 255, 255, 0.98);
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  text-shadow: 
+    0 2px 12px rgba(0, 0, 0, 0.8),
+    0 4px 24px rgba(0, 0, 0, 0.6),
+    0 0 60px rgba(0, 0, 0, 0.4);
 }
 
 .title em {
@@ -109,10 +112,13 @@ body {
   font-weight: 400;
   font-family: var(--font-display);
   font-style: italic;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.85);
   letter-spacing: 0.03em;
   line-height: 1.5;
   margin-bottom: 18px;
+  text-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.8),
+    0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
 /* ====== Controls ====== */
@@ -274,7 +280,7 @@ select:focus, button:focus {
   color: #141516;
   text-align: center;
   padding: 0;
-  margin-bottom: 32px;
+  margin-bottom: 56px;
   transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
   animation: fadeInQuote 0.8s ease 0.1s forwards;
@@ -291,7 +297,7 @@ select:focus, button:focus {
   gap: 13px;
   justify-content: center;
   flex-wrap: wrap;
-  padding-top: 28px;
+  padding-top: 40px;
   border-top: 1px solid rgba(185, 139, 46, 0.18);
   margin-top: 0;
   opacity: 0;
@@ -349,28 +355,13 @@ body[data-theme="A"] {
 body[data-theme="A"]::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url("/public/graphics/bg-main.png") center/cover no-repeat;
-  filter: brightness(1.08) contrast(1.05) saturate(1.05);
-  opacity: 0.48;
-  pointer-events: none;
-  z-index: 0;
-  will-change: transform;
-}
-
-body[data-theme="A"]::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: -50%;
+  left: -20%;
+  right: -20%;
+  bottom: -50%;
   background: url("/public/graphics/florals-corners.png") center/cover no-repeat;
-  filter: brightness(1.06) contrast(1.03) saturate(1.04);
-  opacity: 0.52;
+  filter: brightness(1.04) contrast(1.02) saturate(1.03);
+  opacity: 0.38;
   pointer-events: none;
   z-index: 0;
   will-change: transform;
@@ -540,23 +531,36 @@ body[data-theme="A"] .controls button:hover {
   font-family: var(--font-display);
   font-size: 28px;
   margin: 0 0 18px;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 255, 255, 0.98);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 .faq details {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding: 16px 0;
-  color: rgba(255, 255, 255, 0.86);
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .faq details:last-of-type {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .faq summary {
   cursor: pointer;
   font-weight: 600;
   list-style: none;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.faq summary::after {
+  content: '+';
+  float: right;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.faq details[open] summary::after {
+  content: '−';
 }
 
 .faq summary::-webkit-details-marker {
@@ -565,8 +569,9 @@ body[data-theme="A"] .controls button:hover {
 
 .faq details > div {
   margin-top: 10px;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.88);
   line-height: 1.6;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .faq a {
@@ -576,9 +581,13 @@ body[data-theme="A"] .controls button:hover {
 
 /* ====== Footer ====== */
 .site-foot {
-  margin: 44px 0 28px;
-  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+  padding: 32px 0;
+  background: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.8);
   font-size: 12px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .foot-inner {
