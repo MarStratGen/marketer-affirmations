@@ -11,6 +11,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 body {
@@ -344,7 +345,6 @@ select:focus, button:focus {
 body[data-theme="A"] {
   background: linear-gradient(180deg, #24282c 0%, #1b1f23 40%, #181b1e 100%);
   position: relative;
-  overflow-x: hidden;
 }
 
 body[data-theme="A"]::before {
@@ -540,6 +540,8 @@ body[data-theme="A"] .controls button:hover {
   margin: 0 auto 96px;
   padding: 120px 20px 0;
   position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
 .faq::before {
@@ -580,6 +582,10 @@ body[data-theme="A"] .controls button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  gap: 12px;
 }
 
 .faq summary::after {
@@ -602,6 +608,9 @@ body[data-theme="A"] .controls button:hover {
   color: rgba(255, 255, 255, 0.88);
   line-height: 1.6;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .faq a {
