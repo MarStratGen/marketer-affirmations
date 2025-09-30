@@ -714,7 +714,7 @@ summary:focus-visible {
   }
 }
 
-/* ====== Liquid Glass UI ====== */
+/* ====== White Outline Buttons ====== */
 
 /* Shared button typography */
 .liquid-button,
@@ -730,7 +730,7 @@ summary:focus-visible {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Dark liquid button (hero surfaces) - Apple Liquid Glass */
+/* Primary "Affirm Me" button - white outline, fills on hover */
 .liquid-button {
   position: relative;
   display: flex;
@@ -740,52 +740,27 @@ summary:focus-visible {
   padding: 11px 28px;
   gap: 8px;
   
-  background: 
-    linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%),
-    linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
-  
-  border: 0.5px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
   border-radius: 48px;
   
   color: rgba(255, 255, 255, 0.95);
   font-size: 14px;
   
-  box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.25),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.1),
-    0 8px 32px rgba(0, 0, 0, 0.2),
-    0 2px 8px rgba(0, 0, 0, 0.15);
-  
-  backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
-  -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.liquid-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    115deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0) 30%,
-    rgba(255, 255, 255, 0) 70%,
-    rgba(255, 255, 255, 0.15) 100%
-  );
-  border-radius: 48px;
-  pointer-events: none;
-  opacity: 0.6;
-}
-
+.liquid-button::before,
 .liquid-button::after {
   display: none;
 }
 
 .liquid-button:hover {
-  filter: brightness(1.04);
+  background: rgba(255, 255, 255, 1);
+  color: #1a1a1a;
+  border-color: rgba(255, 255, 255, 1);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .liquid-button:active {
@@ -795,12 +770,11 @@ summary:focus-visible {
 .liquid-button:focus-visible {
   outline: none;
   box-shadow: 
-    inset 0 0 0 2px rgba(255, 255, 255, 0.3),
-    0 0 0 3px rgba(203, 168, 98, 0.7),
-    0 3px 10px rgba(0, 0, 0, 0.18);
+    0 0 0 3px rgba(255, 255, 255, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Light liquid button (card surfaces) - Apple Liquid Glass */
+/* Light buttons (card surfaces) - keep existing subtle style */
 .liquid-button--light {
   position: relative;
   display: flex;
@@ -810,52 +784,31 @@ summary:focus-visible {
   padding: 11px 20px;
   gap: 8px;
   
-  background: 
-    linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.25) 100%),
-    linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.15));
-  
-  border: 0.5px solid rgba(255, 255, 255, 0.6);
+  background: rgba(26, 58, 46, 0.05);
+  border: 1px solid rgba(26, 58, 46, 0.15);
   border-radius: 48px;
   
-  color: #1a3a2e;
-  font-size: 14px;
+  color: rgba(26, 58, 46, 0.8);
+  font-size: 13px;
   
   box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.8),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.05),
-    0 4px 16px rgba(0, 0, 0, 0.08),
-    0 1px 4px rgba(0, 0, 0, 0.05);
-  
-  backdrop-filter: blur(40px) saturate(150%) brightness(1.05);
-  -webkit-backdrop-filter: blur(40px) saturate(150%) brightness(1.05);
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
-.liquid-button--light::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    115deg,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(255, 255, 255, 0) 30%,
-    rgba(255, 255, 255, 0) 70%,
-    rgba(255, 255, 255, 0.4) 100%
-  );
-  border-radius: 48px;
-  pointer-events: none;
-  opacity: 0.5;
-}
-
+.liquid-button--light::before,
 .liquid-button--light::after {
   display: none;
 }
 
 .liquid-button--light:hover {
-  filter: brightness(1.03);
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.4);
+  color: rgba(26, 58, 46, 1);
   transform: translateY(-1px);
+  box-shadow: 
+    0 4px 12px rgba(212, 175, 55, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .liquid-button--light:active {
@@ -865,12 +818,11 @@ summary:focus-visible {
 .liquid-button--light:focus-visible {
   outline: none;
   box-shadow: 
-    inset 0 0 0 2px rgba(0, 0, 0, 0.1),
-    0 0 0 3px rgba(26, 58, 46, 0.4),
+    0 0 0 3px rgba(26, 58, 46, 0.3),
     0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
-/* Liquid dropdown selector - Apple Liquid Glass */
+/* Dropdown selector - white outline with custom arrow */
 .liquid-select {
   position: relative;
   display: flex;
@@ -879,48 +831,33 @@ summary:focus-visible {
   padding: 11px 36px 11px 20px;
   gap: 8px;
   
-  background: 
-    linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%),
-    linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
-  
-  border: 0.5px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
   border-radius: 48px;
   
   color: rgba(255, 255, 255, 0.95);
   font-size: 14px;
   
-  box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.25),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.1),
-    0 8px 32px rgba(0, 0, 0, 0.2),
-    0 2px 8px rgba(0, 0, 0, 0.15);
-  
-  backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
-  -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
-  
-  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(255,255,255,0.9)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .liquid-select::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    115deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0) 30%,
-    rgba(255, 255, 255, 0) 70%,
-    rgba(255, 255, 255, 0.15) 100%
-  );
-  border-radius: 48px;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid rgba(255, 255, 255, 0.9);
   pointer-events: none;
-  opacity: 0.6;
-  z-index: -1;
+  transition: transform 0.2s ease;
+}
+
+.liquid-select:focus::before {
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .liquid-select::after {
@@ -928,15 +865,14 @@ summary:focus-visible {
 }
 
 .liquid-select:hover {
-  filter: brightness(1.05);
-  border-color: rgba(203, 168, 98, 0.9);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .liquid-select:focus-visible {
   outline: none;
   box-shadow: 
-    inset 0 0 0 2px rgba(255, 255, 255, 0.2),
-    0 0 0 3px rgba(91, 147, 255, 0.4),
+    0 0 0 3px rgba(255, 255, 255, 0.4),
     0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
@@ -950,7 +886,7 @@ summary:focus-visible {
 
 .liquid-select:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 1);
 }
 
 /* Reduced motion */
