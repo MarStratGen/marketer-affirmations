@@ -46,9 +46,10 @@ body {
   --slate-text: #1a1a1a;
   
   /* Affirm Button */
-  --affirm-plum: #6b4c7a;
-  --affirm-text: #f8f5f0;
-  --affirm-outline: rgba(107, 76, 122, 0.4);
+  --affirm-peach: #D7A97C;
+  --affirm-peach-hover: #C38A60;
+  --affirm-outline: #A87046;
+  --affirm-text: #1a3a2e;
   --affirm-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   --affirm-focus-gold: rgba(181, 145, 74, 0.6);
   --affirm-focus-inner: rgba(255, 255, 255, 0.4);
@@ -182,7 +183,7 @@ button {
   backdrop-filter: blur(8px);
 }
 
-/* Affirm Me button - Rich plum solid */
+/* Affirm Me button - Peach flower accent */
 .btn-affirm {
   -webkit-appearance: none;
   appearance: none;
@@ -201,21 +202,21 @@ button {
   letter-spacing: 0.15px;
   font-size: 15px;
 
-  background: var(--affirm-plum);
+  background: var(--affirm-peach);
   box-shadow: var(--affirm-shadow);
   backdrop-filter: none;
   
-  transition: transform 0.15s ease, filter 0.15s ease;
+  transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
 .btn-affirm:hover {
   transform: translateY(-1px);
-  filter: brightness(1.04);
+  background: var(--affirm-peach-hover);
 }
 
 .btn-affirm:active {
   transform: translateY(0);
-  filter: brightness(1);
+  background: var(--affirm-peach);
 }
 
 .btn-affirm:focus-visible {
