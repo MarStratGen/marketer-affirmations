@@ -296,7 +296,8 @@ select:focus, button:not(.btn-affirm):focus {
 
 .card {
   position: relative;
-  width: clamp(480px, 60vw, 760px);
+  width: clamp(300px, 90vw, 760px);
+  max-width: 760px;
   min-height: 420px;
   background: linear-gradient(180deg, #ffffff 0%, #fbf9f6 100%);
   border: 1px solid rgba(0, 0, 0, 0.05);
@@ -316,7 +317,8 @@ select:focus, button:not(.btn-affirm):focus {
 
 @media (max-width: 640px) {
   .card {
-    padding: 22px 18px 26px;
+    width: calc(100vw - 32px);
+    padding: 28px 24px 32px;
   }
 }
 
