@@ -728,35 +728,37 @@ summary:focus-visible {
 /* Dark liquid button (hero surfaces) */
 .liquid-button {
   position: relative;
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
   padding: 11px 28px;
+  gap: 8px;
   
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), 
+              linear-gradient(0deg, #1D1D1D, #1D1D1D), 
+              rgba(29, 29, 29, 0.1);
+  background-blend-mode: normal, plus-lighter, color-burn;
   
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: none;
+  border-radius: 48px;
   
   color: rgba(255, 255, 255, 0.95);
   font-size: 14px;
   
   box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.12),
-    0 1px 2px rgba(0, 0, 0, 0.08);
+    inset -4.5px -4.5px 1.5px -5.25px rgba(255, 255, 255, 0.5), 
+    inset 4.5px 4.5px 1.5px -5.25px rgba(255, 255, 255, 0.5), 
+    inset 3px 4.5px 1.5px -3px rgba(179, 179, 179, 0.2), 
+    inset -3px -4.5px 1.5px -3px #B3B3B3, 
+    inset 0px 0px 33px rgba(242, 242, 242, 0.5);
+  
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .liquid-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 999px 999px 0 0;
-  pointer-events: none;
+  display: none;
 }
 
 .liquid-button::after {
@@ -803,15 +805,7 @@ summary:focus-visible {
 }
 
 .liquid-button--light::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 999px 999px 0 0;
-  pointer-events: none;
+  display: none;
 }
 
 .liquid-button--light::after {
@@ -838,22 +832,32 @@ summary:focus-visible {
 /* Liquid dropdown selector */
 .liquid-select {
   position: relative;
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
   align-items: center;
   padding: 11px 36px 11px 20px;
+  gap: 8px;
   
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), 
+              linear-gradient(0deg, #1D1D1D, #1D1D1D), 
+              rgba(29, 29, 29, 0.1);
+  background-blend-mode: normal, plus-lighter, color-burn;
   
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: none;
+  border-radius: 48px;
   
   color: rgba(255, 255, 255, 0.95);
   font-size: 14px;
   
   box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.12),
-    0 1px 2px rgba(0, 0, 0, 0.08);
+    inset -4.5px -4.5px 1.5px -5.25px rgba(255, 255, 255, 0.5), 
+    inset 4.5px 4.5px 1.5px -5.25px rgba(255, 255, 255, 0.5), 
+    inset 3px 4.5px 1.5px -3px rgba(179, 179, 179, 0.2), 
+    inset -3px -4.5px 1.5px -3px #B3B3B3, 
+    inset 0px 0px 33px rgba(242, 242, 242, 0.5);
+  
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   
   background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(255,255,255,0.9)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -861,15 +865,7 @@ summary:focus-visible {
 }
 
 .liquid-select::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 999px 999px 0 0;
-  pointer-events: none;
+  display: none;
 }
 
 .liquid-select::after {
