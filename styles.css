@@ -46,8 +46,8 @@ body {
   --slate-text: #1a1a1a;
   
   /* Affirm Button */
-  --affirm-bg: rgba(129, 67, 208, .92);
-  --affirm-bg-2: rgba(226, 95, 173, .92);
+  --affirm-bg: rgba(93, 57, 246, 0.96);
+  --affirm-bg-2: rgba(199, 165, 255, 0.96);
   --affirm-text: #fbf8f3;
   --affirm-ring: rgba(185,139,46,.45);
   --affirm-shadow: 0 8px 24px rgba(0,0,0,.28);
@@ -203,7 +203,7 @@ button {
 
   background:
     radial-gradient(120% 200% at 85% 15%, var(--affirm-bg-2) 0%, transparent 55%),
-    linear-gradient(95deg, var(--affirm-bg) 0%, rgba(119, 59, 196, .92) 55%, rgba(96, 52, 185, .92) 100%);
+    linear-gradient(95deg, var(--affirm-bg) 0%, rgba(120, 77, 255, 0.96) 55%, var(--affirm-bg-2) 100%);
   box-shadow: var(--affirm-shadow);
   backdrop-filter: saturate(115%) blur(2px);
   -webkit-backdrop-filter: saturate(115%) blur(2px);
