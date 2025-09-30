@@ -1,0 +1,75 @@
+Bring the card higher on the page.
+It’s currently sitting too low. The top hero section should feel tightly stacked with consistent rhythm.
+
+Reduce vertical spacing between:
+
+The main title (Marketer Affirmations)
+
+The tagline (Unvarnished truths, elegantly phrased as affirmations.)
+
+The area/filter controls
+
+The affirmation card
+
+The full stack should feel like a cohesive hero — not a page with elements drifting apart.
+
+Florals should interact more with the card visually.
+
+Right now they just sit in the background with no relationship to the card.
+
+Use a radial mask or vignette to let florals frame the card — especially from corners or sides — but fade out before reaching the text.
+
+You can use mask-image: radial-gradient() or backdrop-filter: blur() for softening edges.
+
+Give the card subtle depth.
+
+Add a soft drop shadow (not grey, not heavy) to make it feel anchored, not floating in empty space.
+
+Center the card in a tighter spotlight.
+
+Apply a vignette or soft radial fade behind the card to help draw the eye in and reinforce the visual hierarchy.
+
+🔤 TYPOGRAPHY + HIERARCHY
+
+Main title and tagline
+
+Treat Marketer Affirmations and the tagline as a designed unit (like a premium product label).
+
+Use font size contrast, but minimal vertical spacing — they should feel stacked, not separated.
+
+Card micro-label (currently "For Motivational Use Only")
+
+It’s too detached. Bring it closer to the quote.
+
+Consider right-aligning it inside the card (like a stamp or tag) or nest it tightly above the quote in smaller caps.
+
+Font size: 12–14px max, with tracking (letter-spacing) and faded color (#888 or rgba(0,0,0,0.5))
+
+Button spacing and styling
+
+Keep buttons (Share, Copy) tight to the quote — they’re part of the interaction, not floating decorations.
+
+Reduce bottom margin between quote and buttons.
+
+Add gap: 12px or similar between buttons.
+
+🌸 AESTHETIC + TONE
+
+The page should feel like:
+
+“A cross between a vintage etiquette guide, a luxury candle box, and a mid-level brand strategist’s inner monologue.”
+
+Do not over-simplify.
+The tone is refined but passive-aggressive, not clean and calm. Let the layout reflect tension between beauty and dysfunction.
+
+✍️ TL;DR Summary
+
+Pull all hero elements (title, tagline, filters, card) closer together vertically
+
+Anchor the card visually with shadows + vignette
+
+Let florals frame, not wallpaper
+
+Tighten spacing inside the card
+
+Bring tone and tension back to the layout
