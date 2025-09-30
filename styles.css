@@ -156,8 +156,8 @@ select {
 }
 
 select option {
-  background: #1a1a1a;
-  color: #ffffff;
+  background: rgba(30, 25, 20, 0.95);
+  color: rgba(255, 255, 255, 0.95);
   padding: 8px 12px;
 }
 
