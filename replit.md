@@ -6,6 +6,8 @@ A satirical single-page web application that displays random marketing affirmati
 
 **Recent Major Update (Sept 2025)**: Complete visual redesign to achieve Awwwards nominee-level quality with improved hierarchy, toned-down floral backgrounds, enhanced card legibility, refined spacing, premium button interactions, and subtle parallax scroll effects. Micro label "For Motivational Use Only" replaces redundant branding. Tagline updated to "Unvarnished truths, elegantly phrased as affirmations."
 
+**Latest Refinement (Sept 30, 2025)**: Comprehensive spacing and visual tension improvements delivering "refined but passive-aggressive" aesthetic. Hero section tightened with consistent rhythm, card positioned higher, florals now frame the card from corners through lighter vignettes, warm-toned multi-layer shadows for depth, micro label right-aligned as stamp, and smooth quote transitions with fade/slide animations.
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
@@ -29,23 +31,31 @@ Preferred communication style: Simple, everyday language.
 
 **Single Premium Theme (Deep Forest Ornate)**
 - Full-bleed Fall-Pattern-02.png botanical wallpaper at 25% opacity with 1px blur
-- Enhanced radial vignette (ellipse 70% 50%) with gradient from rgba(0,0,0,0.3) to rgba(0,0,0,0.8)
+- Dual-layer vignette system for floral framing:
+  - Body vignette (ellipse 65% 55% at 50% 42%): rgba(0,0,0,0.15) → rgba(0,0,0,0.65) → rgba(0,0,0,0.85)
+  - Stage spotlight (ellipse 60% 55% at 50% 48%): transparent → rgba(0,0,0,0.08) → rgba(0,0,0,0.22)
+- Florals interact with card from corners, creating frame effect rather than wallpaper
 - Forest green palette with gold accents for highlights and interactions
 - Glass-morphic card with 97% white opacity and 12px backdrop blur
+- Warm-toned brown shadows (rgba 26,20,16) in three layers: 8px, 24px, 64px
 - Subtle parallax scroll effect on background (15% movement rate, respects prefers-reduced-motion)
+- Smooth quote transitions: fade out/up (200ms) → change text → fade in/down (10ms delay)
 
 **Visual Hierarchy**
 - **Title**: Dominant Playfair Display at clamp(52px, 7vw, 96px) with enhanced shadow
 - **Tagline**: Delicate Playfair italic at 18px - "Unvarnished truths, elegantly phrased as affirmations."
-- **Micro Label**: "For Motivational Use Only" in 9px uppercase with subtle forest green
-- **Quote**: Bold serif at clamp(32px, 4vw, 48px) with generous padding for legibility
+- Title-to-tagline spacing: var(--space-xs) [8px] for tight unit feel
+- Tagline-to-controls spacing: var(--space-md) [24px] for cohesive hero stack
+- **Micro Label**: "For Motivational Use Only" in 11px uppercase, right-aligned with `align-self: flex-end` for stamp effect, 0.12em letter-spacing, rgba(26,58,46,0.4)
+- **Quote**: Bold serif at clamp(32px, 4vw, 48px) with tighter padding for improved card rhythm
+- Quote-to-buttons spacing: var(--space-sm) [16px] with 12px gap between buttons
 
 **Wallpaper Implementation**
 - `body::before` for fixed-position background image with parallax transform
 - `body::after` for atmospheric vignette/depth overlay
 - Layered approach: blurred wallpaper → vignette → content → high-opacity glass card
 
-**Design Rationale**: Single-theme focus allows refined polish and cohesive aesthetic without complexity of theme switching. Toned-down florals, enhanced vignette, and high-opacity card ensure excellent text legibility while maintaining visual richness.
+**Design Rationale**: Single-theme focus allows refined polish and cohesive aesthetic without complexity of theme switching. Lighter dual-layer vignettes let florals frame the card from corners while maintaining focus on content. Warm brown shadows anchor the card with depth. Tightened vertical rhythm throughout hero section creates "refined but passive-aggressive" tension—aesthetic inspired by "vintage etiquette guide × luxury candle box × brand strategist's inner monologue." High-opacity card ensures excellent text legibility while maintaining visual richness.
 
 ### Data Management
 
