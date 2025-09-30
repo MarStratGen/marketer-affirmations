@@ -177,37 +177,8 @@ function setQuote(text){
 
 // ========= Parallax Effect =========
 function initParallax(){
-  // Only enable parallax if reduced motion is not preferred
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  
-  // Create a style element to control pseudo-element transforms
-  const styleEl = document.createElement('style');
-  styleEl.id = 'parallax-styles';
-  document.head.appendChild(styleEl);
-  
-  let ticking = false;
-  
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        const scrolled = window.pageYOffset;
-        
-        // Apply parallax to body background
-        if (body.getAttribute('data-theme') === 'A') {
-          const floralParallax = scrolled * 0.3;
-          
-          styleEl.textContent = `
-            body[data-theme="A"]::before {
-              transform: translate3d(0, ${floralParallax}px, 0);
-            }
-          `;
-        }
-        
-        ticking = false;
-      });
-      ticking = true;
-    }
-  });
+  // Parallax disabled
+  return;
 }
 
 // ========= Caption =========
