@@ -16,6 +16,34 @@ const KICKERS = {
   growth: "Ambitious, If Not Advisable"
 };
 
+const DRY_CAPTIONS = [
+  "Filed Under Sound Thinking",
+  "Unquestionably Firm Logic",
+  "The Sort of Thing One Hears Often",
+  "Deemed Reasonable by the Usual Crowd",
+  "Commonly Embraced by Upright Professionals",
+  "Carried in Most Minds Without Incident",
+  "Often Quoted, Rarely Understood",
+  "Said with a Straight Tie and a Tight Deadline",
+  "Heard in Good Offices Everywhere",
+  "Passed Off as Wisdom Since the Brand Refresh of '21",
+  "Believed to Be Useful in Certain Contexts",
+  "Held Up as an Example in the Quarterly Review",
+  "Rarely Contested by the More Agreeable Departments",
+  "Carried Forward from the Earlier Memo",
+  "Generally Accepted as Directional",
+  "Approved in Principle, Ignored in Practice",
+  "Reinforced by a Notable Slide Transition",
+  "Still Repeating from That Well-Received Panel Talk",
+  "Not Yet Disproven by Available Evidence",
+  "Backed Quietly by Several Middle Managers",
+  "Endorsed During the Sandwich Break",
+  "Found Scribbled Near a Flipchart Sketch",
+  "Adhered to in Spirit, if Not in Execution",
+  "Previously Highlighted in a Circulated PDF",
+  "Kept Alive Through Habit and Hope"
+];
+
 // ========= DOM helpers =========
 const qs = s => document.querySelector(s);
 const body = document.body;
@@ -38,7 +66,6 @@ const state = {
   populateAreas();
   bindUI();
   initParallax();
-  setKicker(state.area);
   await preloadAssets();
   await loadAffirmations();
   const deepLinked = checkDeepLink();
@@ -46,6 +73,7 @@ const state = {
     fromURL();
     filterByArea(state.area);
     setKicker(state.area);
+    setDryCaption();
     nextAffirmation(true);
   }
 })();
@@ -67,6 +95,7 @@ function bindUI(){
   });
   qs('#new').onclick = () => {
     setKicker(state.area);
+    setDryCaption();
     nextAffirmation(true);
   };
   qs('#copy').onclick = () => copyCaption();
@@ -76,6 +105,14 @@ function bindUI(){
 function setKicker(area){
   const el = document.getElementById('kicker');
   if(el) el.textContent = KICKERS[area] || KICKERS.general;
+}
+
+function setDryCaption(){
+  const el = document.getElementById('dryCaption');
+  if(el) {
+    const caption = DRY_CAPTIONS[Math.floor(Math.random() * DRY_CAPTIONS.length)];
+    el.textContent = caption;
+  }
 }
 
 
@@ -94,6 +131,7 @@ function checkDeepLink(){
     fromURL();
     filterByArea(state.area);
     setKicker(state.area);
+    setDryCaption();
     setQuote(found.text);
     return true;
   } else {

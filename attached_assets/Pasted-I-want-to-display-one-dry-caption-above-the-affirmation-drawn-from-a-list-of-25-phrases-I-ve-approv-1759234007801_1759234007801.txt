@@ -1,0 +1,46 @@
+I want to display one dry caption above the affirmation, drawn from a list of 25 phrases I've approved. It should randomly change every time the user clicks the “Affirm Me” button.
+
+Please implement the following:
+
+Create a JavaScript array with the 25 captions listed below.
+
+Each time the “Affirm Me” button is clicked, randomly select one caption from the array and display it in a designated container above the quote (but inside the quote card, styled like a small subheading).
+
+Do not animate the change — just update the text quietly.
+
+Style it to match the rest of the site: small text, serif font, upper/lowercase (not all caps), colour should blend in with the card design — slightly muted, not bright white.
+
+The selected caption should only change when the Affirm Me button is clicked — not when sharing, copying, or interacting elsewhere.
+
+Use this array of phrases (verbatim):
+
+[
+  "Filed Under Sound Thinking",
+  "Unquestionably Firm Logic",
+  "The Sort of Thing One Hears Often",
+  "Deemed Reasonable by the Usual Crowd",
+  "Commonly Embraced by Upright Professionals",
+  "Carried in Most Minds Without Incident",
+  "Often Quoted, Rarely Understood",
+  "Said with a Straight Tie and a Tight Deadline",
+  "Heard in Good Offices Everywhere",
+  "Passed Off as Wisdom Since the Brand Refresh of ’21",
+  "Believed to Be Useful in Certain Contexts",
+  "Held Up as an Example in the Quarterly Review",
+  "Rarely Contested by the More Agreeable Departments",
+  "Carried Forward from the Earlier Memo",
+  "Generally Accepted as Directional",
+  "Approved in Principle, Ignored in Practice",
+  "Reinforced by a Notable Slide Transition",
+  "Still Repeating from That Well-Received Panel Talk",
+  "Not Yet Disproven by Available Evidence",
+  "Backed Quietly by Several Middle Managers",
+  "Endorsed During the Sandwich Break",
+  "Found Scribbled Near a Flipchart Sketch",
+  "Adhered to in Spirit, if Not in Execution",
+  "Previously Highlighted in a Circulated PDF",
+  "Kept Alive Through Habit and Hope"
+]
+
+
+Let me know if anything in the HTML needs to be changed to support this.
