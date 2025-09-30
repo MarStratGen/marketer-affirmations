@@ -1,0 +1,91 @@
+Here’s a tight, modern motion spec that will feel premium (Apple‑ish) without gimmicks, plus font + dropdown notes. Use these values in Replit.
+
+Outline button (“Affirm Me”)
+Hover (micro‑elevation; no glow)
+
+Border: white opacity .55 → .95
+
+Fill: add a faint translucent wash 0% → 6–8% white (keeps it legible on busy florals)
+
+Blur: backdrop blur +2–3px (only on hover)
+
+Lift: translateY(-1px)
+
+Timing: 140ms cubic-bezier(.2,.8,.2,1)
+
+Optional polish: a subtle top highlight sweep across the border (900ms linear). If you try it and it reads “gaming UI,” drop it.
+
+Active/press (fast, tactile)
+
+Scale: 0.985 (snap)
+
+Lift: return to baseline (translateY(0))
+
+Border: ease back to ~.80 white
+
+Timing: 90ms cubic-bezier(.3,.7,.4,1)
+
+Focus (keyboard)
+
+Rings: inner 1px white + outer 3–4px soft gold (#CBA86266)
+
+No movement change on focus; keep motion for hover/press only.
+
+Reduce motion
+
+Respect prefers-reduced-motion: keep only color/border transitions (no lift/scale/blur).
+
+Dropdown (outline trigger + matte menu)
+Trigger (closed state)
+
+Same outline recipe as the button, but 2–3px shorter and no fill by default.
+
+Include a chevron (▾).
+
+Trigger hover
+
+Border: .55 → .90 white
+
+Fill: 0% → 4–6% white (just enough to read)
+
+Lift: translateY(-1px) (same 140ms easing)
+
+Open
+
+Chevron: rotate 0 → 180° in 120ms ease.
+
+Menu panel: matte frosted glass (not glossy)
+
+Opacity 0 → 1, translateY(6px → 0), 120ms ease‑out
+
+Backdrop blur ~10px, border 1px (rgba(255,255,255,.14))
+
+Row hover: +6% white wash; selected row gets a small dot or check at left.
+
+Font (for buttons + dropdown only)
+
+Use a UI sans — clean, neutral, high x‑height.
+
+Recommended: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, sans-serif
+
+Weight: 600
+
+Size: ~0.95rem (hero) / 0.92rem (inside card)
+
+Letter‑spacing: 0.15–0.2px
+
+Keep the rest of the site’s serif for headings/quotes; UI controls should be sans.
+
+Quick DO / DON’T
+
+Do
+
+Keep outlines crisp; let “premium” come from micro‑lift + subtle fill + blur.
+
+Ensure the control bar behind is transparent (no black slab), so blur samples the florals.
+
+Don’t
+
+No glow halos, no drop‑shadow pulses, no long bouncy animations.
+
+Don’t put glass elements inside a parent with opacity or filter; it kills the blur.
