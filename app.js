@@ -3,19 +3,6 @@ const AREAS = ["general","brand","content","email","events","growth","performanc
 const WORKER_BASE = ""; // leave empty in visual test. Hook up later.
 const SITE_BASE   = window.location.origin;
 
-const KICKERS = {
-  general: "A Strategically Aligned Statement",
-  brand: "In Keeping with the Brand Platform",
-  content: "For Inclusion in the Content Calendar",
-  social: "Suitable for Public Consumption",
-  performance: "Optimised for Plausible Uplift",
-  seo: "Semantically Relevant and Crawlable",
-  email: "Approved for Limited Distribution",
-  product: "Now With Additional Context",
-  events: "To Be Read Aloud With Confidence",
-  growth: "Ambitious, If Not Advisable"
-};
-
 const DRY_CAPTIONS = [
   "Filed Under Sound Thinking",
   "Unquestionably Firm Logic",
@@ -72,7 +59,6 @@ const state = {
   if (!deepLinked) {
     fromURL();
     filterByArea(state.area);
-    setKicker(state.area);
     setDryCaption();
     nextAffirmation(true);
   }
@@ -94,7 +80,6 @@ function bindUI(){
     writeURL();
   });
   qs('#new').onclick = () => {
-    setKicker(state.area);
     setDryCaption();
     nextAffirmation(true);
   };
@@ -102,13 +87,8 @@ function bindUI(){
   qs('#share').onclick = () => shareImageOrCaption();
 }
 
-function setKicker(area){
-  const el = document.getElementById('kicker');
-  if(el) el.textContent = KICKERS[area] || KICKERS.general;
-}
-
 function setDryCaption(){
-  const el = document.getElementById('dryCaption');
+  const el = document.getElementById('kicker');
   if(el) {
     const caption = DRY_CAPTIONS[Math.floor(Math.random() * DRY_CAPTIONS.length)];
     el.textContent = caption;
@@ -130,7 +110,6 @@ function checkDeepLink(){
     areaSel.value = state.area;
     fromURL();
     filterByArea(state.area);
-    setKicker(state.area);
     setDryCaption();
     setQuote(found.text);
     return true;

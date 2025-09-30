@@ -244,17 +244,6 @@ button:not(.liquid-button):not(.liquid-button--light) {
   z-index: 2;
 }
 
-.dry-caption {
-  text-align: center;
-  font-size: 13px;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 400;
-  color: rgba(0, 0, 0, 0.45);
-  margin: 0 0 12px;
-  line-height: 1.4;
-}
-
 .kicker {
   text-align: center;
   font-size: 12px;
