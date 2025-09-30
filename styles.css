@@ -749,7 +749,7 @@ summary:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.12) 50%, transparent 100%);
   border-radius: 999px;
   pointer-events: none;
 }
@@ -760,8 +760,8 @@ summary:focus-visible {
   top: 1px;
   left: 1px;
   right: 1px;
-  height: 45%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 60%, transparent 100%);
   border-radius: 999px 999px 0 0;
   pointer-events: none;
 }
@@ -807,7 +807,7 @@ summary:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.05) 100%);
   border-radius: 999px;
   pointer-events: none;
 }
@@ -818,8 +818,8 @@ summary:focus-visible {
   top: 1px;
   left: 1px;
   right: 1px;
-  height: 45%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 60%, transparent 100%);
   border-radius: 999px 999px 0 0;
   pointer-events: none;
 }
@@ -868,7 +868,7 @@ summary:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.12) 50%, transparent 100%);
   border-radius: 999px;
   pointer-events: none;
 }
@@ -879,8 +879,8 @@ summary:focus-visible {
   top: 1px;
   left: 1px;
   right: 1px;
-  height: 45%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 60%, transparent 100%);
   border-radius: 999px 999px 0 0;
   pointer-events: none;
   z-index: -1;
@@ -900,8 +900,16 @@ summary:focus-visible {
 }
 
 .liquid-select option {
-  background: #ffffff;
-  color: #1a1a1a;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #1a1a1a !important;
+  font-weight: 400;
+  padding: 8px 12px;
+}
+
+.liquid-select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Reduced motion */
