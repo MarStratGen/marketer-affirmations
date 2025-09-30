@@ -846,8 +846,6 @@ summary:focus-visible {
   left: 0;
   z-index: 90;
   min-width: 220px;
-  max-height: 280px;
-  overflow: auto;
   margin: 0;
   padding: .35rem;
   list-style: none;
