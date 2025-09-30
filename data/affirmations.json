@@ -1,62 +1,44 @@
 [
-  {"id":"A001","tags":["general"],"text":"If it moves, I will funnel it."},
-  {"id":"A002","tags":["brand"],"text":"Our brand voice is \"please approve this by EOD\"."},
-  {"id":"A003","tags":["performance"],"text":"Today I accept that CPA is a feeling."},
-  {"id":"A004","tags":["social"],"text":"If it worked once on TikTok, it's now a strategy."},
-  {"id":"A005","tags":["growth"],"text":"Scale first, apologise in the retro we never book."},
-  {"id":"A006","tags":["seo"],"text":"I am one with the algorithm. The algorithm is with me."},
-  {"id":"A007","tags":["email"],"text":"My open rate is not my worth. But it is."},
-  {"id":"A008","tags":["content"],"text":"Content is king, and I am its unpaid intern."},
-  {"id":"A009","tags":["product"],"text":"Our roadmap is vibes, not features."},
-  {"id":"A010","tags":["events"],"text":"Zoom fatigue is a personal brand opportunity."},
-  {"id":"A011","tags":["general"],"text":"Every meeting could have been a Slack thread I'd ignore anyway."},
-  {"id":"A012","tags":["social"],"text":"Engagement is down but my coping mechanisms are up."},
-  {"id":"A013","tags":["brand"],"text":"We're not pivoting, we're iterating on our crisis."},
-  {"id":"A014","tags":["performance"],"text":"Attribution is fake but my imposter syndrome is real."},
-  {"id":"A015","tags":["growth"],"text":"Growth at all costs means I can't afford therapy."},
-  {"id":"A016","tags":["seo"],"text":"Keywords are just astrology for marketers."},
-  {"id":"A017","tags":["email"],"text":"Unsubscribe rates are my North Star metric."},
-  {"id":"A018","tags":["content"],"text":"I write like everyone is forwarding this to legal."},
-  {"id":"A019","tags":["product"],"text":"The product team will understand. Eventually. Never."},
-  {"id":"A020","tags":["events"],"text":"Networking is just mutual surveillance with canapés."},
-  {"id":"A021","tags":["general"],"text":"My Gantt chart is a cry for help."},
-  {"id":"A022","tags":["social"],"text":"I schedule posts like I'm launching nuclear codes."},
-  {"id":"A023","tags":["brand"],"text":"Brand consistency is typing the same lie in three fonts."},
-  {"id":"A024","tags":["performance"],"text":"ROAS is a social construct I invented last Tuesday."},
-  {"id":"A025","tags":["growth"],"text":"Viral is not a strategy. But it's all I have."},
-  {"id":"A026","tags":["seo"],"text":"Backlinks are my love language and no one loves me."},
-  {"id":"A027","tags":["email"],"text":"A/B testing subject lines is self-care."},
-  {"id":"A028","tags":["content"],"text":"My content calendar is fan fiction about productivity."},
-  {"id":"A029","tags":["product"],"text":"Product-market fit is when we stop asking if there is one."},
-  {"id":"A030","tags":["events"],"text":"Every webinar is a hostage situation with worse lighting."},
-  {"id":"A031","tags":["general"],"text":"Stakeholder feedback is just vibes with a CC list."},
-  {"id":"A032","tags":["social"],"text":"The algorithm hates me because it sees my true self."},
-  {"id":"A033","tags":["brand"],"text":"Our brand guidelines are more of a cry for control."},
-  {"id":"A034","tags":["performance"],"text":"I optimise campaigns like I'm defusing a bomb I built."},
-  {"id":"A035","tags":["growth"],"text":"User acquisition is just rejection with metrics."},
-  {"id":"A036","tags":["seo"],"text":"Core Web Vitals are my core trauma."},
-  {"id":"A037","tags":["email"],"text":"Deliverability issues are a metaphor for my life."},
-  {"id":"A038","tags":["content"],"text":"SEO-optimised means no one will enjoy reading it."},
-  {"id":"A039","tags":["product"],"text":"I treat the backlog like a graveyard I visit on holidays."},
-  {"id":"A040","tags":["events"],"text":"Our event ROI is measured in free tote bags distributed."},
-  {"id":"A041","tags":["general"],"text":"I align my chakras and my OKRs quarterly."},
-  {"id":"A042","tags":["social"],"text":"Going viral means explaining to my CEO what TikTok is. Again."},
-  {"id":"A043","tags":["brand"],"text":"Rebranding is admitting the first five tries were wrong."},
-  {"id":"A044","tags":["performance"],"text":"Click-through rate is astrology but legally binding."},
-  {"id":"A045","tags":["growth"],"text":"PLG means product-led, not \"please let it grow\"."},
-  {"id":"A046","tags":["seo"],"text":"I sacrifice content quality at the altar of search intent."},
-  {"id":"A047","tags":["email"],"text":"My nurture sequence nurtures only my anxiety."},
-  {"id":"A048","tags":["content"],"text":"Repurposing content is grief with a thesaurus."},
-  {"id":"A049","tags":["product"],"text":"Beta testing is when we shift blame to early adopters."},
-  {"id":"A050","tags":["events"],"text":"Hybrid events are proof that hell has breakout rooms."},
-  {"id":"A051","tags":["general"],"text":"Synergy is a word I use when I've run out of ideas."},
-  {"id":"A052","tags":["social"],"text":"User-generated content is free labour we celebrate."},
-  {"id":"A053","tags":["brand"],"text":"Our mission statement was written by committee at 4pm on a Friday."},
-  {"id":"A054","tags":["performance"],"text":"Conversion optimisation is gaslighting with graphs."},
-  {"id":"A055","tags":["growth"],"text":"Retention is just ghosting with extra steps."},
-  {"id":"A056","tags":["seo"],"text":"Schema markup is a spell I cast without understanding."},
-  {"id":"A057","tags":["email"],"text":"Send time optimisation cannot fix my messaging."},
-  {"id":"A058","tags":["content"],"text":"Evergreen content dies faster than my houseplants."},
-  {"id":"A059","tags":["product"],"text":"Minimum viable product means we gave up but branded it."},
-  {"id":"A060","tags":["events"],"text":"Post-event surveys are where feedback goes to be ignored."}
+  {
+    "id": "gen-3001",
+    "tags": [
+      "general"
+    ],
+    "text": "I will stop calling it \u2018strategy\u2019 when it\u2019s clearly vibes."
+  },
+  {
+    "id": "soc-2002",
+    "tags": [
+      "social"
+    ],
+    "text": "Today I will repurpose a post I swore I\u2019d never repurpose."
+  },
+  {
+    "id": "br-1103",
+    "tags": [
+      "brand"
+    ],
+    "text": "Our brand voice is \u2018please approve this by EOD.\u2019"
+  },
+  {
+    "id": "perf-3104",
+    "tags": [
+      "performance"
+    ],
+    "text": "My ROAS is imaginary, but my targets are real."
+  },
+  {
+    "id": "email-501",
+    "tags": [
+      "email"
+    ],
+    "text": "Every subject line is a cry for help."
+  },
+  {
+    "id": "gr-4006",
+    "tags": [
+      "growth"
+    ],
+    "text": "If it moves, I will funnel it."
+  }
 ]

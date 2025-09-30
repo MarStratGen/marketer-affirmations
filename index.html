@@ -1,113 +1,79 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="A">
+<!doctype html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Marketer Affirmations</title>
-  
-  <!-- Open Graph / Social Meta -->
-  <meta property="og:title" content="Marketer Affirmations">
-  <meta property="og:description" content="Satirical affirmations for the modern marketer">
-  <meta property="og:image" content="public/graphics/bg-main.jpg">
-  <meta property="og:type" content="website">
-  
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Marketer Affirmations">
-  <meta name="twitter:description" content="Satirical affirmations for the modern marketer">
-  <meta name="twitter:image" content="public/graphics/bg-main.jpg">
-  
-  <!-- Google Fonts (optional - can self-host later) -->
-  <!-- Uncomment to use Google Fonts: -->
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"> -->
-  
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css"/>
 </head>
-<body>
-  <!-- Floral corners overlay (theme A) -->
-  <div id="florals-overlay" class="floral-overlay"></div>
-  
-  <!-- Tape/ribbon bar (theme B) -->
-  <div id="tape-bar" class="tape-bar"></div>
-  
-  <!-- Stamp mark (theme B) -->
-  <div id="stamp-mark" class="stamp-mark"></div>
-
-  <div class="container">
-    <!-- Header -->
-    <header class="header">
-      <h1 class="brand-title">Marketer Affirmations</h1>
-      
-      <div class="controls">
-        <!-- Theme Switcher -->
-        <div class="control-group">
-          <label for="theme-select" class="sr-only">Theme</label>
-          <select id="theme-select" class="theme-select" aria-label="Select theme">
-            <option value="A">Theme A: Ornate</option>
-            <option value="B">Theme B: Ribbon</option>
-            <option value="C">Theme C: Glass</option>
-          </select>
-        </div>
-        
-        <!-- Area Filter -->
-        <div class="control-group">
-          <label for="area-select" class="sr-only">Marketing Area</label>
-          <select id="area-select" class="area-select" aria-label="Filter by marketing area">
-            <option value="general">General</option>
-            <option value="social">Social</option>
-            <option value="brand">Brand</option>
-            <option value="performance">Performance</option>
-            <option value="seo">SEO</option>
-            <option value="email">Email</option>
-            <option value="content">Content</option>
-            <option value="product">Product</option>
-            <option value="events">Events</option>
-            <option value="growth">Growth</option>
-          </select>
-        </div>
-      </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main">
-      <!-- Affirmation Card -->
-      <div class="card">
-        <div class="card-inner">
-          <div id="affirmation-text" class="affirmation-text">
-            Loading affirmation...
-          </div>
-          <div class="card-footer">
-            <span id="affirmation-id" class="affirmation-id">#A000</span>
-            <span class="site-tag">marketeraffirmations.com</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="actions">
-        <button id="btn-new" class="btn btn-primary" aria-label="Get new affirmation">
-          New Affirmation
-        </button>
-        <button id="btn-copy" class="btn" aria-label="Copy caption to clipboard">
-          Copy Caption
-        </button>
-        <button id="btn-download" class="btn" aria-label="Download as PNG image">
-          Download PNG
-        </button>
-        <button id="btn-share" class="btn" aria-label="Share affirmation">
-          Share
-        </button>
-      </div>
-
-      <!-- Status message -->
-      <div id="status-message" class="status-message" role="status" aria-live="polite"></div>
-    </main>
+<body class="theme-a">
+  <div class="bg">
+    <img src="/public/graphics/bg-main.jpg" alt="" class="bg-img" />
+    <div class="vignette"></div>
+    <div class="grain"></div>
   </div>
 
-  <!-- Hidden canvas for export -->
-  <canvas id="exportCanvas" width="1080" height="1080" style="display: none;"></canvas>
+  <header class="hero">
+    <div class="brand">
+      <img class="stamp" src="/public/graphics/stamp-ma.png" alt="" />
+      <h1 class="logo">Marketer <em>Affirmations</em></h1>
+      <p class="tag">Beautiful on the outside. Dead inside.</p>
+    </div>
 
-  <script src="app.js"></script>
+    <div class="controls">
+      <label class="sr-only" for="theme">Theme</label>
+      <select id="theme">
+        <option value="theme-a" selected>Theme A — Ornate Card + Tape</option>
+        <option value="theme-b">Theme B — Gold Ribbon Band</option>
+        <option value="theme-c">Theme C — Stamp + Glass Card</option>
+      </select>
+
+      <label class="sr-only" for="area">Area</label>
+      <select id="area">
+        <option value="general" selected>general</option>
+        <option value="social">social</option>
+        <option value="brand">brand</option>
+        <option value="performance">performance</option>
+        <option value="seo">seo</option>
+        <option value="email">email</option>
+        <option value="content">content</option>
+        <option value="product">product</option>
+        <option value="events">events</option>
+        <option value="growth">growth</option>
+      </select>
+
+      <button id="next" class="cta">Give me one</button>
+    </div>
+  </header>
+
+  <main class="stage">
+    <section class="card" id="card">
+      <img class="corners" src="/public/graphics/florals-corners.png" alt=""/>
+      <img class="tape tape-1" src="/public/graphics/tape.png" alt=""/>
+      <img class="tape tape-2" src="/public/graphics/tape.png" alt=""/>
+
+      <div class="ribbon">
+        <div class="foil"></div>
+        <div class="ribbon-text">MARKETER AFFIRMATIONS</div>
+      </div>
+
+      <div id="out" class="quote">“Your affirmation will appear here.”</div>
+
+      <div class="actions">
+        <button id="shareimg">Share</button>
+        <button id="dl">Download</button>
+        <button id="copy">Copy</button>
+        <button id="shuffle">New one</button>
+      </div>
+
+      <small id="hint" class="hint"></small>
+      <canvas id="c" width="1080" height="1080"></canvas>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>© marketeraffirmations.com</span>
+  </footer>
+
+  <script src="/app.js"></script>
 </body>
 </html>
