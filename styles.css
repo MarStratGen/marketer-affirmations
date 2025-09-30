@@ -536,82 +536,65 @@ body[data-theme="A"] .controls button:hover {
 
 /* ====== FAQ Section ====== */
 .faq {
-  max-width: 860px;
+  max-width: 720px;
   margin: 0 auto 96px;
-  padding: 120px 20px 0;
+  padding: 280px 20px 0;
   position: relative;
   width: 100%;
   overflow: hidden;
 }
 
-.faq::after {
-  content: "";
-  position: absolute;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 140%;
-  height: 100%;
-  background: radial-gradient(
-    ellipse 80% 100% at 50% 40%,
-    rgba(253, 247, 239, 0.72) 0%,
-    rgba(253, 247, 239, 0.42) 35%,
-    rgba(253, 247, 239, 0.15) 60%,
-    transparent 80%
-  );
-  mix-blend-mode: screen;
-  pointer-events: none;
-  z-index: -1;
-}
-
 .faq::before {
   content: "";
   position: absolute;
-  top: 0;
+  top: 200px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
   max-width: 300px;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 50%, transparent 100%);
-  z-index: 1;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
 }
 
 .faq h2 {
   font-family: var(--font-display);
-  font-size: 28px;
-  margin: 0 0 20px;
-  color: #fdf7ef;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  position: relative;
-  z-index: 1;
+  font-size: 36px;
+  font-weight: 600;
+  margin: 0 0 32px;
+  color: #ffffff;
+  text-shadow: 
+    0 0 20px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(0, 0, 0, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.02em;
 }
 
 .faq details {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 18px 0;
-  color: #fdf7ef;
-  position: relative;
-  z-index: 1;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 20px 0;
+  color: #ffffff;
 }
 
 .faq details:last-of-type {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .faq summary {
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 17px;
   list-style: none;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  text-shadow: 
+    0 0 16px rgba(0, 0, 0, 0.9),
+    0 2px 8px rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: space-between;
   align-items: center;
   max-width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  gap: 12px;
-  letter-spacing: 0.01em;
+  gap: 16px;
+  letter-spacing: 0.015em;
 }
 
 .faq summary::after {
@@ -630,11 +613,14 @@ body[data-theme="A"] .controls button:hover {
 }
 
 .faq details > div {
-  margin-top: 12px;
-  color: rgba(253, 247, 239, 0.96);
-  line-height: 1.7;
-  font-size: 15px;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.65;
+  font-size: 16px;
+  font-weight: 500;
+  text-shadow: 
+    0 0 12px rgba(0, 0, 0, 0.85),
+    0 1px 6px rgba(0, 0, 0, 0.6);
   max-width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
