@@ -2,7 +2,9 @@
 
 ## Overview
 
-A satirical single-page web application that displays random marketing affirmations with visual theming and export capabilities. The project is a static, no-build HTML/CSS/JavaScript application designed as a visual test sandbox. It features approximately 60 seeded affirmations across 10 marketing categories, three switchable visual themes (Ornate, Ribbon, Glass), and PNG export functionality for social sharing.
+A satirical single-page web application that displays random marketing affirmations with Awwwards-level visual design and export capabilities. The project is a static, no-build HTML/CSS/JavaScript application featuring 70 seeded affirmations across 10 marketing categories, three immersive visual themes with full-bleed wallpapers, premium typography, and PNG export functionality for social sharing.
+
+**Recent Major Update (Sept 2025)**: Complete visual redesign to achieve Awwwards nominee-level quality with full-bleed wallpaper backgrounds, luxury typography (Playfair Display, Cormorant), cinematic depth effects, and premium shadow systems.
 
 ## User Preferences
 
@@ -25,13 +27,18 @@ Preferred communication style: Simple, everyday language.
 
 ### Visual Theme System
 
-**Three-Theme Architecture**
-- Theme A (Ornate): Floral corner overlays with paper grain texture and gold accents
-- Theme B (Ribbon): Decorative ribbon bar with stamp logo accent elements  
-- Theme C (Glass): Frosted glass card effect with soft vignette overlay
-- Theme switching implemented via `data-theme` attribute on `<html>` element, triggering CSS custom property cascades
+**Three-Theme Architecture with Immersive Wallpapers**
+- **Theme A (Deep Forest Ornate)**: Full-bleed bg-gold.png wallpaper with forest green palette, masked florals, gold accents, and atmospheric vignette
+- **Theme B (Editorial Blush)**: Full-bleed florals-corners.png wallpaper with warm blush tones, decorative tape bar, vintage stamp, and grain texture
+- **Theme C (Cool Slate Glass)**: Full-bleed bg-main.png wallpaper with dark slate atmosphere, true glassmorphism card with backdrop-blur, and cinematic depth overlay
+- Theme switching implemented via `data-theme` attribute on `<body>` element, triggering CSS pseudo-element wallpaper layers and custom property cascades
 
-**Design Rationale**: Attribute-based theme switching avoids class toggling complexity and allows CSS to handle all visual transitions declaratively
+**Wallpaper Implementation**
+- Each theme uses `body::before` for fixed-position full-bleed background image
+- Each theme uses `body::after` for atmospheric vignette/depth overlay
+- Layered approach: wallpaper → vignette → content → card with theme-specific shadows
+
+**Design Rationale**: Attribute-based theme switching with pseudo-element layers delivers immersive Awwwards-level visual quality while maintaining declarative CSS architecture
 
 ### Data Management
 
@@ -80,10 +87,10 @@ Preferred communication style: Simple, everyday language.
 
 ### Third-Party Services
 
-**Google Fonts (Optional)**
+**Google Fonts**
 - Fonts: Playfair Display, Cormorant, Inter
-- Currently commented out in HTML with self-hosting option available
-- Used for typography hierarchy (display, serif, sans-serif)
+- Loaded via Google Fonts CDN with preconnect optimization
+- Used for luxury typography hierarchy (Playfair/Cormorant for display, Inter for UI)
 
 ### Browser APIs
 
