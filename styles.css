@@ -46,12 +46,12 @@ body {
   --slate-text: #1a1a1a;
   
   /* Affirm Button */
-  --affirm-plum-dark: #3a2747;
-  --affirm-plum-light: #4f3560;
-  --affirm-text: #f5f2ed;
-  --affirm-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  --affirm-plum: #6b4c7a;
+  --affirm-text: #f8f5f0;
+  --affirm-outline: rgba(107, 76, 122, 0.4);
+  --affirm-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   --affirm-focus-gold: rgba(181, 145, 74, 0.6);
-  --affirm-focus-inner: rgba(255, 255, 255, 0.3);
+  --affirm-focus-inner: rgba(255, 255, 255, 0.4);
   
   /* Typography Scale */
   --font-display: "Playfair Display", "Cormorant Garamond", Georgia, serif;
@@ -126,7 +126,7 @@ body {
 /* ====== Controls ====== */
 .controls {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
@@ -182,38 +182,40 @@ button {
   backdrop-filter: blur(8px);
 }
 
-/* Affirm Me button - Muted plum gradient */
+/* Affirm Me button - Rich plum solid */
 .btn-affirm {
   -webkit-appearance: none;
   appearance: none;
-  border: none;
+  border: 1px solid var(--affirm-outline);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  padding: 0.7rem 1.4rem;
+  padding: 13px 28px;
   border-radius: 999px;
 
   color: var(--affirm-text);
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: 0.015em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.15px;
   font-size: 15px;
 
-  background: linear-gradient(135deg, var(--affirm-plum-light) 0%, var(--affirm-plum-dark) 100%);
+  background: var(--affirm-plum);
   box-shadow: var(--affirm-shadow);
+  backdrop-filter: none;
   
   transition: transform 0.15s ease, filter 0.15s ease;
 }
 
 .btn-affirm:hover {
   transform: translateY(-1px);
-  filter: brightness(1.03);
+  filter: brightness(1.04);
 }
 
 .btn-affirm:active {
   transform: translateY(0);
+  filter: brightness(1);
 }
 
 .btn-affirm:focus-visible {
