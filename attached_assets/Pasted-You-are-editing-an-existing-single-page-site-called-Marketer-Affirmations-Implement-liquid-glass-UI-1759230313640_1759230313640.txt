@@ -1,0 +1,106 @@
+You are editing an existing single‑page site called Marketer Affirmations. Implement liquid glass UI for buttons and the area dropdown, without breaking current layout or typography. Do not change the Buy Me a Coffee button.
+
+Scope
+
+Create two reusable button variants:
+
+.liquid-button — for dark/hero surfaces
+
+.liquid-button--light — for light surfaces inside the quote card
+
+Convert the “Affirm Me” button to .liquid-button and keep its label Affirm Me (Title Case).
+
+Convert Share and Copy buttons (inside the card) to .liquid-button--light.
+
+Style the marketing area selector so the selector pill is liquid glass, and the open menu panel is matte frosted glass (readable). Ensure it’s obvious that it’s a dropdown (add chevron).
+
+Files
+
+HTML: update classes in index.html (or the main template file).
+
+CSS: add styles at the end of styles.css (or the main stylesheet) under a new section /* Liquid Glass UI */. Do not remove existing variables.
+
+Visual and interaction requirements
+Shared button typography
+
+Font: system-ui, sans-serif; weight: 600; letter-spacing: 0.2px; Title Case text.
+
+Cursor: pointer; focus-visible ring must be present.
+
+.liquid-button (dark surfaces)
+
+Shape: full pill; slightly taller and wider than the area pill.
+
+Fill: translucent ink/blackberry tint (about 10–15% opacity) with backdrop-filter blur 20–24px and saturate(130–140%).
+
+Borders: 1px soft gold stroke (use existing gold from underline; if missing, approx #CBA862 at ~85% opacity).
+
+Highlight: subtle top specular band (gradient) fading over top 35–40% height. No cheesy gloss.
+
+Shadow: short, soft drop shadow (no hard edges).
+
+Hover: +3–5% brightness, translateY(-1px).
+
+Active: translateY(0).
+
+Focus-visible: inner light ring + outer soft-gold ring (accessible over dark florals).
+
+Text color: near‑white (not grey).
+
+.liquid-button--light (inside card on light background)
+
+Shape: same pill but slightly smaller than hero button.
+
+Fill: very light warm tint (14–18% opacity) with backdrop-filter blur 10–12px. No dark tint (avoid muddy look).
+
+Border: 1px pale gold or warm grey (crisp on white).
+
+Highlight: faint, shorter top band than dark variant.
+
+Shadow: very subtle or none.
+
+Text color: site deep green used for quotes; if insufficient contrast, darken 1 step.
+
+Hover/Active/Focus: same motion rules; focus ring must be visible on light background.
+
+Dropdown (selector + menu)
+
+The selector pill uses the dark liquid look (like .liquid-button but slightly smaller).
+
+Add a chevron ▼ at the right inside the selector; flip to ▲ when open.
+
+Hover: slight brightness lift and clearer border.
+
+Focus-visible: light ring (no gold if it confuses with buttons).
+
+On open, render the menu panel as matte frosted glass:
+
+Background: translucent dark (about 12–16% opacity) with blur 8–10px
+
+1px border (warm grey or pale gold)
+
+Items: left‑aligned, generous vertical padding; hover row gets a light lift; selected row shows a small dot/check at left.
+
+Ensure keyboard accessibility: arrow keys navigate, Enter selects, Esc closes; focus trapped while open.
+
+Do NOT
+
+Do not change the Buy Me a Coffee button or footer styles.
+
+Do not add neon glows, heavy bevels, or plastic effects.
+
+Do not remove prefers-reduced-motion handling; disable transitions when reduce is set.
+
+Acceptance criteria
+
+“Affirm Me” clearly reads as the primary action and looks like liquid glass with a soft gold edge.
+
+Share/Copy inside the card are light liquid and legible on white.
+
+The area selector looks like a control (chevron visible) and the open menu is readable.
+
+Focus rings are visible on dark and light backgrounds.
+
+No dark slab behind the controls; controls sit directly on the floral hero.
+
+Layout and spacing unchanged except for minor padding adjustments to fit the new pills.
