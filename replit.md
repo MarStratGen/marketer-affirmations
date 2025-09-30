@@ -10,6 +10,8 @@ A satirical single-page web application that displays random marketing affirmati
 
 **Major Redesign (Sept 30, 2025 - Final)**: Complete transformation to brighter, floral-forward aesthetic with visible botanical elements framing the card. Replaced micro label with centered area-aware kicker text, added FAQ section with structured data, footer with Buy Me a Coffee, enhanced canvas export to match live design, and comprehensive accessibility improvements with proper focus rings and contrast ratios.
 
+**Floral Masking Refinement (Sept 30, 2025)**: Critical fix to eliminate petal overlap with card content. Implemented proper radial masking with 700-800px diameter clear center zones (350px/380px transparent cores with 200px/220px feathered transitions). Enhanced floral brightness/saturation (1.22-1.28 brightness, 1.18-1.24 saturation) for luxurious dark wallpaper aesthetic. Replaced radial background gradient with cleaner linear vertical gradient. Added 120px top spacing and gradient divider to FAQ section for improved visual separation.
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
@@ -32,14 +34,14 @@ Preferred communication style: Simple, everyday language.
 ### Visual Design System
 
 **Single Premium Theme (Brighter Floral)**
-- Charcoal radial gradient background: #24282c → #1b1f23 → #181b1e (from top center)
-- Dual-layer floral system with visible botanical framing:
-  - .stage::before: bg-main.png at 64% opacity with brightness/contrast/saturation filters, transformed scale(1.06)
-  - .stage::after: florals-corners.png at 70% opacity with radial mask (46% 38% at 50% 52%, transparent center fading to visible edges)
-- Florals clearly visible from corners, framing the card rather than obscuring it
-- Light edge vignette + soft center brighten for depth without darkness
-- Card: linear-gradient(#ffffff → #fbf9f6), 1px border rgba(0,0,0,0.05), 22px border-radius
-- Clean shadows: rgba(12,12,14,0.16) with 60px blur and 20px offset
+- Clean vertical gradient background: linear-gradient(180deg, #24282c → #1b1f23 → #181b1e)
+- Dual-layer floral system with proper clear center zones:
+  - .stage::before: bg-main.png at 68% opacity, brightness(1.28) contrast(1.12) saturate(1.24), 700px diameter clear center (350px transparent → 550px full opacity)
+  - .stage::after: florals-corners.png at 72% opacity, brightness(1.22) contrast(1.08) saturate(1.18), 760px diameter clear center (380px transparent → 600px full opacity)
+- Florals frame the card from edges with zero overlap in 700-800px protected center zone
+- Enhanced brightness and saturation for luxurious dark floral wallpaper aesthetic
+- Card: linear-gradient(135deg, #fdfcfb → #f7f4ef), 1px border rgba(0,0,0,0.08), 22px border-radius
+- Warm layered shadows: rgba(0,0,0,0.25) 60px/120px blur, rgba(0,0,0,0.15) 20px/40px blur
 - Smooth quote transitions: fade out/up (200ms) → change text → fade in/down (10ms delay)
 
 **Visual Hierarchy**
@@ -54,12 +56,13 @@ Preferred communication style: Simple, everyday language.
 - **Buttons**: pill-shaped (999px radius), 13px font, 9px×14px padding, 13px gap, hover translateY(-1px)
 
 **Floral Implementation**
-- Body: Charcoal radial gradient background
-- `.stage::before`: bg-main.png with filters (brightness 1.12, contrast 1.06, saturate 1.08) at 64% opacity
-- `.stage::after`: florals-corners.png with filters and radial mask to keep center clear while showing edges
-- Layered approach: gradient → background florals → corner florals → vignettes → card
+- Body: Clean vertical linear gradient (#24282c → #1b1f23 → #181b1e)
+- `.stage::before`: bg-main.png with enhanced filters (brightness 1.28, contrast 1.12, saturate 1.24) at 68% opacity, radial mask creating 700px clear center
+- `.stage::after`: florals-corners.png with filters (brightness 1.22, contrast 1.08, saturate 1.18) at 72% opacity, radial mask creating 760px clear center
+- Layered approach: clean gradient → masked background florals → masked corner florals → card
+- Mobile: Scaled-down masks (360-400px clear zones) maintaining proportional protection
 
-**Design Rationale**: Brighter aesthetic showcases the botanical artwork rather than obscuring it. Florals frame the card from corners while a radial mask keeps the center clear. Area-aware kicker text adds contextual wit while maintaining centered hierarchy. FAQ section with structured data improves SEO and user guidance. Clean shadows and pill-shaped buttons modernize the interface while maintaining sophistication. Card padding optimized for desktop (32/36/44px) and mobile (22/18/26px) ensures comfortable reading across devices.
+**Design Rationale**: Enhanced floral aesthetic showcases luxurious dark botanical artwork with proper protection zones. Radial masks create 700-800px clear center areas ensuring zero petal overlap with card content while maintaining rich, saturated framing from edges. Linear vertical gradient provides cleaner backdrop separation versus previous radial approach. Area-aware kicker text adds contextual wit while maintaining centered hierarchy. FAQ section with 120px top spacing and gradient divider provides breathing room. Enhanced brightness/saturation filters (1.22-1.28) achieve lush wallpaper quality without washing out detail. Card padding optimized for desktop (32/36/44px) and mobile (22/18/26px) ensures comfortable reading across devices.
 
 ### Data Management
 
