@@ -733,9 +733,9 @@ summary:focus-visible {
   justify-content: center;
   padding: 11px 28px;
   
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px) saturate(200%) contrast(120%);
-  -webkit-backdrop-filter: blur(10px) saturate(200%) contrast(120%);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   
   border: 1px solid rgba(255, 255, 255, 0.18);
   
@@ -798,9 +798,9 @@ summary:focus-visible {
   justify-content: center;
   padding: 11px 20px;
   
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(8px) saturate(180%) contrast(110%);
-  -webkit-backdrop-filter: blur(8px) saturate(180%) contrast(110%);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   
   border: 1px solid rgba(255, 255, 255, 0.4);
   
@@ -862,9 +862,9 @@ summary:focus-visible {
   align-items: center;
   padding: 11px 36px 11px 20px;
   
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px) saturate(200%) contrast(120%);
-  -webkit-backdrop-filter: blur(10px) saturate(200%) contrast(120%);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   
   border: 1px solid rgba(255, 255, 255, 0.18);
   
