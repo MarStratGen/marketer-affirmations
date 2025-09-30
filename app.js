@@ -133,6 +133,9 @@ function nextAffirmation(forceDifferent=false){
 function setQuote(text){
   const clean = (text||'').replace(/\s+/g,' ').trim();
   
+  // Clear animation property to allow transitions to work
+  quoteEl.style.animation = 'none';
+  
   // Animate quote change if supported
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     quoteEl.style.opacity = '0';
@@ -140,8 +143,10 @@ function setQuote(text){
     
     setTimeout(() => {
       quoteEl.textContent = clean;
-      quoteEl.style.opacity = '1';
-      quoteEl.style.transform = 'translateY(0)';
+      setTimeout(() => {
+        quoteEl.style.opacity = '1';
+        quoteEl.style.transform = 'translateY(0)';
+      }, 10);
     }, 200);
   } else {
     quoteEl.textContent = clean;
