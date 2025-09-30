@@ -1,232 +1,523 @@
-    /* ====== Base reset */
-    *,
-    *::before,
-    *::after { box-sizing: border-box; }
-    html,body { height: 100%; }
-    html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      color: var(--ink);
-      background: radial-gradient(1200px 800px at 50% 0%, #ffffff, #f5f5f7 60%, #ececef 100%);
-    }
+/* ====== Awwwards-Level Design System ====== */
 
-    /* ====== Tokens */
-    :root{
-      --ink:#151517;
-      --muted:#6a6b70;
-      --paper:#ffffff;
-      --shadow:0 12px 50px rgba(12,12,14,.15), 0 2px 8px rgba(12,12,14,.06);
-      --radius:22px;
+/* Base Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-      /* Elegance */
-      --serif:"Playfair Display", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 
-      /* Brand accents */
-      --burgundy:#5a1025;
-      --gold:#b98b2e;
+body {
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #fafafa;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
 
-      /* Card text sizes */
-      --quote-max: clamp(28px, 4.8vw, 46px);
-      --quote-min: 26px;
-      --chip: 11px;
-    }
+/* ====== Design Tokens ====== */
+:root {
+  /* Theme A: Deep Forest Ornate */
+  --forest-primary: #1a3a2e;
+  --forest-secondary: #2d5a4a;
+  --forest-accent: #d4af37;
+  --forest-light: #f8f6f3;
+  --forest-text: #1a1a1a;
+  
+  /* Theme B: Editorial Blush */
+  --blush-primary: #d4a5a5;
+  --blush-secondary: #9d7b7b;
+  --blush-accent: #b8936f;
+  --blush-light: #faf8f6;
+  --blush-dark: #4a3f3f;
+  
+  /* Theme C: Cool Slate Glass */
+  --slate-primary: #2c3e50;
+  --slate-secondary: #4a5f7a;
+  --slate-accent: #7f9eb5;
+  --slate-glass: rgba(255, 255, 255, 0.1);
+  --slate-text: #1a1a1a;
+  
+  /* Typography Scale */
+  --font-display: "Playfair Display", "Cormorant Garamond", Georgia, serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* Spacing Scale */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 48px;
+  --space-xl: 72px;
+  --space-2xl: 120px;
+  
+  /* Effects */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 40px 100px rgba(0, 0, 0, 0.16), 0 8px 20px rgba(0, 0, 0, 0.1);
+}
 
-    /* ====== Layout */
-    .container{
-      max-width: 1100px;
-      margin: 64px auto 80px;
-      padding: 0 20px;
-    }
-    .header{
-      text-align: center;
-      margin-bottom: 24px;
-    }
-    .title{
-      font-family: var(--serif);
-      font-size: clamp(40px, 6vw, 72px);
-      font-weight: 700;
-      letter-spacing: .2px;
-      margin: 0;
-    }
-    .title em{ font-style: italic; }
-    .sub{
-      margin: 8px 0 20px;
-      color: var(--muted);
-      font-size: 14px;
-    }
+/* ====== Layout Structure ====== */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-    /* Controls */
-    .controls{
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 28px;
-    }
-    select, button{
-      appearance: none;
-      border: 1px solid #d6d7dc;
-      background: #fff;
-      color: #111;
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 14px;
-      line-height: 1;
-      cursor: pointer;
-      transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.15s ease;
-    }
-    button:hover{
-      border-color:#bbb;
-      transform: translateY(-2px);
-    }
-    button:active{
-      transform: translateY(0);
-      transition-duration: 0.05s;
-    }
-    button:focus, select:focus{ outline: 3px solid rgba(91, 147, 255, .35); outline-offset: 2px; }
-    @media (prefers-reduced-motion: reduce) {
-      button, select { transition: none; }
-      button:hover { transform: none; }
-    }
+/* ====== Header & Hero ====== */
+.header {
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+}
 
-    /* ====== Card */
-    .stage{
-      position: relative;
-      display: grid;
-      place-items: center;
-    }
-    .card{
-      position: relative;
-      width: min(920px, 92vw);
-      min-height: 280px;
-      background: var(--paper);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: clip;
-      padding: 28px clamp(20px, 4vw, 36px) 52px;
-      z-index: 2; /* florals sit behind */
-    }
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 5vw, 68px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: var(--space-sm);
+  color: #1a1a1a;
+}
 
-    /* Theme overlays injected via ::before/::after so they never cover text */
-    .card::before,
-    .card::after{
-      content:"";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-    }
+.title em {
+  font-style: italic;
+  font-weight: 400;
+}
 
-    /* Quote layer */
-    .quote-wrap{
-      position: relative;
-      z-index: 1;
-    }
-    .brand-chip{
-      position: absolute;
-      top: 14px; left: 16px;
-      font-size: var(--chip);
-      letter-spacing: .12em;
-      color: #7d7e84;
-    }
-    .quote{
-      margin: 34px 0 0;
-      font-family: var(--serif);
-      font-weight: 600;
-      font-size: var(--quote-max);
-      line-height: 1.16;
-      letter-spacing: .1px;
-      transition: opacity 0.15s ease, transform 0.15s ease;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .quote { transition: none; }
-    }
-    .actions{
-      position: absolute;
-      left: 16px; right: 16px; bottom: 14px;
-      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
-      z-index: 1;
-    }
-    .footer-brand{
-      margin-top: 16px;
-      text-align: center;
-      color: #8b8d94;
-      font-size: 13px;
-    }
+.sub {
+  font-size: 15px;
+  font-weight: 400;
+  color: #666;
+  letter-spacing: 0.01em;
+  margin-bottom: var(--space-lg);
+}
 
-    /* ====== THEMES */
+/* ====== Controls ====== */
+.controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
 
-    /* A) ORNATE — floral corners + gold tint (masked center) */
-    [data-theme="A"] .card{
-      background: #fff;
-    }
-    [data-theme="A"] .card::before{
-      background:
-        url("/public/graphics/florals-corners.png") center/cover no-repeat;
-      filter: saturate(1.05) contrast(1.02);
-      opacity: .78;
-      /* mask out center so text stays clean */
-      -webkit-mask: radial-gradient(48% 42% at 50% 50%, transparent 55%, #000 56%);
-              mask: radial-gradient(48% 42% at 50% 50%, transparent 55%, #000 56%);
-    }
-    [data-theme="A"] .card::after{
-      background: linear-gradient(180deg, rgba(185,139,46,.07), rgba(185,139,46,0) 40%);
-      mix-blend-mode: multiply;
-    }
+select, button {
+  appearance: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: white;
+  color: #1a1a1a;
+  padding: 11px 20px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
 
-    /* B) RIBBON — tape bar + stamp */
-    [data-theme="B"] .card::before{
-      background:
-        linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,0) 20%),
-        url("/public/graphics/grain.png");
-      opacity: .6;
-    }
-    [data-theme="B"] .card::after{
-      background:
-        url("/public/graphics/tape.png") top center / 280px auto no-repeat,
-        radial-gradient(700px 260px at 50% -120px, rgba(0,0,0,.11), transparent 60%);
-      opacity: .9;
-    }
-    .stamp{
-      position: absolute;
-      right: 16px; top: 10px;
-      width: 84px; height: 84px;
-      background: url("/public/graphics/stamp-ma.png") center/contain no-repeat;
-      opacity: .75;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,.15));
-      z-index: 1;
-      transition: transform 0.2s ease;
-    }
-    .stamp:hover{
-      transform: scale(1.05);
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .stamp { transition: none; }
-      .stamp:hover { transform: none; }
-    }
+select:hover, button:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
 
-    /* C) GLASS — frosted panel over floral BG */
-    [data-theme="C"] .stage{
-      background:
-        url("/public/graphics/bg-main.png") center/cover no-repeat;
-      padding: 36px 0;
-      border-radius: 28px;
-    }
-    [data-theme="C"] .card{
-      background: rgba(255,255,255,.72);
-      -webkit-backdrop-filter: blur(10px);
-              backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.6);
-    }
-    [data-theme="C"] .card::before{
-      background: url("/public/graphics/grain.png");
-      opacity: .35;
-    }
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
 
-    /* ====== Utilities */
-    .hidden{ display:none !important; }
-    @media (max-width: 640px){
-      .quote{ font-size: clamp(var(--quote-min), 7vw, var(--quote-max)); }
-      .brand-chip{ display:none; }
-    }
+select:focus, button:focus {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+/* ====== Stage & Card ====== */
+.stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  min-height: 480px;
+  background: white;
+  border-radius: 24px;
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.quote-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  padding: var(--space-md) 0;
+}
+
+.brand-chip {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.3);
+  z-index: 3;
+}
+
+.quote {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: #1a1a1a;
+  text-align: center;
+  padding: 0 var(--space-md);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* ====== Actions ====== */
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: var(--space-md);
+}
+
+.footer-brand {
+  text-align: center;
+  margin-top: var(--space-lg);
+  font-size: 13px;
+  color: #999;
+  font-weight: 400;
+}
+
+/* ====== THEME A: Deep Forest Ornate ====== */
+body[data-theme="A"] {
+  background: linear-gradient(135deg, #f8f6f3 0%, #ebe8e3 100%);
+}
+
+body[data-theme="A"] .card {
+  background: var(--forest-light);
+  border: 1px solid rgba(26, 58, 46, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+body[data-theme="A"] .card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/public/graphics/florals-corners.png") center/cover no-repeat;
+  opacity: 0.12;
+  z-index: 0;
+  -webkit-mask: radial-gradient(
+    ellipse 60% 50% at 50% 50%,
+    transparent 40%,
+    black 70%
+  );
+  mask: radial-gradient(
+    ellipse 60% 50% at 50% 50%,
+    transparent 40%,
+    black 70%
+  );
+  pointer-events: none;
+}
+
+body[data-theme="A"] .card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(212, 175, 55, 0.06),
+    transparent 50%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+body[data-theme="A"] .brand-chip {
+  color: var(--forest-accent);
+  opacity: 0.5;
+}
+
+body[data-theme="A"] .quote {
+  color: var(--forest-primary);
+}
+
+body[data-theme="A"] select,
+body[data-theme="A"] button {
+  border-color: rgba(26, 58, 46, 0.15);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+body[data-theme="A"] select:hover,
+body[data-theme="A"] button:hover {
+  border-color: var(--forest-accent);
+  background: white;
+}
+
+/* ====== THEME B: Editorial Blush ====== */
+body[data-theme="B"] {
+  background: linear-gradient(135deg, #faf8f6 0%, #f2ede9 100%);
+}
+
+body[data-theme="B"] .card {
+  background: var(--blush-light);
+  border: 1px solid rgba(157, 123, 123, 0.1);
+  box-shadow: 
+    0 30px 80px rgba(157, 123, 123, 0.15),
+    0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+body[data-theme="B"] .card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: 
+    url("/public/graphics/tape.png") center top / auto 60px no-repeat,
+    linear-gradient(180deg, rgba(212, 165, 165, 0.08), transparent);
+  opacity: 0.9;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body[data-theme="B"] .card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/public/graphics/grain.png");
+  opacity: 0.03;
+  mix-blend-mode: multiply;
+  z-index: 1;
+  pointer-events: none;
+}
+
+body[data-theme="B"] .stamp {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  width: 72px;
+  height: 72px;
+  background: url("/public/graphics/stamp-ma.png") center/contain no-repeat;
+  opacity: 0.5;
+  z-index: 3;
+  filter: 
+    drop-shadow(0 4px 8px rgba(157, 123, 123, 0.2))
+    sepia(0.15) saturate(0.8);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+}
+
+[data-theme="B"] .stamp:hover {
+  transform: rotate(5deg) scale(1.08);
+  opacity: 0.7;
+}
+
+body[data-theme="B"] .brand-chip {
+  color: var(--blush-accent);
+  opacity: 0.6;
+}
+
+body[data-theme="B"] .quote {
+  color: var(--blush-dark);
+}
+
+body[data-theme="B"] select,
+body[data-theme="B"] button {
+  border-color: rgba(212, 165, 165, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+body[data-theme="B"] select:hover,
+body[data-theme="B"] button:hover {
+  border-color: var(--blush-secondary);
+  background: white;
+  box-shadow: 0 6px 16px rgba(212, 165, 165, 0.15);
+}
+
+/* ====== THEME C: Cool Slate Glass ====== */
+body[data-theme="C"] {
+  background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+}
+
+body[data-theme="C"] .stage {
+  background: url("/public/graphics/bg-main.png") center/cover no-repeat;
+  background-blend-mode: overlay;
+  padding: var(--space-lg);
+  border-radius: 32px;
+  position: relative;
+}
+
+body[data-theme="C"] .stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 30%,
+    transparent 0%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  border-radius: 32px;
+  pointer-events: none;
+}
+
+body[data-theme="C"] .card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 40px 100px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+body[data-theme="C"] .card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/public/graphics/grain.png");
+  opacity: 0.04;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body[data-theme="C"] .brand-chip {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+body[data-theme="C"] .quote {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+body[data-theme="C"] .actions {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+body[data-theme="C"] select,
+body[data-theme="C"] button {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+body[data-theme="C"] select:hover,
+body[data-theme="C"] button:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="C"] .footer-brand {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+body[data-theme="C"] .title,
+body[data-theme="C"] .sub {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme="C"] .sub {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ====== Utilities ====== */
+.hidden {
+  display: none !important;
+}
+
+/* ====== Reduced Motion ====== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  button:hover,
+  select:hover {
+    transform: none !important;
+  }
+  
+  [data-theme="B"] .stamp:hover {
+    transform: none !important;
+  }
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+  :root {
+    --space-xl: 48px;
+    --space-2xl: 72px;
+  }
+  
+  .container {
+    padding: var(--space-lg) var(--space-sm);
+  }
+  
+  .card {
+    padding: var(--space-lg) var(--space-md) var(--space-md);
+    min-height: 400px;
+  }
+  
+  .quote {
+    font-size: clamp(24px, 6vw, 36px);
+  }
+  
+  .brand-chip {
+    display: none;
+  }
+  
+  body[data-theme="B"] .stamp {
+    width: 56px;
+    height: 56px;
+    top: 16px;
+    right: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .controls {
+    width: 100%;
+  }
+  
+  select, button {
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .actions button {
+    flex: 1 1 calc(50% - 5px);
+  }
+}

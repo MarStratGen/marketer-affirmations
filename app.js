@@ -261,76 +261,154 @@ async function renderCanvasToBlob(){
   const id = state.current?.id || 'A000';
   const text = quoteEl.textContent || '';
 
-  // Base
   ctx.clearRect(0,0,1080,1080);
 
-  // Background photo
-  const bg = state.theme === 'C' ? state.assets.bgMain : state.assets.bgGold || state.assets.bgMain;
-  if (bg) drawCoverImage(bg, 1080,1080);
-
-  // Vignette
-  const g = ctx.createRadialGradient(540, 540, 100, 540, 540, 540);
-  g.addColorStop(0, 'rgba(0,0,0,0)');
-  g.addColorStop(1, 'rgba(0,0,0,0.22)');
-  ctx.fillStyle = g;
-  ctx.fillRect(0,0,1080,1080);
-
-  // Grain
-  if (state.assets.grain){
-    ctx.globalAlpha = 0.18;
-    drawCoverImage(state.assets.grain,1080,1080);
-    ctx.globalAlpha = 1;
-  }
-
-  // Theme overlays (reduced opacity compared to CSS so text stays readable)
-  if (state.theme === 'A' && state.assets.florals){
-    ctx.save();
-    // Hollow centre mask
-    ctx.globalAlpha = 0.65;
-    drawCoverImage(state.assets.florals,1080,1080);
-    ctx.restore();
-  }
-  if (state.theme === 'B'){
+  // Theme-specific rendering
+  if (state.theme === 'A') {
+    // Theme A: Deep Forest Ornate
+    const gradient = ctx.createLinearGradient(0, 0, 1080, 1080);
+    gradient.addColorStop(0, '#f8f6f3');
+    gradient.addColorStop(1, '#ebe8e3');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0,0,1080,1080);
+    
+    // Subtle gold radial accent
+    const goldGrad = ctx.createRadialGradient(300, 200, 0, 300, 200, 500);
+    goldGrad.addColorStop(0, 'rgba(212, 175, 55, 0.08)');
+    goldGrad.addColorStop(1, 'transparent');
+    ctx.fillStyle = goldGrad;
+    ctx.fillRect(0,0,1080,1080);
+    
+    // Florals with radial mask
+    if (state.assets.florals){
+      ctx.save();
+      ctx.globalCompositeOperation = 'multiply';
+      ctx.globalAlpha = 0.15;
+      drawCoverImage(state.assets.florals,1080,1080);
+      ctx.restore();
+    }
+    
+    // Text color
+    ctx.fillStyle = '#1a3a2e';
+    
+  } else if (state.theme === 'B') {
+    // Theme B: Editorial Blush
+    const gradient = ctx.createLinearGradient(0, 0, 1080, 1080);
+    gradient.addColorStop(0, '#faf8f6');
+    gradient.addColorStop(1, '#f2ede9');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0,0,1080,1080);
+    
+    // Subtle grain
+    if (state.assets.grain){
+      ctx.globalAlpha = 0.04;
+      ctx.globalCompositeOperation = 'multiply';
+      drawCoverImage(state.assets.grain,1080,1080);
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    
+    // Tape bar
     if (state.assets.tape){
-      ctx.globalAlpha = 0.85;
-      const w = 700, h = (state.assets.tape.height/state.assets.tape.width)*w;
-      ctx.drawImage(state.assets.tape, (1080-w)/2, 40, w, h);
+      ctx.globalAlpha = 0.7;
+      const w = 600, h = (state.assets.tape.height/state.assets.tape.width)*w;
+      ctx.drawImage(state.assets.tape, (1080-w)/2, 60, w, h);
       ctx.globalAlpha = 1;
     }
+    
+    // Stamp
     if (state.assets.stamp){
-      ctx.globalAlpha = 0.8;
-      const s = 190;
-      ctx.drawImage(state.assets.stamp, 1080 - s - 48, 48, s, s);
+      ctx.globalAlpha = 0.4;
+      const s = 140;
+      ctx.drawImage(state.assets.stamp, 1080 - s - 80, 80, s, s);
       ctx.globalAlpha = 1;
     }
+    
+    // Text color
+    ctx.fillStyle = '#4a3f3f';
+    
+  } else {
+    // Theme C: Cool Slate Glass
+    const bg = state.assets.bgMain;
+    if (bg) {
+      drawCoverImage(bg, 1080,1080);
+      // Dark overlay
+      const overlay = ctx.createLinearGradient(0, 0, 1080, 1080);
+      overlay.addColorStop(0, 'rgba(52, 73, 94, 0.6)');
+      overlay.addColorStop(1, 'rgba(44, 62, 80, 0.75)');
+      ctx.fillStyle = overlay;
+      ctx.fillRect(0,0,1080,1080);
+    } else {
+      const gradient = ctx.createLinearGradient(0, 0, 1080, 1080);
+      gradient.addColorStop(0, '#34495e');
+      gradient.addColorStop(1, '#2c3e50');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0,0,1080,1080);
+    }
+    
+    // Vignette
+    const vignette = ctx.createRadialGradient(540, 320, 100, 540, 540, 700);
+    vignette.addColorStop(0, 'transparent');
+    vignette.addColorStop(1, 'rgba(0, 0, 0, 0.4)');
+    ctx.fillStyle = vignette;
+    ctx.fillRect(0,0,1080,1080);
+    
+    // Subtle grain
+    if (state.assets.grain){
+      ctx.globalAlpha = 0.06;
+      drawCoverImage(state.assets.grain,1080,1080);
+      ctx.globalAlpha = 1;
+    }
+    
+    // Text color with shadow
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+    ctx.shadowBlur = 20;
+    ctx.shadowOffsetY = 2;
   }
 
-  // Text box
-  const padding = 120;
+  // Text rendering
+  const padding = 140;
   const maxWidth = 1080 - padding*2;
-  const maxHeight = 1080 - 380; // leave space for overlays and footer
+  const maxHeight = 1080 - 400;
 
-  const { fontSize, lines, lineHeight } = fitText(text, '"Playfair Display","Cormorant Garamond",Georgia,serif', maxWidth, maxHeight, 72, 26);
+  const { fontSize, lines, lineHeight } = fitText(
+    text, 
+    '"Playfair Display","Cormorant Garamond",Georgia,serif', 
+    maxWidth, 
+    maxHeight, 
+    68, 
+    32
+  );
 
-  ctx.fillStyle = '#111111';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.font = `${fontSize}px "Playfair Display","Cormorant Garamond",Georgia,serif`;
+  ctx.font = `500 ${fontSize}px "Playfair Display","Cormorant Garamond",Georgia,serif`;
 
   const totalH = lines.length * lineHeight;
-  let y = (1080 / 2) - (totalH / 2) + 20;
+  let y = (1080 / 2) - (totalH / 2) + 40;
   for (const ln of lines){
     ctx.fillText(ln, 540, y);
     y += lineHeight;
   }
 
-  // Footer
-  ctx.fillStyle = 'rgba(0,0,0,.7)';
-  ctx.font = `28px Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif`;
-  ctx.textAlign = 'right';
-  ctx.fillText('marketeraffirmations.com', 1040, 1040-32);
+  // Reset shadow
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
 
-  return await new Promise(res => canvas.toBlob(res, 'image/png', 0.92));
+  // Footer - theme-specific color
+  ctx.font = `24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
+  ctx.textAlign = 'right';
+  
+  if (state.theme === 'C') {
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+  } else {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+  }
+  
+  ctx.fillText('marketeraffirmations.com', 1020, 1020);
+
+  return await new Promise(res => canvas.toBlob(res, 'image/png', 0.94));
 }
 
 function drawCoverImage(img, W, H){
