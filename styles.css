@@ -735,23 +735,17 @@ summary:focus-visible {
   padding: 11px 28px;
   gap: 8px;
   
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), 
-              linear-gradient(0deg, #1D1D1D, #1D1D1D), 
-              rgba(29, 29, 29, 0.1);
-  background-blend-mode: normal, plus-lighter, color-burn;
+  background: rgba(255, 255, 255, 0.06);
   
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 48px;
   
   color: rgba(255, 255, 255, 0.95);
   font-size: 14px;
   
   box-shadow: 
-    inset -4.5px -4.5px 1.5px -5.25px rgba(255, 255, 255, 0.5), 
-    inset 4.5px 4.5px 1.5px -5.25px rgba(255, 255, 255, 0.5), 
-    inset 3px 4.5px 1.5px -3px rgba(179, 179, 179, 0.2), 
-    inset -3px -4.5px 1.5px -3px #B3B3B3, 
-    inset 0px 0px 33px rgba(242, 242, 242, 0.5);
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.15);
   
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -792,23 +786,17 @@ summary:focus-visible {
   padding: 11px 20px;
   gap: 8px;
   
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), 
-              linear-gradient(0deg, #f5f5f5, #f5f5f5), 
-              rgba(245, 245, 245, 0.1);
-  background-blend-mode: normal, plus-lighter, color-burn;
+  background: rgba(255, 255, 255, 0.2);
   
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 48px;
   
   color: #1a3a2e;
   font-size: 14px;
   
   box-shadow: 
-    inset -4.5px -4.5px 1.5px -5.25px rgba(255, 255, 255, 0.8), 
-    inset 4.5px 4.5px 1.5px -5.25px rgba(255, 255, 255, 0.8), 
-    inset 3px 4.5px 1.5px -3px rgba(200, 200, 200, 0.2), 
-    inset -3px -4.5px 1.5px -3px rgba(200, 200, 200, 0.3), 
-    inset 0px 0px 33px rgba(255, 255, 255, 0.6);
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.06);
   
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -848,27 +836,24 @@ summary:focus-visible {
   padding: 11px 36px 11px 20px;
   gap: 8px;
   
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), 
-              linear-gradient(0deg, #1D1D1D, #1D1D1D), 
-              rgba(29, 29, 29, 0.1);
-  background-blend-mode: normal, plus-lighter, color-burn;
+  background: rgba(255, 255, 255, 0.06);
   
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 48px;
   
   color: rgba(255, 255, 255, 0.95);
   font-size: 14px;
   
   box-shadow: 
-    inset -4.5px -4.5px 1.5px -5.25px rgba(255, 255, 255, 0.5), 
-    inset 4.5px 4.5px 1.5px -5.25px rgba(255, 255, 255, 0.5), 
-    inset 3px 4.5px 1.5px -3px rgba(179, 179, 179, 0.2), 
-    inset -3px -4.5px 1.5px -3px #B3B3B3, 
-    inset 0px 0px 33px rgba(242, 242, 242, 0.5);
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.15);
   
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(255,255,255,0.9)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
 }
 
 .liquid-select::before {
@@ -876,22 +861,7 @@ summary:focus-visible {
 }
 
 .liquid-select::after {
-  content: '';
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 12px;
-  height: 8px;
-  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(255,255,255,0.9)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  pointer-events: none;
-  transition: transform 0.2s ease;
-}
-
-.liquid-select:focus::after {
-  transform: translateY(-50%) rotate(180deg);
+  display: none;
 }
 
 .liquid-select:hover {
