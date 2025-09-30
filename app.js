@@ -35,7 +35,8 @@ const state = {
 })();
 
 function populateAreas(){
-  areaSel.innerHTML = AREAS.map(a => `<option value="${a}">${a}</option>`).join("");
+  const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  areaSel.innerHTML = AREAS.map(a => `<option value="${a}">${capitalize(a)}</option>`).join("");
   areaSel.value = "general";
 }
 
