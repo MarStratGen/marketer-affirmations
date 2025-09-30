@@ -173,11 +173,6 @@ select:focus, button:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.card:hover {
-  transform: translateY(-4px);
 }
 
 .quote-wrap {
