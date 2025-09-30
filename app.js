@@ -274,8 +274,8 @@ function autoFitFontSize(ctx, text, maxWidth, maxHeight, fontFamily) {
   return bestSize;
 }
 
-// Download PNG
-async function downloadPNG() {
+// Render current affirmation to canvas
+function renderToCanvas() {
   if (!state.current) return;
 
   const canvas = elements.exportCanvas;
@@ -383,7 +383,16 @@ async function downloadPNG() {
   ctx.textAlign = 'right';
   ctx.fillStyle = state.theme === 'C' ? '#dcbe78' : '#b98b2e';
   ctx.fillText('marketeraffirmations.com', width - 60, height - 60);
+}
 
+// Download PNG
+function downloadPNG() {
+  if (!state.current) return;
+
+  renderToCanvas();
+
+  const canvas = elements.exportCanvas;
+  
   // Trigger download
   canvas.toBlob((blob) => {
     const url = URL.createObjectURL(blob);
@@ -403,9 +412,9 @@ async function shareAffirmation() {
   // Try Web Share API with image
   if (navigator.share && navigator.canShare) {
     try {
-      // Generate image blob
+      renderToCanvas();
+      
       const canvas = elements.exportCanvas;
-      await drawCanvasForShare();
       
       canvas.toBlob(async (blob) => {
         const file = new File([blob], `affirmation-${state.current.id}.png`, { type: 'image/png' });
@@ -436,12 +445,6 @@ async function shareAffirmation() {
   } else {
     await fallbackCopyCaption();
   }
-}
-
-// Helper to draw canvas for sharing (reuses download logic)
-async function drawCanvasForShare() {
-  // Just trigger the same drawing as download
-  await downloadPNG();
 }
 
 // Fallback: copy caption
