@@ -1,0 +1,103 @@
+Open the files
+
+In the left sidebar, open your main HTML file (usually index.html).
+
+Also open your main stylesheet (usually styles.css). Keep both tabs open.
+
+Find the button
+
+In the HTML, scroll to the hero controls where the “Inspire me” button sits.
+
+Click the button text and rename it to “Affirm me.”
+
+Give that button a distinct class name that clearly says it is the primary action. If it already has one, keep it. If not, add one (for example, “affirm button” in your head — you’ll style that name in the CSS next).
+
+Place it correctly
+
+Ensure the button sits to the right of the “Marketing area” pill with a small gap.
+
+The vertical alignment should be centered with the pill.
+
+Keep it on a single line with the pill on desktop. It can wrap under on mobile.
+
+Typeface & weight
+
+Use the same serif family you use for headings (not the quote size, just the family).
+
+Weight should be medium — visually a touch heavier than the area pill but not bold.
+
+Shape & size
+
+Make it a pill. Fully rounded corners.
+
+Height: roughly the same as the area pill, just a little taller so it reads as the primary action.
+
+Horizontal padding: slightly wider than the area pill so the word “Affirm me” has breathing room.
+
+Colour and finish
+
+Background: a muted plum to deep violet gradient that matches your florals. Think rich, not neon. If you’re picking by eye, lean closer to blackberry than magenta.
+
+Text: warm off‑white, not stark white, so it blends with your card tone.
+
+Add a soft shadow so it lifts off the floral background. Keep it subtle.
+
+Hover and active
+
+On hover: keep the same colours but make it feel 2 to 3 percent brighter and let it rise a pixel.
+
+On active (mouse down): remove the rise so it “presses” back to normal.
+
+Focus state (keyboard users)
+
+Add a visible ring when the button is focused. Use a soft gold outer ring with a thin light inner ring so it is visible on top of dark florals.
+
+Disabled state (optional)
+
+If you disable the button after the first click, reduce opacity a bit, remove hover lift, and keep the cursor default.
+
+Reduce motion preference
+
+If the system prefers reduced motion, remove the little hover lift and any animated transitions. Keep the colour changes instantaneous.
+
+Match the pill next to it
+
+The “Marketing area: General” pill should feel related but quieter:
+
+Keep it flatter (not a gradient)
+
+Slightly thinner padding
+
+Hairline border with low contrast
+
+Text in soft near‑white, not bright white
+
+Spacing
+
+Maintain a small gap between the area pill and the button. If it looks cramped, increase only the horizontal gap, not the vertical spacing of the whole hero stack.
+
+Mobile check
+
+On narrow screens, allow the controls to wrap: area pill on the first line, button on the next line centered, with a small vertical gap.
+
+Ensure the button still looks tappable — do not shrink the height on mobile.
+
+Visual QA pass
+
+With the page zoomed out slightly:
+
+The button should read as the primary action without shouting.
+
+It should echo the florals (plum/berry tones) and echo the card (warm off‑white text and soft gold focus).
+
+Nothing should glow. Nothing should pulse. No glassy shine.
+
+If it still feels off
+
+Darken the gradient a touch (closer to blackberry).
+
+Soften the shadow if it looks “app-y”.
+
+Increase letter‑spacing slightly if the wordmark feels cramped.
+
+Nudge the pill and button one or two pixels apart if they feel stuck together.
