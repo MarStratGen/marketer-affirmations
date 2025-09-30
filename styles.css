@@ -725,7 +725,7 @@ summary:focus-visible {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Dark liquid button (hero surfaces) */
+/* Dark liquid button (hero surfaces) - Apple Liquid Glass */
 .liquid-button {
   position: relative;
   display: flex;
@@ -735,24 +735,43 @@ summary:focus-visible {
   padding: 11px 28px;
   gap: 8px;
   
-  background: rgba(255, 255, 255, 0.06);
+  background: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%),
+    linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
   
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
   border-radius: 48px;
   
   color: rgba(255, 255, 255, 0.95);
   font-size: 14px;
   
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 4px 12px rgba(0, 0, 0, 0.15);
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.15);
   
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
+  -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
 }
 
 .liquid-button::before {
-  display: none;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0) 70%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  border-radius: 48px;
+  pointer-events: none;
+  opacity: 0.6;
 }
 
 .liquid-button::after {
@@ -776,7 +795,7 @@ summary:focus-visible {
     0 3px 10px rgba(0, 0, 0, 0.18);
 }
 
-/* Light liquid button (card surfaces) */
+/* Light liquid button (card surfaces) - Apple Liquid Glass */
 .liquid-button--light {
   position: relative;
   display: flex;
@@ -786,24 +805,43 @@ summary:focus-visible {
   padding: 11px 20px;
   gap: 8px;
   
-  background: rgba(255, 255, 255, 0.2);
+  background: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.25) 100%),
+    linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.15));
   
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 0.5px solid rgba(255, 255, 255, 0.6);
   border-radius: 48px;
   
   color: #1a3a2e;
   font-size: 14px;
   
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    0 2px 6px rgba(0, 0, 0, 0.06);
+    inset 0 1px 1px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.05),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    0 1px 4px rgba(0, 0, 0, 0.05);
   
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(40px) saturate(150%) brightness(1.05);
+  -webkit-backdrop-filter: blur(40px) saturate(150%) brightness(1.05);
 }
 
 .liquid-button--light::before {
-  display: none;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0) 70%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  border-radius: 48px;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .liquid-button--light::after {
@@ -827,7 +865,7 @@ summary:focus-visible {
     0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
-/* Liquid dropdown selector */
+/* Liquid dropdown selector - Apple Liquid Glass */
 .liquid-select {
   position: relative;
   display: flex;
@@ -836,20 +874,24 @@ summary:focus-visible {
   padding: 11px 36px 11px 20px;
   gap: 8px;
   
-  background: rgba(255, 255, 255, 0.06);
+  background: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%),
+    linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
   
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
   border-radius: 48px;
   
   color: rgba(255, 255, 255, 0.95);
   font-size: 14px;
   
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 4px 12px rgba(0, 0, 0, 0.15);
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.15);
   
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
+  -webkit-backdrop-filter: blur(40px) saturate(180%) brightness(1.1);
   
   background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='rgba(255,255,255,0.9)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -857,7 +899,23 @@ summary:focus-visible {
 }
 
 .liquid-select::before {
-  display: none;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0) 70%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  border-radius: 48px;
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: -1;
 }
 
 .liquid-select::after {
