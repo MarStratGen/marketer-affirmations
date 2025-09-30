@@ -1,0 +1,242 @@
+You are my code generator. Create a static, no‑build website for Marketer Affirmations using plain HTML/CSS/JS. Do not use frameworks. Do not scaffold a Node server. Generate all files with full contents and make it look and feel like an Awwwards winner: refined, performant, and accessible.
+
+Project Summary
+
+Satirical affirmation generator for marketers. Visual direction: maximalist florals (BURGUNDY GARDEN vibe), elegant typography (Playfair Display or Cormorant for headings + Inter for UI/body fallback), soft glass surfaces, tasteful grain, and premium micro‑interactions. The page shows a single affirmation card with theme options, area filter, and actions to share/copy/download a 1080×1080 PNG with the floral look baked in.
+
+Files to Create (exact names)
+
+index.html
+
+styles.css
+
+app.js
+
+data/affirmations.json ← seed with 70 affirmations across these single‑select areas: general, social, brand, performance, seo, email, content, product, events, growth (no “analytics”)
+
+public/graphics/
+
+bg-main.jpg
+
+bg-gold.jpg
+
+florals-corners.png
+
+tape.png
+
+stamp-ma.png
+
+grain.png
+
+README.md
+
+If you cannot access real images, programmatically generate placeholder assets on first run (burgundy‑gold gradients + simple floral‑like pattern) and write them to these exact filenames so paths never break.
+
+Hard Requirements
+
+One page with a hero, controls row, and a central Affirmation Card. Card must never be visually obscured by florals. Use masking to keep the center clear.
+
+Three themes with a theme switcher:
+
+Ornate: corner florals behind the card, light gold tint, grain. Center hollowed with a radial mask so text stays clean.
+
+Ribbon: paper tape bar across the top, stamp mark floating above the card corner, gentle paper texture.
+
+Glass: frosted glass card over a floral background on the stage, soft vignette and shadow for depth.
+
+Area dropdown (single select) filtered against tags in JSON. Areas listed above.
+
+Actions: New, Copy caption, Download PNG (1080×1080), Share (Web Share API with image on supported devices; otherwise copy caption).
+
+Caption format (AU English, no em dash):
+
+{quote}
+from Marketer Affirmations
+marketeraffirmations.com/a/{id}
+
+
+Per‑affirmation deep link support in the front end only: read /a/:id and preselect that item if present. If not found, show a tasteful not‑found message with a button to get a new one.
+
+PNG export: Canvas render of the current design at 1080×1080 with background, theme overlays, wrapped and auto‑fitted quote, and a footer “marketeraffirmations.com” at bottom‑right. No watermark other than the footer.
+
+No backend for this visual test. Stub functions for future logging so nothing breaks.
+
+A11y: keyboard focus rings, aria‑labels on interactive elements, reduced motion respected.
+
+Visual + Motion Spec
+
+Typography
+
+Headline and quotes: Playfair Display or Cormorant Garamond. Provide optional Google Fonts <link> commented out and ship with system‑font fallbacks. Body/UI: Inter then system UI stack.
+
+Type rhythm: quote line‑height ~1.16, letter‑spacing slight positive. Prevent widows for single last words by reflowing line breaks.
+
+Colour
+
+Primary accents: burgundy #5a1025, gold #b98b2e, ink #151517, paper #ffffff.
+
+Background: soft radial white‑to‑eggshell vignette.
+
+Card
+
+Max width ~920px. Radius ~22px. Shadow a layered soft stack; avoid grey blobs.
+
+Brand chip micro‑label at the top‑left inside the card (small caps, tracking).
+
+Florals and Overlays
+
+Ornate: florals-corners.png sits behind the card in ::before. Apply a center hollow mask: radial mask from card center, transparent in the center, opaque at edges, so florals never touch text. Gold tint overlay in ::after at very low opacity.
+
+Ribbon: tape.png positioned top center over the card via ::after with a tiny shadow. stamp-ma.png floats as a positioned element with drop shadow; scale slightly on hover.
+
+Glass: stage background uses bg-main.jpg with vignette and grain. Card is semi‑transparent with backdrop‑filter blur and a hairline border.
+
+Micro‑interactions
+
+Theme switch: cross‑fade florals/overlays with opacity transitions. No layout jumps.
+
+Buttons: 2–3px lift on hover, springy but subtle. On tap, quick depress then release.
+
+“New” button animates quote change with a short fade and 2px upward motion controlled by prefers-reduced-motion.
+
+Performance
+
+Use GPU‑friendly properties. Avoid heavy box‑shadows on large layers. Preload hero images. Use will-change: opacity, transform sparingly.
+
+Lazy‑decode images and reuse single Image instances for canvas.
+
+Accessibility
+
+All interactive controls reachable by keyboard. Visible focus outlines with offset.
+
+Reduced motion: if prefers-reduced-motion is set, disable parallax and dampen all transitions.
+
+Minimum contrast for text on glass and over imagery.
+
+App Behavior Details
+
+On load, fetch data/affirmations.json.
+
+If URL path matches /a/:id, load that specific affirmation. Otherwise pick a random one in the selected area or default to general.
+
+Avoid immediate repeats. Keep a tiny history buffer.
+
+URL query should reflect ?theme=X&area=Y so testers can share a state.
+
+Actions:
+
+Copy: puts the caption format into clipboard.
+
+Share: 1) try Web Share with PNG file + caption; 2) if unsupported, copy caption and show a toast.
+
+Download: triggers a client download named affirmation-{id}.png.
+
+Text fitting on canvas:
+
+Safe box centered in the card area. Binary search font size between 26px and 72px with word‑wrap. If it still overflows at min size, shrink line‑height by a small amount and try again. Keep line count readable.
+
+Footer text rendered last in bottom‑right, never cropped.
+
+Structure to Implement
+
+index.html
+
+Proper meta and OG tags using public/graphics/bg-main.jpg.
+
+Hero heading “Marketer Affirmations” with subline “Beautiful on the outside. Dead inside.”
+
+Controls row: theme select (Ornate / Ribbon / Glass), area dropdown, New button.
+
+Stage wrapper that can carry the Glass theme’s floral background.
+
+Card containing: brand chip, quote, actions row (Share, Download, Copy, New), floating stamp element (visible for Ribbon only).
+
+Hidden export <canvas id="exportCanvas" width="1080" height="1080">.
+
+Load app.js at end of body.
+
+styles.css
+
+Token section for colours, radius, shadows, font stacks, and sizes.
+
+Base reset and layout container.
+
+Card styles with ::before/::after overlays and mask so florals do not overlap text.
+
+Theme selectors via [data-theme="Ornate" | "Ribbon" | "Glass"].
+
+Button and select styles: pill buttons, clean borders, strong focus rings.
+
+Motion keyframes with reduced‑motion media queries.
+
+app.js
+
+State: data, pool, current, theme, area, cached assets.
+
+Load JSON and images. If assets missing, generate placeholder images then continue.
+
+Read URL for theme and area; react to theme/area changes by re‑rendering and updating URL.
+
+Quote update with small, interruptible fade transition.
+
+Canvas export function that renders background, vignette, grain, optional overlays, wrapped text, and footer in that order.
+
+Share and copy helpers.
+
+Stub postLog() that no‑ops in this visual test.
+
+Seed Data Spec for data/affirmations.json
+
+Array of 70 objects with fields:
+
+id: e.g. "A041"
+
+tags: array with one area string from the allowed set
+
+text: dry, dark, satirical line, safe for sharing
+
+Include at least 6 per area, and the rest under general. Example records:
+
+{"id":"A001","tags":["general"],"text":"If it moves, I will funnel it."}
+
+{"id":"A014","tags":["brand"],"text":"Our brand voice is “please approve this by EOD”. "}
+
+{"id":"A028","tags":["performance"],"text":"Today I accept that CPA is mostly a feeling."}
+
+{"id":"A033","tags":["social"],"text":"If it worked once on TikTok, it is now a strategy."}
+
+{"id":"A052","tags":["growth"],"text":"Scale now, apologise in the retro we never book."}
+
+Quality Bar and Checks (must pass before you finish)
+
+Card text is never overlapped by florals in any theme. Confirm by resizing browser to mobile and desktop widths.
+
+Theme switch fades elements smoothly without layout jumps. Reduced motion disables the fades.
+
+PNG export includes the current visual theme faithfully. No blurry text, no clipped shadows, footer visible.
+
+Share fallback copies caption and shows a non‑blocking toast.
+
+All buttons reachable and usable by keyboard. Focus outline clearly visible on dark or light backgrounds.
+
+Lighthouse Performance ≥ 90 and Accessibility ≥ 95 on desktop in preview mode. If needed, reduce heavy effects or image sizes.
+
+Deliverables
+
+Create the file structure above with full, working code.
+
+Seed 70 affirmations as specified.
+
+Implement the three themes and make them look polished in line with the visual spec.
+
+Implement text fitting and export pipeline for 1080×1080 PNGs.
+
+Print at the end:
+
+“Build complete”
+
+The list of created files
+
+Short usage notes: how to switch themes, how to add affirmations, how to replace the floral assets, and how to export.
+
+If something is ambiguous, make an elegant choice that fits the Awwwards look. Then implement it. Do not ask me follow‑ups — just ship the full working site now.

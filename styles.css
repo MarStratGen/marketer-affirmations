@@ -1,54 +1,232 @@
-/* Core styles + three themes */
-:root{
-  --glass: rgba(255,255,255,.78);
-  --ink: #14161a;
-  --shadow: 0 12px 40px rgba(0,0,0,.28);
-  --radius: 22px;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; color:var(--ink);}
-.bg{position:fixed; inset:0; z-index:-2; overflow:hidden}
-.bg-img{width:110%; height:110%; object-fit:cover; filter:saturate(1.02) contrast(1.02) brightness(.96);}
-.vignette{position:absolute; inset:-10%; background: radial-gradient(60% 60% at 50% 40%, rgba(0,0,0,0) 40%, rgba(0,0,0,.22) 100%); pointer-events:none}
-.grain{position:absolute; inset:-20%; background:url('/public/graphics/grain.png') repeat center/400px; opacity:.06; mix-blend-mode:multiply; pointer-events:none}
+    /* ====== Base reset */
+    *,
+    *::before,
+    *::after { box-sizing: border-box; }
+    html,body { height: 100%; }
+    html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(1200px 800px at 50% 0%, #ffffff, #f5f5f7 60%, #ececef 100%);
+    }
 
-.hero{min-height:54vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:42px 20px}
-.logo{font-family:"Playfair Display", serif; font-size: clamp(30px, 5vw, 68px); letter-spacing:.4px; margin:10px 0 4px}
-.logo em{font-style:italic}
-.tag{margin:0 0 18px; opacity:.76; font-family:"Playfair Display", serif}
-.brand .stamp{height:48px; opacity:.9; display:block; margin:0 auto 4px}
+    /* ====== Tokens */
+    :root{
+      --ink:#151517;
+      --muted:#6a6b70;
+      --paper:#ffffff;
+      --shadow:0 12px 50px rgba(12,12,14,.15), 0 2px 8px rgba(12,12,14,.06);
+      --radius:22px;
 
-.controls{display:flex; gap:10px; flex-wrap:wrap; justify-content:center}
-select, button{appearance:none; border:1px solid rgba(0,0,0,.12); border-radius:12px; padding:10px 14px; background:rgba(255,255,255,.86); backdrop-filter:saturate(140%) blur(6px); box-shadow:var(--shadow); cursor:pointer}
-button:hover{transform:translateY(-1px)} button:active{transform:translateY(0)}
-.sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+      /* Elegance */
+      --serif:"Playfair Display", "Cormorant Garamond", Georgia, "Times New Roman", serif;
 
-.stage{display:grid; place-items:center; padding:26px 20px}
-.card{position:relative; max-width:900px; width:92%; border-radius:var(--radius); box-shadow:var(--shadow); padding:28px; background:var(--glass); backdrop-filter: blur(10px) saturate(140%)}
-.quote{font-weight:700; font-size: clamp(22px, 3vw, 44px); line-height:1.28; min-height:3.5em; text-align:center}
-.actions{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:14px}
-.hint{display:block; text-align:center; margin-top:6px; opacity:.7}
-.foot{display:flex; justify-content:center; padding:24px; color:#333}
-canvas{display:none}
+      /* Brand accents */
+      --burgundy:#5a1025;
+      --gold:#b98b2e;
 
-/* THEME A */
-.theme-a .card{transform: rotate(-0.3deg); background:#fff; border:1px solid rgba(0,0,0,.08)}
-.theme-a .corners{position:absolute; inset:-10px; width:calc(100% + 20px); height:calc(100% + 20px); pointer-events:none; object-fit:cover; filter:saturate(1.02)}
-.theme-a .tape{position:absolute; width:110px; opacity:.85; filter:drop-shadow(0 8px 12px rgba(0,0,0,.25))}
-.theme-a .tape-1{top:-30px; left:22%}
-.theme-a .tape-2{bottom:-30px; right:18%; transform:rotate(180deg)}
-.theme-a .brand .stamp{opacity:.85}
+      /* Card text sizes */
+      --quote-max: clamp(28px, 4.8vw, 46px);
+      --quote-min: 26px;
+      --chip: 11px;
+    }
 
-/* THEME B */
-.theme-b .card{padding-top:80px; background:rgba(255,255,255,.84)}
-.theme-b .ribbon{position:absolute; top:0; left:0; right:0; height:64px; overflow:hidden; border-top-left-radius:var(--radius); border-top-right-radius:var(--radius)}
-.theme-b .foil{position:absolute; inset:0; background: linear-gradient(120deg, #b07f39, #f1d28d, #b07f39); filter:saturate(140%) contrast(110%); opacity:.92}
-.theme-b .ribbon::after{content:''; position:absolute; inset:0; background: repeating-linear-gradient(90deg, rgba(255,255,255,.25) 0 2px, transparent 2px 8px); mix-blend-mode:soft-light; opacity:.35}
-.theme-b .ribbon-text{position:relative; text-align:center; line-height:64px; font-family:"Playfair Display", serif; letter-spacing:3px; font-weight:600; color:#2a2112; text-shadow:0 1px 0 #f7e7b8}
+    /* ====== Layout */
+    .container{
+      max-width: 1100px;
+      margin: 64px auto 80px;
+      padding: 0 20px;
+    }
+    .header{
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .title{
+      font-family: var(--serif);
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 700;
+      letter-spacing: .2px;
+      margin: 0;
+    }
+    .title em{ font-style: italic; }
+    .sub{
+      margin: 8px 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
 
-/* THEME C */
-.theme-c .card{background:rgba(255,255,255,.72); border:1px solid rgba(255,255,255,.6)}
-.theme-c .brand .stamp{height:56px; opacity:1}
+    /* Controls */
+    .controls{
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    select, button{
+      appearance: none;
+      border: 1px solid #d6d7dc;
+      background: #fff;
+      color: #111;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.15s ease;
+    }
+    button:hover{
+      border-color:#bbb;
+      transform: translateY(-2px);
+    }
+    button:active{
+      transform: translateY(0);
+      transition-duration: 0.05s;
+    }
+    button:focus, select:focus{ outline: 3px solid rgba(91, 147, 255, .35); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      button, select { transition: none; }
+      button:hover { transform: none; }
+    }
 
-@media (max-width:700px){ .hero{min-height:48vh} .theme-a .tape{display:none} }
+    /* ====== Card */
+    .stage{
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+    .card{
+      position: relative;
+      width: min(920px, 92vw);
+      min-height: 280px;
+      background: var(--paper);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: clip;
+      padding: 28px clamp(20px, 4vw, 36px) 52px;
+      z-index: 2; /* florals sit behind */
+    }
+
+    /* Theme overlays injected via ::before/::after so they never cover text */
+    .card::before,
+    .card::after{
+      content:"";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Quote layer */
+    .quote-wrap{
+      position: relative;
+      z-index: 1;
+    }
+    .brand-chip{
+      position: absolute;
+      top: 14px; left: 16px;
+      font-size: var(--chip);
+      letter-spacing: .12em;
+      color: #7d7e84;
+    }
+    .quote{
+      margin: 34px 0 0;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: var(--quote-max);
+      line-height: 1.16;
+      letter-spacing: .1px;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .quote { transition: none; }
+    }
+    .actions{
+      position: absolute;
+      left: 16px; right: 16px; bottom: 14px;
+      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+      z-index: 1;
+    }
+    .footer-brand{
+      margin-top: 16px;
+      text-align: center;
+      color: #8b8d94;
+      font-size: 13px;
+    }
+
+    /* ====== THEMES */
+
+    /* A) ORNATE — floral corners + gold tint (masked center) */
+    [data-theme="A"] .card{
+      background: #fff;
+    }
+    [data-theme="A"] .card::before{
+      background:
+        url("/public/graphics/florals-corners.png") center/cover no-repeat;
+      filter: saturate(1.05) contrast(1.02);
+      opacity: .78;
+      /* mask out center so text stays clean */
+      -webkit-mask: radial-gradient(48% 42% at 50% 50%, transparent 55%, #000 56%);
+              mask: radial-gradient(48% 42% at 50% 50%, transparent 55%, #000 56%);
+    }
+    [data-theme="A"] .card::after{
+      background: linear-gradient(180deg, rgba(185,139,46,.07), rgba(185,139,46,0) 40%);
+      mix-blend-mode: multiply;
+    }
+
+    /* B) RIBBON — tape bar + stamp */
+    [data-theme="B"] .card::before{
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,0) 20%),
+        url("/public/graphics/grain.png");
+      opacity: .6;
+    }
+    [data-theme="B"] .card::after{
+      background:
+        url("/public/graphics/tape.png") top center / 280px auto no-repeat,
+        radial-gradient(700px 260px at 50% -120px, rgba(0,0,0,.11), transparent 60%);
+      opacity: .9;
+    }
+    .stamp{
+      position: absolute;
+      right: 16px; top: 10px;
+      width: 84px; height: 84px;
+      background: url("/public/graphics/stamp-ma.png") center/contain no-repeat;
+      opacity: .75;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,.15));
+      z-index: 1;
+      transition: transform 0.2s ease;
+    }
+    .stamp:hover{
+      transform: scale(1.05);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .stamp { transition: none; }
+      .stamp:hover { transform: none; }
+    }
+
+    /* C) GLASS — frosted panel over floral BG */
+    [data-theme="C"] .stage{
+      background:
+        url("/public/graphics/bg-main.jpg") center/cover no-repeat;
+      padding: 36px 0;
+      border-radius: 28px;
+    }
+    [data-theme="C"] .card{
+      background: rgba(255,255,255,.72);
+      -webkit-backdrop-filter: blur(10px);
+              backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.6);
+    }
+    [data-theme="C"] .card::before{
+      background: url("/public/graphics/grain.png");
+      opacity: .35;
+    }
+
+    /* ====== Utilities */
+    .hidden{ display:none !important; }
+    @media (max-width: 640px){
+      .quote{ font-size: clamp(var(--quote-min), 7vw, var(--quote-max)); }
+      .brand-chip{ display:none; }
+    }
