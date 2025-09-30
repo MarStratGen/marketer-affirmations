@@ -260,7 +260,8 @@ function fromURL(){
   const u = new URL(location.href);
   const area  = u.searchParams.get('area');
   if (area && AREAS.includes(area)) {
-    state.area = area; areaSel.value = area;
+    state.area = area;
+    selectArea(area);
   }
 }
 

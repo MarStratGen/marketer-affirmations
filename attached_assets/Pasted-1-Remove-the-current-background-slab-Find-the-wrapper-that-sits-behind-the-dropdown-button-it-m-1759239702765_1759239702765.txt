@@ -1,0 +1,239 @@
+1) Remove the current background slab
+
+Find the wrapper that sits behind the dropdown + button (it may be .controls-tray, .controls, or similar).
+
+In CSS:
+
+/* REMOVE any background/pill styles from the controls wrapper */
+.controls-tray,
+.controls,
+.header-controls {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  /* do NOT use opacity or filter on this wrapper */
+}
+
+2) Add the subtle vertical scrim (hairline lighting pass)
+
+Assume your wrapper is .header-controls that contains the dropdown trigger and the “Affirm Me” button. If it’s named differently, use the real class.
+
+HTML (no change to structure):
+
+<div class="header-controls">
+  <!-- label + dropdown trigger + Affirm Me button -->
+</div>
+
+
+CSS (paste as-is):
+
+/* The wrapper must be a positioning context */
+.header-controls {
+  position: relative;
+  display: inline-flex;           /* keeps content snug */
+  align-items: center;
+  gap: 10px;                      /* space between trigger and button */
+}
+
+/* Invisible vertical scrim behind the controls group */
+.header-controls::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;                     /* behind the controls */
+  width: min(56vw, 760px);
+  height: 120px;                  /* adjust if your controls are taller */
+  border-radius: 80px;            /* soft edges, no box look */
+  pointer-events: none;
+
+  /* Subtle vertical gradient that fades out */
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,.12),
+    rgba(0,0,0,.08) 60%,
+    rgba(0,0,0,0)
+  );
+  filter: blur(12px);
+  /* Optional: strengthen only on very bright petals */
+  /* mix-blend-mode: multiply; */
+}
+
+/* Keep the actual controls above the scrim */
+.header-controls > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+Notes
+
+Do not put opacity or filter on .header-controls itself—only on the ::before scrim.
+
+If the scrim feels too visible: lower the first two alphas by ~.02 or reduce the blur to 10px.
+
+If it’s still too faint on your hero, uncomment the mix-blend-mode: multiply;.
+
+3) Make dropdown trigger match Affirm Me (white outline ghost)
+
+Pick the actual class names you use. I’ll assume:
+
+Affirm Me: .btn-affirm
+
+Dropdown trigger: .select-trigger
+
+Shared outline ghost style (apply to BOTH):
+
+/* tokens */
+:root{
+  --ui-text: #FFFFFFEE;
+  --ui-border: rgba(255,255,255,.80);
+  --ui-border-hover: rgba(255,255,255,.95);
+}
+
+/* shared shape */
+.btn-affirm,
+.select-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  height: 44px;                   /* dropdown can be 42–44px; match visually */
+  padding: 0 18px;
+  border-radius: 999px;
+  color: var(--ui-text);
+  background: transparent;        /* ghost */
+  border: 1.5px solid var(--ui-border);
+  backdrop-filter: blur(0);       /* keep ghost; no glass fill */
+  -webkit-backdrop-filter: blur(0);
+  font: 600 0.95rem system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: .2px;
+  cursor: pointer;
+  transition: transform .14s cubic-bezier(.2,.8,.2,1), border-color .14s, background-color .14s, filter .14s;
+}
+
+/* hover/active/focus */
+.btn-affirm:hover,
+.select-trigger:hover {
+  border-color: var(--ui-border-hover);
+  background: rgba(255,255,255,.08);  /* faint wash for legibility */
+  transform: translateY(-1px);
+}
+.btn-affirm:active,
+.select-trigger:active {
+  transform: translateY(0) scale(.985);
+}
+.btn-affirm:focus-visible,
+.select-trigger:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.65),
+    0 0 0 4px rgba(203,168,98,.45); /* soft gold ring */
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .btn-affirm, .select-trigger { transition: border-color .14s, background-color .14s; }
+}
+
+
+Chevron inside the dropdown trigger
+
+<button class="select-trigger" aria-haspopup="listbox" aria-expanded="false">
+  <span class="select-label">General</span>
+  <span class="chev" aria-hidden="true"></span>
+</button>
+
+.select-trigger {
+  padding-right: 34px; /* room for chevron */
+}
+.select-trigger .chev{
+  position: relative;
+  width: 12px; height: 12px;
+  margin-left: 8px;
+  background: currentColor;
+  opacity: .9;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='black' d='M2.2 4.2 6 8l3.8-3.8.9.9L6 9.7 1.3 5.1z'/></svg>") center/contain no-repeat;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path fill='black' d='M2.2 4.2 6 8l3.8-3.8.9.9L6 9.7 1.3 5.1z'/></svg>") center/contain no-repeat;
+  transform: translateY(1px); /* optical alignment */
+  transition: transform .12s ease;
+}
+.select-trigger.is-open .chev { transform: rotate(180deg) translateY(-1px); }
+
+4) Dropdown menu stays matte/frosted (readable) and opens under trigger
+
+HTML positioning
+
+Ensure the trigger’s parent is position: relative;
+
+The menu is absolutely positioned to that parent.
+
+/* parent of trigger + menu (could be .select) */
+.select { position: relative; }
+
+/* menu panel */
+.select-menu{
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;                        /* align to trigger’s left; change to right:0 if you prefer */
+  z-index: 90;
+
+  min-width: 220px;
+  max-height: 280px;
+  overflow: auto;
+
+  padding: .35rem;
+  border-radius: 14px;
+
+  background: rgba(16,18,20,.28);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 14px 36px rgba(0,0,0,.45);
+
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity .12s ease-out, transform .12s ease-out;
+}
+.select-menu[aria-hidden="false"]{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* options */
+.select-menu [role="option"]{
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: #FBF8F3;
+  white-space: nowrap;
+}
+.select-menu [role="option"]:hover{ background: rgba(255,255,255,.06); }
+.select-menu [aria-selected="true"]::before{
+  content:"•";
+  color:#CBA862;
+  font-weight:700;
+  margin-right:.45rem;
+}
+
+
+JS expectations
+
+Toggle .is-open on the trigger and aria-hidden="false" on the menu.
+
+Update aria-expanded="true/false" on the trigger.
+
+Keyboard: Up/Down/Home/End, Enter/Space to select, Esc to close. Close on outside click.
+
+5) Acceptance criteria (for Replit QA)
+
+No visible pill/tray behind the controls anymore.
+
+Subtle vertical scrim appears as lighting, not a box; controls pop over florals.
+
+Dropdown trigger matches Affirm Me exactly (outline, size harmony, hover/active/focus).
+
+Menu opens under the trigger, left‑aligned, readable, with chevron rotation.
+
+Focus rings never clipped; respects prefers-reduced-motion.
