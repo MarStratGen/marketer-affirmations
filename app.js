@@ -180,18 +180,31 @@ function initParallax(){
   // Only enable parallax if reduced motion is not preferred
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   
+  // Create a style element to control pseudo-element transforms
+  const styleEl = document.createElement('style');
+  styleEl.id = 'parallax-styles';
+  document.head.appendChild(styleEl);
+  
   let ticking = false;
   
   window.addEventListener('scroll', () => {
     if (!ticking) {
       window.requestAnimationFrame(() => {
         const scrolled = window.pageYOffset;
-        const background = document.querySelector('body[data-theme="A"]::before');
         
-        // Apply subtle parallax to background (5px movement)
+        // Apply layered parallax to body pseudo-elements
         if (body.getAttribute('data-theme') === 'A') {
-          const parallaxOffset = scrolled * 0.15;
-          body.style.setProperty('--parallax-offset', `${parallaxOffset}px`);
+          const bgParallax = scrolled * 0.25;  // Background layer moves slower
+          const floralParallax = scrolled * 0.35;  // Floral layer moves faster
+          
+          styleEl.textContent = `
+            body[data-theme="A"]::before {
+              transform: translate3d(0, ${bgParallax}px, 0);
+            }
+            body[data-theme="A"]::after {
+              transform: translate3d(0, ${floralParallax}px, 0);
+            }
+          `;
         }
         
         ticking = false;
