@@ -866,12 +866,8 @@ summary:focus-visible {
 }
 
 .liquid-select option {
-  background: rgba(30, 25, 35, 0.95);
-  color: rgba(255, 255, 255, 0.95);
-  padding: 10px 16px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(203, 168, 98, 0.3);
+  background: #ffffff;
+  color: #1a1a1a;
 }
 
 /* Reduced motion */
