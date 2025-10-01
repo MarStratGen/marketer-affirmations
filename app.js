@@ -582,3 +582,36 @@ function showToast(msg){
     toast.style.opacity = '0';
   }, 2000);
 }
+
+/* SHARE: minimal + reliable */
+(function(){
+  const shareBtn = document.getElementById('btnShare');
+  const quoteEl  = document.getElementById('affirmation-text');
+  const kickerEl = document.getElementById('kicker');
+
+  function getShareText(){
+    const q = (quoteEl?.textContent || '').trim();
+    const k = (kickerEl?.textContent || '').trim();
+    return q ? (k ? `${q} — ${k}` : q) : 'Marketer Affirmations';
+  }
+
+  function getShareUrl(){
+    // Replace later with your canonical /a/:id if you add it
+    return location.origin + location.pathname;
+  }
+
+  async function handleShare(){
+    const text = getShareText();
+    const url  = getShareUrl();
+
+    if (navigator.share){
+      try { await navigator.share({ title: 'Marketer Affirmations', text, url }); return; } catch(e){}
+    }
+    const intent = new URL('https://twitter.com/intent/tweet');
+    intent.searchParams.set('text', text);
+    intent.searchParams.set('url', url);
+    window.open(intent.toString(), '_blank', 'noopener,noreferrer');
+  }
+
+  shareBtn?.addEventListener('click', handleShare);
+})();
