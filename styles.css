@@ -351,9 +351,9 @@ body[data-theme="A"]::after {
   bottom: 0;
   background: radial-gradient(
     ellipse 70% 60% at 50% 35%,
-    rgba(20, 13, 14, 0.25) 0%,
-    rgba(20, 13, 14, 0.50) 45%,
-    rgba(20, 13, 14, 0.75) 100%
+    rgba(20, 13, 14, 0.30) 0%,
+    rgba(20, 13, 14, 0.55) 45%,
+    rgba(20, 13, 14, 0.80) 100%
   );
   pointer-events: none;
   z-index: 0;

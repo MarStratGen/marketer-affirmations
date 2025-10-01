@@ -372,7 +372,7 @@ async function shareImageOrCaption(){
   await copyCaption();
 }
 
-// ========= Worker logging (no-op in visual test) =========
+// ========= Worker tracking =========
 async function postLog(event){
   if (!WORKER_BASE) return;
   const id = state.current?.id || 'A000';
