@@ -340,6 +340,24 @@ body[data-theme="A"] {
   position: relative;
 }
 
+body[data-theme="A"]::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse 70% 60% at 50% 35%,
+    rgba(20, 13, 14, 0.12) 0%,
+    rgba(20, 13, 14, 0.35) 45%,
+    rgba(20, 13, 14, 0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: multiply;
+}
+
 body[data-theme="A"] .card {
   background: 
     linear-gradient(135deg, #fdfcfb 0%, #f7f4ef 100%);
