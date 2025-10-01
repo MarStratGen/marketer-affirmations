@@ -179,7 +179,7 @@ function bindUI(){
     nextAffirmation(true);
   };
   qs('#copy').onclick = () => copyCaption();
-  qs('#btnShare').onclick = () => shareImageOrCaption();
+  // Share button handled by separate IIFE at end of file
 }
 
 function openDropdown() {
