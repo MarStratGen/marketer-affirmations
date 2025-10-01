@@ -27,10 +27,10 @@ body {
   line-height: 1.6;
 }
 
-/* small screens */
+/* small screens - use 1280px for retina mobile displays */
 @media (max-width: 899px) {
   body {
-    background-image: url("/public/graphics/bg-768.webp");
+    background-image: url("/public/graphics/bg-1280.webp");
   }
 }
 
