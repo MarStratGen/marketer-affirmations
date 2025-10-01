@@ -37,7 +37,7 @@ const body = document.body;
 const dropdownButton = qs('#dropdownButton');
 const dropdownMenu = qs('#dropdownMenu');
 const dropdownValue = qs('#dropdownValue');
-const quoteEl  = qs('#quote');
+const quoteEl  = qs('#affirmation-text');
 const canvas   = qs('#exportCanvas');
 const ctx      = canvas.getContext('2d');
 
@@ -179,7 +179,7 @@ function bindUI(){
     nextAffirmation(true);
   };
   qs('#copy').onclick = () => copyCaption();
-  qs('#share').onclick = () => shareImageOrCaption();
+  qs('#btnShare').onclick = () => shareImageOrCaption();
 }
 
 function openDropdown() {
