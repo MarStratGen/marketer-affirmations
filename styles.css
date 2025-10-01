@@ -678,7 +678,7 @@ summary:focus-visible {
 
 /* UI tokens */
 :root {
-  --ui-text: #FFFFFFEE;
+  --ui-text: #FFFFFF;
   --ui-border: rgba(255,255,255,.80);
   --ui-border-hover: rgba(255,255,255,.95);
 }
