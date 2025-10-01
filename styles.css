@@ -14,12 +14,31 @@ html {
   overflow-x: hidden;
 }
 
+/* Hero background */
 body {
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background: #fafafa;
+  background-color: #0f1212;
+  background-image: url("/public/graphics/bg-1280.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #1a1a1a;
   line-height: 1.6;
+}
+
+/* small screens */
+@media (max-width: 899px) {
+  body {
+    background-image: url("/public/graphics/bg-768.webp");
+  }
+}
+
+/* large screens */
+@media (min-width: 1400px) {
+  body {
+    background-image: url("/public/graphics/bg-1920.webp");
+  }
 }
 
 /* ====== Design Tokens ====== */
@@ -187,7 +206,6 @@ body {
 
 
 /* ====== Stage & Card ====== */
-/* Hero background */
 .stage {
   flex: 1;
   display: flex;
@@ -196,26 +214,7 @@ body {
   justify-content: center;
   position: relative;
   margin-top: 0;
-  background-color: #0f1212;
-  background-image: url("/img/bg-1280.webp");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   min-height: 75vh;
-}
-
-/* small screens */
-@media (max-width: 899px) {
-  .stage {
-    background-image: url("/img/bg-768.webp");
-  }
-}
-
-/* large screens */
-@media (min-width: 1400px) {
-  .stage {
-    background-image: url("/img/bg-1920.webp");
-  }
 }
 
 .stage .card {
@@ -338,41 +337,7 @@ body {
 
 /* ====== THEME A: Deep Forest Ornate ====== */
 body[data-theme="A"] {
-  background: linear-gradient(180deg, #24282c 0%, #1b1f23 40%, #181b1e 100%);
   position: relative;
-}
-
-body[data-theme="A"]::before {
-  content: "";
-  position: fixed;
-  top: -50%;
-  left: -20%;
-  right: -20%;
-  bottom: -50%;
-  background: url("/public/graphics/fall-pattern-01.png") center/cover no-repeat;
-  filter: brightness(0.65) contrast(1.1) saturate(0.95);
-  opacity: 0.65;
-  pointer-events: none;
-  z-index: 0;
-  will-change: transform;
-}
-
-body[data-theme="A"]::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    ellipse 70% 60% at 50% 35%,
-    rgba(20, 13, 14, 0.12) 0%,
-    rgba(20, 13, 14, 0.35) 45%,
-    rgba(20, 13, 14, 0.6) 100%
-  );
-  pointer-events: none;
-  z-index: 0;
-  mix-blend-mode: multiply;
 }
 
 body[data-theme="A"] .card {
@@ -388,19 +353,6 @@ body[data-theme="A"] .card {
   animation: cardEnter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-body[data-theme="A"] .card::after {
-  content: "";
-  position: absolute;
-  bottom: -20px;
-  right: -20px;
-  width: 180px;
-  height: 180px;
-  background: url("/public/graphics/card-flower.png") center/contain no-repeat;
-  filter: brightness(1.05) saturate(1.0);
-  opacity: 0.85;
-  pointer-events: none;
-  z-index: 10;
-}
 
 @keyframes cardEnter {
   from { 

@@ -390,9 +390,7 @@ async function postLog(event){
 // ========= Assets / Canvas =========
 async function preloadAssets(){
   const paths = {
-    fallPattern: '/public/graphics/fall-pattern-02.png',
-    bgMain: '/public/graphics/bg-main.png',
-    florals: '/public/graphics/florals-corners.png'
+    bgMain: '/public/graphics/bg-1280.webp'
   };
   const load = src => new Promise(res => {
     const img = new Image(); img.onload = () => res(img); img.onerror = () => res(null); img.src = src;
@@ -419,15 +417,8 @@ async function renderCanvasToBlob(){
   
   // Background floral image
   if (state.assets.bgMain) {
-    ctx.globalAlpha = 0.64;
-    drawCoverImage(state.assets.bgMain, 1080, 1080);
     ctx.globalAlpha = 1;
-  }
-  
-  // Corner florals overlay
-  if (state.assets.florals) {
-    ctx.globalAlpha = 0.68;
-    drawCoverImage(state.assets.florals, 1080, 1080);
+    drawCoverImage(state.assets.bgMain, 1080, 1080);
     ctx.globalAlpha = 1;
   }
   
