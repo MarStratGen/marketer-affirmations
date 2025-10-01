@@ -336,9 +336,7 @@ function initParallax(){
 function caption(){
   const id = state.current?.id || 'A000';
   const quote = quoteEl.textContent;
-  return `${quote}
-from Marketer Affirmations
-${SITE_BASE}/a/${id}`;
+  return `"${quote}" - Marketer Affirmations ${SITE_BASE}/a/${id}`;
 }
 
 async function copyCaption(){
