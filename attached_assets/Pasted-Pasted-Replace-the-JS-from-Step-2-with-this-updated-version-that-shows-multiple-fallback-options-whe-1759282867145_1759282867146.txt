@@ -1,0 +1,95 @@
+Pasted-Replace-the-JS-from-Step-2-with-this-updated-version-that-shows-multiple-fallback-options-when-nativ-1759282554204_1759282554205.txtReplace the JS from Step 2 with this updated version that shows multiple fallback options when native share isn't available.
+
+(function(){
+  const shareBtn = document.getElementById('btnShare');
+  const quoteEl  = document.getElementById('affirmation-text');
+  const kickerEl = document.getElementById('kicker');
+
+  function getShareText(){
+    const q = (quoteEl?.textContent || '').trim();
+    const k = (kickerEl?.textContent || '').trim();
+    return q ? (k ? `${q} — ${k}` : q) : 'Marketer Affirmations';
+  }
+
+  function getShareUrl(){
+    return location.origin + location.pathname;
+  }
+
+  function openShareFallback(){
+    const text = getShareText();
+    const url = getShareUrl();
+    const encodedText = encodeURIComponent(text);
+    const encodedUrl = encodeURIComponent(url);
+
+    const links = [
+      {
+        name: 'X (Twitter)',
+        url: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`
+      },
+      {
+        name: 'LinkedIn',
+        url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`
+      },
+      {
+        name: 'Facebook',
+        url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`
+      },
+      {
+        name: 'Email',
+        url: `mailto:?subject=Marketer Affirmation&body=${encodedText}%0A${url}`
+      }
+    ];
+
+    // Create and show a basic share menu (Replit can style this later)
+    const menu = document.createElement('div');
+    menu.style.position = 'absolute';
+    menu.style.top = '50%';
+    menu.style.left = '50%';
+    menu.style.transform = 'translate(-50%, -50%)';
+    menu.style.background = '#111';
+    menu.style.padding = '1rem';
+    menu.style.borderRadius = '8px';
+    menu.style.boxShadow = '0 12px 24px rgba(0,0,0,0.5)';
+    menu.style.zIndex = '1000';
+    menu.style.textAlign = 'left';
+
+    links.forEach(link => {
+      const a = document.createElement('a');
+      a.href = link.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = `Share via ${link.name}`;
+      a.style.display = 'block';
+      a.style.color = '#fff';
+      a.style.marginBottom = '8px';
+      a.style.textDecoration = 'none';
+      menu.appendChild(a);
+    });
+
+    const close = document.createElement('button');
+    close.textContent = 'Cancel';
+    close.style.marginTop = '0.5rem';
+    close.style.display = 'block';
+    close.onclick = () => menu.remove();
+    menu.appendChild(close);
+
+    document.body.appendChild(menu);
+  }
+
+  async function handleShare(){
+    const text = getShareText();
+    const url  = getShareUrl();
+
+    if (navigator.share){
+      try {
+        await navigator.share({ title: 'Marketer Affirmations', text, url });
+        return;
+      } catch(e){ /* user cancelled */ }
+    }
+
+    // Fallback
+    openShareFallback();
+  }
+
+  shareBtn?.addEventListener('click', handleShare);
+})();

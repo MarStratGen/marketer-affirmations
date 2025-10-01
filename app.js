@@ -583,7 +583,7 @@ function showToast(msg){
   }, 2000);
 }
 
-/* SHARE: minimal + reliable */
+/* SHARE: minimal + reliable with multi-platform fallback */
 (function(){
   const shareBtn = document.getElementById('btnShare');
   const quoteEl  = document.getElementById('affirmation-text');
@@ -596,8 +596,68 @@ function showToast(msg){
   }
 
   function getShareUrl(){
-    // Replace later with your canonical /a/:id if you add it
     return location.origin + location.pathname;
+  }
+
+  function openShareFallback(){
+    const text = getShareText();
+    const url = getShareUrl();
+    const encodedText = encodeURIComponent(text);
+    const encodedUrl = encodeURIComponent(url);
+
+    const links = [
+      {
+        name: 'X (Twitter)',
+        url: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`
+      },
+      {
+        name: 'LinkedIn',
+        url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`
+      },
+      {
+        name: 'Facebook',
+        url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`
+      },
+      {
+        name: 'Email',
+        url: `mailto:?subject=Marketer Affirmation&body=${encodedText}%0A${url}`
+      }
+    ];
+
+    // Create and show a basic share menu (Replit can style this later)
+    const menu = document.createElement('div');
+    menu.style.position = 'absolute';
+    menu.style.top = '50%';
+    menu.style.left = '50%';
+    menu.style.transform = 'translate(-50%, -50%)';
+    menu.style.background = '#111';
+    menu.style.padding = '1rem';
+    menu.style.borderRadius = '8px';
+    menu.style.boxShadow = '0 12px 24px rgba(0,0,0,0.5)';
+    menu.style.zIndex = '1000';
+    menu.style.textAlign = 'left';
+
+    links.forEach(link => {
+      const a = document.createElement('a');
+      a.href = link.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = `Share via ${link.name}`;
+      a.style.display = 'block';
+      a.style.color = '#fff';
+      a.style.marginBottom = '8px';
+      a.style.textDecoration = 'none';
+      menu.appendChild(a);
+    });
+
+    const close = document.createElement('button');
+    close.textContent = 'Cancel';
+    close.style.marginTop = '0.5rem';
+    close.style.display = 'block';
+    close.onclick = () => menu.remove();
+    menu.appendChild(close);
+
+    document.body.appendChild(menu);
   }
 
   async function handleShare(){
@@ -605,12 +665,14 @@ function showToast(msg){
     const url  = getShareUrl();
 
     if (navigator.share){
-      try { await navigator.share({ title: 'Marketer Affirmations', text, url }); return; } catch(e){}
+      try {
+        await navigator.share({ title: 'Marketer Affirmations', text, url });
+        return;
+      } catch(e){ /* user cancelled */ }
     }
-    const intent = new URL('https://twitter.com/intent/tweet');
-    intent.searchParams.set('text', text);
-    intent.searchParams.set('url', url);
-    window.open(intent.toString(), '_blank', 'noopener,noreferrer');
+
+    // Fallback
+    openShareFallback();
   }
 
   shareBtn?.addEventListener('click', handleShare);
