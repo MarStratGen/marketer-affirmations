@@ -20,6 +20,12 @@
 
   <link rel="icon" href="/public/graphics/stamp-ma.png">
   <link rel="stylesheet" href="styles.css?v=scrim-fix">
+  
+  <link rel="preload" as="image"
+    href="/img/bg-1280.webp"
+    imagesrcset="/img/bg-768.webp 768w, /img/bg-1280.webp 1280w, /img/bg-1920.webp 1920w"
+    imagesizes="100vw"
+    type="image/webp">
 </head>
 <body data-theme="A">
   <div class="container">
@@ -57,6 +63,12 @@
           <button id="share" class="liquid-button--light" aria-label="Share image">Share</button>
           <button id="copy" class="liquid-button--light" aria-label="Copy caption">Copy</button>
         </div>
+        <img
+          class="card-sticker"
+          src="/img/card-flower.webp"
+          alt=""
+          loading="lazy"
+          decoding="async">
       </article>
     </section>
 

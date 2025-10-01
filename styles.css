@@ -187,6 +187,7 @@ body {
 
 
 /* ====== Stage & Card ====== */
+/* Hero background */
 .stage {
   flex: 1;
   display: flex;
@@ -195,6 +196,26 @@ body {
   justify-content: center;
   position: relative;
   margin-top: 0;
+  background-color: #0f1212;
+  background-image: url("/img/bg-1280.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 75vh;
+}
+
+/* small screens */
+@media (max-width: 899px) {
+  .stage {
+    background-image: url("/img/bg-768.webp");
+  }
+}
+
+/* large screens */
+@media (min-width: 1400px) {
+  .stage {
+    background-image: url("/img/bg-1920.webp");
+  }
 }
 
 .stage .card {
@@ -858,4 +879,15 @@ summary:focus-visible {
   .liquid-select {
     transition: border-color .14s, background-color .14s;
   }
+}
+
+/* Decorative flower on the card */
+.card-sticker {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  height: 200px;
+  width: auto;
+  pointer-events: none;
+  user-select: none;
 }
