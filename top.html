@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Affirmations — Top</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <style>
+    body{font:14px/1.45 Inter,system-ui,sans-serif;margin:24px;background:#0f1212;color:#eaeaea}
+    h1{font-size:18px;margin:0 0 12px}
+    .controls{margin:0 0 12px}
+    table{width:100%;border-collapse:collapse;background:#141718;border-radius:10px;overflow:hidden}
+    th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #232629}
+    th{font-weight:600;background:#191c1f}
+    tr:last-child td{border-bottom:none}
+    code{background:#1f2326;padding:2px 6px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <h1>Top shared/downloaded/copied</h1>
+  <div class="controls">
+    <label>Limit:
+      <select id="limit">
+        <option>10</option><option>25</option><option selected>50</option><option>100</option>
+      </select>
+    </label>
+    <button id="refresh">Refresh</button>
+    <a id="csv" href="/api/export" style="margin-left:12px">Download CSV</a>
+  </div>
+  <table id="tbl">
+    <thead><tr><th>#</th><th>ID</th><th>Area</th><th>Shares</th><th>Downloads</th><th>Copies</th><th>Total</th></tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function loadTop(){
+      const limit=document.getElementById('limit').value;
+      const res=await fetch('/api/top?limit='+encodeURIComponent(limit), {cache:'no-store'});
+      const rows=await res.json();
+      const tb=document.querySelector('#tbl tbody');
+      tb.innerHTML='';
+      rows.forEach((r,i)=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML = `<td>${i+1}</td>
+          <td><code>${r.id}</code></td>
+          <td>${r.area}</td>
+          <td>${r.shares||0}</td>
+          <td>${r.downloads||0}</td>
+          <td>${r.copies||0}</td>
+          <td><strong>${r.total||0}</strong></td>`;
+        tb.appendChild(tr);
+      });
+    }
+    document.getElementById('refresh').onclick = loadTop;
+    document.getElementById('limit').onchange = loadTop;
+    loadTop();
+  </script>
+</body>
+</html>
