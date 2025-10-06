@@ -1,0 +1,16 @@
+# Replit/editor
+.replit
+replit.nix
+*.swp
+
+# System junk
+.DS_Store
+Thumbs.db
+
+# Build/cache (future-proofing)
+dist/
+node_modules/
+.cache/
+
+# Secrets (if you ever add them)
+.env
