@@ -175,6 +175,25 @@
     return `${location.origin}/a/${encodeURIComponent(currentArea)}/${id}`;
   };
 
+  // === analytics: minimal tracking helper (D1) ===
+  function trackEvent(event) {
+    try {
+      const id = shortId(`${currentArea}|${currentText}`);
+      const body = JSON.stringify({ id, area: currentArea, event });
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon('/api/track', new Blob([body], { type: 'application/json' }));
+      } else {
+        fetch('/api/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body,
+          keepalive: true
+        }).catch(()=>{});
+      }
+    } catch {}
+  }
+  // === end analytics helper ===
+  
   function buildDropdown() {
     el.dropdownMenu.innerHTML = "";
     AREAS.forEach((key) => {
@@ -356,6 +375,7 @@
     a.download = "affirmation.png";
     document.body.appendChild(a);
     a.click();
+    trackEvent('download'); // NEW
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     // (Optional) later: trackEvent('download');
@@ -372,10 +392,12 @@
           files: [file],
           url: buildPermalink()
         });
+        trackEvent('share'); // NEW
         // (Optional) later: trackEvent('share');
       } else {
         const url = URL.createObjectURL(blob);
         window.open(url, "_blank");
+        trackEvent('share'); // NEW
         // (Optional) later: trackEvent('share');
       }
     } catch {
