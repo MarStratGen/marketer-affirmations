@@ -242,6 +242,7 @@
       const permalink = buildPermalink();
       const payload = `"${currentText}" -Marketer Affirmations (${permalink})`;
       await navigator.clipboard.writeText(payload);
+      trackEvent('copy'); // <— add this line
       const original = el.copy.textContent;
       el.copy.textContent = "Copied";
       el.copy.classList.add("copy-okay");
