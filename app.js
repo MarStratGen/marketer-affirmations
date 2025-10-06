@@ -1,582 +1,430 @@
-// ========= Config =========
-const AREAS = ["general","agency","brand","content","email","events","growth","performance","product","seo","social"];
-const WORKER_BASE = ""; // leave empty in visual test. Hook up later.
-const SITE_BASE   = window.location.origin;
+/* Marketer Affirmations — fixes (2025-10-06g+++) FINAL
+   - bg-1920.webp forced across Share/Download
+   - Dropdown no longer changes quote or label
+   - 'Filed under' label now changes only when 'Affirm Me' is clicked
+*/
 
-const DRY_CAPTIONS = [
-  "Filed Under Sound Thinking",
-  "Unquestionably Firm Logic",
-  "The Sort of Thing One Hears Often",
-  "Deemed Reasonable by the Usual Crowd",
-  "Commonly Embraced by Upright Professionals",
-  "Carried in Most Minds Without Incident",
-  "Often Quoted, Rarely Understood",
-  "Said with a Straight Tie and a Tight Deadline",
-  "Heard in Good Offices Everywhere",
-  "Passed Off as Wisdom Since the Brand Refresh of '21",
-  "Believed to Be Useful in Certain Contexts",
-  "Held Up as an Example in the Quarterly Review",
-  "Rarely Contested by the More Agreeable Departments",
-  "Carried Forward from the Earlier Memo",
-  "Generally Accepted as Directional",
-  "Approved in Principle, Ignored in Practice",
-  "Reinforced by a Notable Slide Transition",
-  "Still Repeating from That Well-Received Panel Talk",
-  "Not Yet Disproven by Available Evidence",
-  "Backed Quietly by Several Middle Managers",
-  "Endorsed During the Sandwich Break",
-  "Found Scribbled Near a Flipchart Sketch",
-  "Adhered to in Spirit, if Not in Execution",
-  "Previously Highlighted in a Circulated PDF",
-  "Kept Alive Through Habit and Hope"
-];
-
-// ========= DOM helpers =========
-const qs = s => document.querySelector(s);
-const body = document.body;
-const dropdownButton = qs('#dropdownButton');
-const dropdownMenu = qs('#dropdownMenu');
-const dropdownValue = qs('#dropdownValue');
-const quoteEl  = qs('#affirmation-text');
-const canvas   = qs('#exportCanvas');
-const ctx      = canvas.getContext('2d');
-
-// ========= State =========
-const state = {
-  data: [],
-  pool: [],
-  current: null,
-  area: 'general',
-  assets: {},
-};
-
-// ========= Init =========
-(async function init(){
-  populateAreas();
-  bindUI();
-  initParallax();
-  await preloadAssets();
-  await loadAffirmations();
-  const deepLinked = checkDeepLink();
-  if (!deepLinked) {
-    fromURL();
-    filterByArea(state.area);
-    setDryCaption();
-    nextAffirmation(true);
-  }
-})();
-
-function populateAreas(){
-  const capitalize = str => {
-    if (str === 'seo') return 'SEO';
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+(() => {
+  const AREAS = ["general","agency","brand","content","email","events","growth","performance","product","seo","social"];
+  const UI_LABELS = {
+    general:"General", agency:"Agency", brand:"Brand", content:"Content", email:"Email/CRM",
+    events:"Events", growth:"Growth", performance:"Performance", product:"Product", seo:"SEO", social:"Social"
   };
-  
-  dropdownMenu.innerHTML = AREAS.map((area, idx) => 
-    `<li role="option" data-value="${area}" aria-selected="${area === 'general'}" tabindex="0">${capitalize(area)}</li>`
-  ).join("");
-  
-  dropdownValue.textContent = 'General';
-}
 
-function bindUI(){
-  // Custom dropdown toggle
-  dropdownButton.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = dropdownButton.getAttribute('aria-expanded') === 'true';
-    if (isOpen) {
-      closeDropdown();
-    } else {
-      openDropdown();
-    }
-  });
-  
-  // Keyboard toggle: Enter/Space to open/close
-  dropdownButton.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      const isOpen = dropdownButton.getAttribute('aria-expanded') === 'true';
-      if (isOpen) {
-        closeDropdown();
-      } else {
-        openDropdown();
-      }
-    }
-  });
-  
-  // Select option
-  dropdownMenu.addEventListener('click', (e) => {
-    const li = e.target.closest('li');
-    if (!li) return;
-    
-    const value = li.getAttribute('data-value');
-    selectArea(value);
-    closeDropdown();
-  });
-  
-  // Keyboard navigation for dropdown menu
-  dropdownMenu.addEventListener('keydown', (e) => {
-    const options = Array.from(dropdownMenu.querySelectorAll('li'));
-    const currentIndex = options.findIndex(opt => opt === document.activeElement);
-    
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
-      options[nextIndex].focus();
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      const prevIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
-      options[prevIndex].focus();
-    } else if (e.key === 'Home') {
-      e.preventDefault();
-      options[0].focus();
-    } else if (e.key === 'End') {
-      e.preventDefault();
-      options[options.length - 1].focus();
-    } else if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      const li = e.target.closest('li');
-      if (li) {
-        const value = li.getAttribute('data-value');
-        selectArea(value);
-        closeDropdown();
-        dropdownButton.focus();
-      }
-    } else if (e.key === 'Escape') {
-      e.preventDefault();
-      closeDropdown();
-      dropdownButton.focus();
-    }
-  });
-  
-  // Close on click outside
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.custom-dropdown')) {
-      closeDropdown();
-    }
-  });
-  
-  // Close when focus leaves dropdown area
-  document.addEventListener('focusin', (e) => {
-    const dropdown = document.querySelector('.custom-dropdown');
-    if (dropdownButton.getAttribute('aria-expanded') === 'true') {
-      if (!dropdown.contains(e.target)) {
-        closeDropdown();
-      }
-    }
-  });
-  
-  // Global ESC key handler
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && dropdownButton.getAttribute('aria-expanded') === 'true') {
-      closeDropdown();
-      dropdownButton.focus();
-    }
-  });
-  
-  qs('#new').onclick = () => {
-    setDryCaption();
-    nextAffirmation(true);
+  const PILL_NAMES = {
+    general:"General Marketing",
+    agency:"Agency",
+    brand:"Brand",
+    content:"Content",
+    email:"Email / CRM",
+    events:"Events",
+    growth:"Growth",
+    performance:"Performance",
+    product:"Product",
+    seo:"SEO",
+    social:"Social"
   };
-  qs('#copy').onclick = () => copyCaption();
-  // Share button handled by separate IIFE at end of file
-}
 
-function openDropdown() {
-  dropdownButton.setAttribute('aria-expanded', 'true');
-  dropdownMenu.classList.add('open');
-  // Focus first option after opening
-  const firstOption = dropdownMenu.querySelector('li');
-  if (firstOption) {
-    setTimeout(() => firstOption.focus(), 50);
-  }
-}
-
-function closeDropdown() {
-  dropdownButton.setAttribute('aria-expanded', 'false');
-  dropdownMenu.classList.remove('open');
-}
-
-function selectArea(area) {
-  const capitalize = str => {
-    if (str === 'seo') return 'SEO';
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  const AFFIRMATIONS = {
+    general: [
+      "I accept the dashboard’s truth, even when it refreshes into a new one.",
+      "I protect the plan from vibes that arrive after the deadline.",
+      "I trust the brief that started as a question and ended as a spreadsheet."
+    ],
+    agency: [
+      "I maintain the timeline while the scope explores its feelings.",
+      "I honour the budget that returned with new friends."
+    ],
+    brand: [
+      "I protect the tone from urgent adjectives.",
+      "I accept the brand book as a living document and a warning."
+    ],
+    content: [
+      "I trust the draft saved message the same way I trust a politician’s wave.",
+      "I welcome feedback that arrives after publishing."
+    ],
+    email: [
+      "I forgive the list that grew on its own and none of it converts.",
+      "I accept the preview text that renders like a ransom note."
+    ],
+    events: [
+      "I maintain the run sheet while the venue discovers gravity.",
+      "I believe the badge printer will find peace."
+    ],
+    growth: [
+      "I surrender to the experiment that disproves the last ten.",
+      "I accept that ‘scale’ means today."
+    ],
+    performance: [
+      "I welcome the CPC that fell because everything else did.",
+      "I protect the naming convention from creativity."
+    ],
+    product: [
+      "I accept the launch date that learned to walk.",
+      "I maintain the deck that sells a feature we renamed."
+    ],
+    seo: [
+      "I surrender to algorithm updates that retroactively punish yesterday’s best practices.",
+      "I accept the sitemap as a suggestion."
+    ],
+    social: [
+      "I protect the content calendar from vibes-based requests.",
+      "I believe the next post will be the one that doesn’t need to be deleted."
+    ]
   };
-  
-  state.area = area;
-  dropdownValue.textContent = capitalize(area);
-  
-  // Update aria-selected
-  dropdownMenu.querySelectorAll('li').forEach(li => {
-    li.setAttribute('aria-selected', li.getAttribute('data-value') === area);
-  });
-  
-  filterByArea(state.area);
-  writeURL();
-}
 
-function setDryCaption(){
-  const el = document.getElementById('kicker');
-  if(el) {
-    const caption = DRY_CAPTIONS[Math.floor(Math.random() * DRY_CAPTIONS.length)];
-    el.textContent = caption;
-  }
-}
+  const el = {
+    dropdownBtn: document.getElementById("dropdownButton"),
+    dropdownMenu: document.getElementById("dropdownMenu"),
+    dropdownValue: document.getElementById("dropdownValue"),
+    newBtn:       document.getElementById("new"),
+    pill:         document.getElementById("areaPill"),
+    quote:        document.getElementById("affirmation-text"),
+    copy:         document.getElementById("copy"),
+    share:        document.getElementById("share"),
+    download:     document.getElementById("download"),
+    toast:        document.getElementById("toast"),
+    sticker:      document.getElementById("cardSticker"),
+    canvas:       document.getElementById("exportCanvas"),
+    loadError:    document.getElementById("loadError")
+  };
 
+  let currentArea = "general";
+  let currentText = "Loading…";
+  let lastIndex = -1;
 
-function checkDeepLink(){
-  const path = location.pathname;
-  const match = path.match(/\/a\/([A-Z0-9]+)/);
-  if (!match) return false;
-  
-  const targetId = match[1];
-  const found = state.data.find(x => x.id === targetId);
-  
-  if (found) {
-    state.current = found;
-    state.area = found.tags[0] || 'general';
-    selectArea(state.area);
-    fromURL();
-    filterByArea(state.area);
-    setDryCaption();
-    setQuote(found.text);
-    return true;
-  } else {
-    showNotFound();
+  // NEW: support canonical /a/:area/:id path (backward compatible)
+  function readPermalinkFromPath() {
+    const m = location.pathname.match(/^\/a\/([^\/]+)\/([0-9a-z]{8})$/i);
+    if (!m) return false;
+    const [, area] = m;
+    if (AREAS.includes(area)) currentArea = area;
     return true;
   }
-}
+  readPermalinkFromPath(); // run BEFORE query parsing
 
-function showNotFound(){
-  quoteEl.innerHTML = '<div style="text-align:center"><div style="font-size:48px;margin-bottom:12px">🤷</div><div>Affirmation not found</div></div>';
-  setTimeout(() => {
-    fromURL();
-    filterByArea(state.area);
-    nextAffirmation(true);
-  }, 2000);
-}
+  const params = new URLSearchParams(location.search);
+  const areaParam = params.get("area");
+  if (areaParam && AREAS.includes(areaParam)) currentArea = areaParam;
 
-function fromURL(){
-  const u = new URL(location.href);
-  const area  = u.searchParams.get('area');
-  if (area && AREAS.includes(area)) {
-    state.area = area;
-    selectArea(area);
-  }
-}
+  const CLICK_KEY = "ma_clicks_v1";
+  let clickCount = parseInt(localStorage.getItem(CLICK_KEY) || "0", 10) || 0;
 
-function writeURL(){
-  const u = new URL(location.href);
-  u.searchParams.set('area', state.area);
-  history.replaceState({}, '', u);
-}
+  const LABELS = [
+    { t: 500, text: "Pull The Plug" },
+    { t: 450, text: "Call Legal" },
+    { t: 400, text: "Call HR" },
+    { t: 350, text: "Call IT" },
+    { t: 300, text: "Spin Up Backups" },
+    { t: 250, text: "Elevate Privileges" },
+    { t: 200, text: "Patch Everything" },
+    { t: 150, text: "Send a Manager" },
+    { t: 100, text: "Send Budget" },
+    { t:  50, text: "Help Me" },
+  ];
 
-// ========= Data =========
-async function loadAffirmations(){
-  try{
-    const res = await fetch('/data/affirmations.json', { cache: 'no-store' });
-    state.data = await res.json();
-  }catch(e){
-    state.data = [
-      {"id":"A001","tags":["general"],"text":"If it moves, I will funnel it."},
-      {"id":"A002","tags":["brand"],"text":"Our brand voice is \"please approve this by EOD\"."},
-      {"id":"A003","tags":["performance"],"text":"Today I accept that CPA is a feeling."},
-      {"id":"A004","tags":["social"],"text":"If it worked once on TikTok, it’s now a strategy."},
-      {"id":"A005","tags":["growth"],"text":"Scale first, apologise in the retro we never book."}
-    ];
-  }
-}
-
-function filterByArea(area){
-  state.pool = state.data.filter(x => (x.tags||[]).includes(area));
-  if (!state.pool.length) state.pool = state.data.filter(x => (x.tags||[]).includes('general'));
-}
-
-function nextAffirmation(forceDifferent=false){
-  if (!state.pool.length) return;
-  let pick;
-  for (let i=0;i<10;i++){
-    pick = state.pool[Math.floor(Math.random()*state.pool.length)];
-    if (!forceDifferent || !state.current || pick.id !== state.current.id) break;
-  }
-  state.current = pick;
-  setQuote(pick.text);
-}
-
-function setQuote(text){
-  const clean = (text||'').replace(/\s+/g,' ').trim();
-  
-  // Clear animation property to allow transitions to work
-  quoteEl.style.animation = 'none';
-  
-  // Animate quote change if supported
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    quoteEl.style.opacity = '0';
-    quoteEl.style.transform = 'translateY(12px)';
-    
-    setTimeout(() => {
-      quoteEl.textContent = clean;
-      setTimeout(() => {
-        quoteEl.style.opacity = '1';
-        quoteEl.style.transform = 'translateY(0)';
-      }, 10);
-    }, 200);
-  } else {
-    quoteEl.textContent = clean;
-  }
-}
-
-// ========= Parallax Effect =========
-function initParallax(){
-  // Parallax disabled
-  return;
-}
-
-// ========= Caption =========
-function caption(){
-  const id = state.current?.id || 'A000';
-  const quote = quoteEl.textContent;
-  return `"${quote}" - Marketer Affirmations ${SITE_BASE}/a/${id}`;
-}
-
-async function copyCaption(){
-  try{
-    await navigator.clipboard.writeText(caption());
-    showToast('Caption copied');
-  }catch(_){
-    showToast('Copy failed');
-  }
-  postLog("copy");
-}
-
-// ========= Share / Download =========
-async function shareImageOrCaption(){
-  const blob = await renderCanvasToBlob();
-  if (blob && navigator.canShare && navigator.canShare({ files: [new File([blob],'affirmation.png',{type:'image/png'})] })) {
-    try{
-      await navigator.share({
-        title: 'Marketer Affirmation',
-        files: [new File([blob], 'affirmation.png', { type: 'image/png' })],
-        text: caption()
-      });
-      postLog("shareimg");
-      showToast('Shared');
-      return;
-    }catch(e){
-      if (e.name !== 'AbortError') {
-        await copyCaption();
-      }
-      return;
+  function currentLabelFor(count) {
+    for (const item of LABELS) {
+      if (count >= item.t) return item.text;
     }
+    return "Affirm Me";
   }
-  await copyCaption();
-}
 
-// ========= Worker tracking =========
-async function postLog(event){
-  if (!WORKER_BASE) return;
-  const id = state.current?.id || 'A000';
-  try{
-    await fetch(`${WORKER_BASE}/api/log`,{
-      method:'POST',
-      headers:{'content-type':'application/json'},
-      body: JSON.stringify({ event, id })
+  const showToast = (msg) => {
+    el.toast.textContent = msg;
+    el.toast.classList.add("show");
+    setTimeout(()=> el.toast.classList.remove("show"), 1400);
+  };
+
+  const updateAffirmLabel = () => {
+    el.newBtn.textContent = currentLabelFor(clickCount);
+  };
+
+  const setQuote = (txt) => {
+    currentText = txt;
+    el.quote.textContent = txt;
+    el.pill.textContent = `Filed under: ${PILL_NAMES[currentArea] || "General Marketing"}`;
+  };
+
+  const pickDifferentIndex = (len) => {
+    if (len <= 1) return 0;
+    let i = Math.floor(Math.random()*len);
+    if (i === lastIndex) i = (i + 1 + Math.floor(Math.random()*(len-1))) % len;
+    return i;
+  };
+
+  const nextAffirmation = () => {
+    const pool = AFFIRMATIONS[currentArea] && AFFIRMATIONS[currentArea].length
+      ? AFFIRMATIONS[currentArea]
+      : AFFIRMATIONS.general;
+    const idx = pickDifferentIndex(pool.length);
+    lastIndex = idx;
+    return pool[idx];
+  };
+
+  const shortId = (str) => {
+    let h = 5381;
+    for (let i=0;i<str.length;i++) h = ((h<<5)+h) ^ str.charCodeAt(i);
+    const b36 = (h >>> 0).toString(36);
+    return b36.padStart(8,"0").slice(-8);
+  };
+
+  // NEW: canonical permalink uses path, not query
+  const buildPermalink = () => {
+    const id = shortId(`${currentArea}|${currentText}`);
+    return `${location.origin}/a/${encodeURIComponent(currentArea)}/${id}`;
+  };
+
+  function buildDropdown() {
+    el.dropdownMenu.innerHTML = "";
+    AREAS.forEach((key) => {
+      const li = document.createElement("li");
+      li.role = "option";
+      li.dataset.value = key;
+      li.textContent = UI_LABELS[key] || key;
+      if (key === currentArea) li.setAttribute("aria-selected","true");
+      el.dropdownMenu.appendChild(li);
     });
-  }catch(_){}
-}
+    el.dropdownValue.textContent = UI_LABELS[currentArea] || "General";
+  }
 
-// ========= Assets / Canvas =========
-async function preloadAssets(){
-  const paths = {
-    bgMain: '/public/graphics/bg-1280.webp'
-  };
-  const load = src => new Promise(res => {
-    const img = new Image(); img.onload = () => res(img); img.onerror = () => res(null); img.src = src;
+  function toggleDropdown(forceOpen) {
+    const isOpen = el.dropdownMenu.classList.contains("open");
+    const next = typeof forceOpen === "boolean" ? forceOpen : !isOpen;
+    el.dropdownMenu.classList.toggle("open", next);
+    el.dropdownBtn.setAttribute("aria-expanded", String(next));
+  }
+
+  function handleDropdownClick(e) {
+    const item = e.target.closest("li[role='option']");
+    if (!item) return;
+    const val = item.dataset.value;
+    if (!val || !AREAS.includes(val)) return;
+    currentArea = val;
+    lastIndex = -1;
+    [...el.dropdownMenu.children].forEach(c => c.removeAttribute("aria-selected"));
+    item.setAttribute("aria-selected","true");
+    el.dropdownValue.textContent = UI_LABELS[val] || val;
+
+    // NEW: update path-based permalink without changing the quote
+    const id = shortId(`${currentArea}|${currentText}`);
+    history.replaceState(null, "", `/a/${encodeURIComponent(currentArea)}/${id}`);
+
+    toggleDropdown(false); // Quote and pill label stay the same
+  }
+
+  function initFirstQuote() {
+    setQuote(nextAffirmation());
+    updateAffirmLabel();
+  }
+
+  async function copyText() {
+    try {
+      const permalink = buildPermalink();
+      const payload = `"${currentText}" -Marketer Affirmations (${permalink})`;
+      await navigator.clipboard.writeText(payload);
+      const original = el.copy.textContent;
+      el.copy.textContent = "Copied";
+      el.copy.classList.add("copy-okay");
+      setTimeout(()=>{ el.copy.textContent = original; el.copy.classList.remove("copy-okay"); }, 900);
+      showToast("Copied");
+    } catch {
+      showToast("Copy failed");
+    }
+  }
+
+  const BG_IMG_1920 = "/public/graphics/bg-1920.webp"; // Forced background
+
+  function roundRect(ctx, x, y, w, h, r) {
+    const rr = Math.min(r, w/2, h/2);
+    ctx.beginPath();
+    ctx.moveTo(x+rr, y);
+    ctx.arcTo(x+w, y,   x+w, y+h, rr);
+    ctx.arcTo(x+w, y+h, x,   y+h, rr);
+    ctx.arcTo(x,   y+h, x,   y,   rr);
+    ctx.arcTo(x,   y,   x+w, y,   rr);
+    ctx.closePath();
+  }
+
+  async function ensureFonts() {
+    try {
+      if (document.fonts && document.fonts.ready) {
+        await Promise.all([
+          document.fonts.ready,
+          document.fonts.load("italic 28px 'Playfair Display'"),
+          document.fonts.load("52px 'Playfair Display'"),
+          document.fonts.load("22px Inter")
+        ]);
+      }
+    } catch {}
+  }
+
+  function drawVignette(ctx, W, H) {
+    ctx.save();
+    ctx.translate(W * 0.50, H * 0.42);
+    ctx.scale(0.70, 1.05);
+    const R = Math.max(W, H) * 2.6;
+    const g = ctx.createRadialGradient(0,0,0, 0,0, R);
+    g.addColorStop(0.00, "rgba(20,13,14,0.38)");
+    g.addColorStop(0.45, "rgba(20,13,14,0.64)");
+    g.addColorStop(1.00, "rgba(20,13,14,0.90)");
+    ctx.fillStyle = g;
+    ctx.fillRect(-W * 3, -H * 3, W * 6, H * 6);
+    ctx.restore();
+  }
+
+  function loadImage(src) {
+    return new Promise((resolve,reject)=>{
+      const i = new Image();
+      i.crossOrigin = "anonymous";
+      i.onload = () => resolve(i);
+      i.onerror = reject;
+      i.src = src;
+    });
+  }
+
+  async function renderPNGToCanvas() {
+    await ensureFonts();
+    const canvas = el.canvas;
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // ✅ Fill base with dark charcoal like the site background
+    ctx.fillStyle = "#0f1212";
+    ctx.fillRect(0, 0, W, H);
+
+    try {
+      const bg = await loadImage(BG_IMG_1920);
+      const ratio = Math.max(W / bg.width, H / bg.height);
+      const bw = bg.width * ratio, bh = bg.height * ratio;
+      ctx.drawImage(bg, (W - bw) / 2, (H - bh) / 2, bw, bh);
+    } catch {
+      ctx.fillStyle = "#111315";
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    drawVignette(ctx, W, H);
+
+    const M = 90;
+    const cardX = M, cardY = M, cardW = W - M * 2, cardH = H - M * 2;
+    roundRect(ctx, cardX, cardY, cardW, cardH, 28);
+    ctx.fillStyle = "#ffffff";
+    ctx.fill();
+
+    try {
+      const img = await loadImage(el.sticker.src);
+      ctx.globalAlpha = 0.45;
+      const sw = 260, sh = (img.height / img.width) * sw;
+      ctx.drawImage(img, cardX + cardW - sw - 34, cardY + cardH - sh - 34, sw, sh);
+    } catch {}
+    ctx.globalAlpha = 1;
+
+    ctx.fillStyle = "#201a15";
+    ctx.globalAlpha = 0.78;
+    ctx.font = "italic 28px 'Playfair Display', serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    ctx.fillText(`Filed under: ${PILL_NAMES[currentArea]}`, cardX + cardW / 2, cardY + 70);
+
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "#141516";
+    ctx.font = "52px 'Playfair Display', serif";
+    ctx.textAlign = "center";
+    const quoteMaxWidth = Math.min(860, cardW - 140);
+    const quoteY = cardY + cardH / 2 - 40;
+    wrapText(ctx, currentText, cardX + cardW / 2, quoteY, quoteMaxWidth, 64);
+
+    ctx.globalAlpha = 0.4;
+    ctx.fillStyle = "#000";
+    ctx.font = "22px Inter, sans-serif";
+    ctx.textBaseline = "alphabetic";
+    ctx.fillText("marketeraffirmations.com", cardX + cardW / 2, cardY + cardH - 30);
+    ctx.globalAlpha = 1;
+  }
+
+  async function exportPNGBlob() {
+    await renderPNGToCanvas();
+    return await new Promise(res => el.canvas.toBlob(res, "image/png"));
+  }
+
+  async function download() {
+    const blob = await exportPNGBlob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "affirmation.png";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    // (Optional) later: trackEvent('download');
+  }
+
+  async function share() {
+    try {
+      const blob = await exportPNGBlob();
+      const file = new File([blob], "affirmation.png", { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: "Marketer Affirmations",
+          text: currentText,
+          files: [file],
+          url: buildPermalink()
+        });
+        // (Optional) later: trackEvent('share');
+      } else {
+        const url = URL.createObjectURL(blob);
+        window.open(url, "_blank");
+        // (Optional) later: trackEvent('share');
+      }
+    } catch {
+      showToast("Share failed");
+    }
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(" ");
+    let line = "";
+    let yy = y;
+    ctx.textBaseline = "middle";
+    for (let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + " ";
+      const metrics = ctx.measureText(testLine);
+      if (metrics.width > maxWidth && n > 0) {
+        ctx.fillText(line.trim(), x, yy);
+        line = words[n] + " ";
+        yy += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line.trim(), x, yy);
+  }
+
+  buildDropdown();
+  initFirstQuote();
+
+  el.newBtn.addEventListener("click", () => {
+    clickCount += 1;
+    localStorage.setItem(CLICK_KEY, String(clickCount));
+    updateAffirmLabel();
+    setQuote(nextAffirmation());
+    // (Optional) later: history.replaceState(null, "", `/a/${encodeURIComponent(currentArea)}/${shortId(`${currentArea}|${currentText}`)}`);
   });
-  for (const [k, v] of Object.entries(paths)) {
-    state.assets[k] = await load(v);
-  }
-}
 
-async function renderCanvasToBlob(){
-  const id = state.current?.id || 'A000';
-  const text = quoteEl.textContent || '';
-  const kickerText = KICKERS[state.area] || KICKERS.general;
+  el.dropdownBtn.addEventListener("click", () => toggleDropdown());
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".custom-dropdown")) toggleDropdown(false);
+  });
+  el.dropdownMenu.addEventListener("click", handleDropdownClick);
 
-  ctx.clearRect(0,0,1080,1080);
+  el.copy.addEventListener("click", copyText);
+  el.share.addEventListener("click", share);
+  el.download.addEventListener("click", download);
 
-  // Background: Charcoal gradient
-  const bgGradient = ctx.createRadialGradient(540, -100, 300, 540, 540, 900);
-  bgGradient.addColorStop(0, '#24282c');
-  bgGradient.addColorStop(0.55, '#1b1f23');
-  bgGradient.addColorStop(1, '#181b1e');
-  ctx.fillStyle = bgGradient;
-  ctx.fillRect(0,0,1080,1080);
-  
-  // Background floral image
-  if (state.assets.bgMain) {
-    ctx.globalAlpha = 1;
-    drawCoverImage(state.assets.bgMain, 1080, 1080);
-    ctx.globalAlpha = 1;
-  }
-  
-  // Light edge vignette
-  const v = ctx.createRadialGradient(540, 540, 120, 540, 540, 540);
-  v.addColorStop(0, 'rgba(0,0,0,0)');
-  v.addColorStop(1, 'rgba(0,0,0,0.16)');
-  ctx.fillStyle = v;
-  ctx.fillRect(0,0,1080,1080);
-  
-  // Soft center brighten to mimic mask
-  ctx.globalCompositeOperation = 'lighter';
-  const c = ctx.createRadialGradient(540, 540, 0, 540, 540, 430);
-  c.addColorStop(0, 'rgba(255,255,255,0.38)');
-  c.addColorStop(0.75, 'rgba(255,255,255,0)');
-  ctx.fillStyle = c;
-  ctx.fillRect(0,0,1080,1080);
-  ctx.globalCompositeOperation = 'source-over';
-  
-  // Card background - warm ivory gradient
-  const cardX = 90, cardY = 180, cardW = 900, cardH = 720;
-  const cardGradient = ctx.createLinearGradient(cardX, cardY, cardX, cardY + cardH);
-  cardGradient.addColorStop(0, '#ffffff');
-  cardGradient.addColorStop(1, '#fbf9f6');
-  
-  // Card with rounded corners and shadow
-  ctx.shadowColor = 'rgba(12, 12, 14, 0.16)';
-  ctx.shadowBlur = 60;
-  ctx.shadowOffsetY = 20;
-  
-  ctx.fillStyle = cardGradient;
-  roundRect(ctx, cardX, cardY, cardW, cardH, 22);
-  ctx.fill();
-  
-  // Reset shadow for text
-  ctx.shadowColor = 'transparent';
-  ctx.shadowBlur = 0;
-  ctx.shadowOffsetY = 0;
-  
-  // Kicker text (centered, above quote)
-  ctx.font = `600 11px Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillStyle = 'rgba(0,0,0,0.45)';
-  ctx.letterSpacing = '1.76px';
-  ctx.fillText(kickerText.toUpperCase(), 540, 230);
-  
-  // Quote text color
-  ctx.fillStyle = '#141516';
-
-  // Text rendering
-  const padding = 140;
-  const maxWidth = 1080 - padding*2;
-  const maxHeight = 1080 - 480;
-
-  const { fontSize, lines, lineHeight } = fitText(
-    text, 
-    '"Playfair Display","Cormorant Garamond",Georgia,serif', 
-    maxWidth, 
-    maxHeight, 
-    68, 
-    32
-  );
-
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.font = `500 ${fontSize}px "Playfair Display","Cormorant Garamond",Georgia,serif`;
-  ctx.letterSpacing = '0.15px';
-
-  const totalH = lines.length * lineHeight;
-  let y = (1080 / 2) - (totalH / 2) + 70;
-  for (const ln of lines){
-    ctx.fillText(ln, 540, y);
-    y += lineHeight;
-  }
-
-  // Footer
-  ctx.font = `24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`;
-  ctx.textAlign = 'right';
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
-  ctx.letterSpacing = '0px';
-  ctx.fillText('marketeraffirmations.com', 1020, 1020);
-
-  return await new Promise(res => canvas.toBlob(res, 'image/png', 0.94));
-}
-
-function drawCoverImage(img, W, H){
-  const iw = img.width, ih = img.height;
-  const r = Math.max(W/iw, H/ih);
-  const nw = iw * r, nh = ih * r;
-  const nx = (W - nw)/2, ny = (H - nh)/2;
-  ctx.drawImage(img, nx, ny, nw, nh);
-}
-
-function roundRect(context, x, y, width, height, radius){
-  context.beginPath();
-  context.moveTo(x + radius, y);
-  context.lineTo(x + width - radius, y);
-  context.quadraticCurveTo(x + width, y, x + width, y + radius);
-  context.lineTo(x + width, y + height - radius);
-  context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  context.lineTo(x + radius, y + height);
-  context.quadraticCurveTo(x, y + height, x, y + height - radius);
-  context.lineTo(x, y + radius);
-  context.quadraticCurveTo(x, y, x + radius, y);
-  context.closePath();
-}
-
-// Fit text with binary search + word wrap
-function fitText(text, fontFamily, maxWidth, maxHeight, maxPx, minPx){
-  const words = text.split(/\s+/);
-  let hi = maxPx, lo = minPx, best = { fontSize: minPx, lines: [text], lineHeight: minPx*1.16 };
-  while (hi - lo > 1){
-    const mid = Math.floor((hi + lo)/2);
-    const lineHeight = Math.round(mid*1.16);
-    const lines = wrapWords(words, `${mid}px ${fontFamily}`, maxWidth);
-    const height = lines.length * lineHeight;
-    if (height <= maxHeight){ // fits → try bigger
-      best = { fontSize: mid, lines, lineHeight };
-      lo = mid;
-    } else {
-      hi = mid;
-    }
-  }
-  return best;
-}
-
-function wrapWords(words, font, maxWidth){
-  const lines = [];
-  let line = '';
-  ctx.font = font;
-  for (const w of words){
-    const test = line ? (line + ' ' + w) : w;
-    if (ctx.measureText(test).width <= maxWidth){
-      line = test;
-    } else {
-      if (line) lines.push(line);
-      line = w;
-    }
-  }
-  if (line) lines.push(line);
-  return lines;
-}
-
-// ========= Toast notifications =========
-let toastTimeout;
-function showToast(msg){
-  let toast = qs('#toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = 'toast';
-    toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:#fff;padding:12px 24px;border-radius:999px;font-size:14px;pointer-events:none;opacity:0;transition:opacity 0.2s;z-index:9999';
-    document.body.appendChild(toast);
-  }
-  
-  clearTimeout(toastTimeout);
-  toast.textContent = msg;
-  toast.style.opacity = '1';
-  
-  toastTimeout = setTimeout(() => {
-    toast.style.opacity = '0';
-  }, 2000);
-}
+  window.addEventListener("error", () => {
+    el.loadError.textContent = "Something broke while loading. Reload the page or try again.";
+    el.loadError.classList.remove("hidden");
+  });
+})();

@@ -1,33 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Marketer Affirmations – Visual Test</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Satirical affirmations for marketers. Elegant visuals, dry quotes.">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Marketer Affirmations">
-  <meta property="og:description" content="Satirical affirmations for marketers. Elegant visuals, dry quotes.">
-  <meta property="og:image" content="/public/graphics/bg-main.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Marketer Affirmations">
-  <meta name="twitter:description" content="Satirical affirmations for marketers. Elegant visuals, dry quotes.">
-  <meta name="twitter:image" content="/public/graphics/bg-main.png">
-
+  <meta charset="utf-8" />
+  <title>Marketer Affirmations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Satirical, deadpan affirmations for marketers." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Cormorant:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <link rel="icon" href="/public/graphics/stamp-ma.png">
-  <link rel="stylesheet" href="styles.css?v=webp-spacing-fix">
-  
-  <link rel="preload" as="image"
-    href="/public/graphics/bg-1280.webp"
-    imagesrcset="/public/graphics/bg-768.webp 768w, /public/graphics/bg-1280.webp 1280w, /public/graphics/bg-1920.webp 1920w"
-    imagesizes="100vw"
-    type="image/webp">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=fixes-20251006f">
 </head>
-<body data-theme="A">
+<body>
+  <div id="loadError" class="load-error hidden" role="alert"></div>
+
   <div class="container">
     <header class="header">
       <h1 class="title">Marketer <em>Affirmations</em></h1>
@@ -35,139 +20,85 @@
     </header>
 
     <section class="stage">
-      <div class="controls">
+      <div class="controls" aria-label="Controls">
         <label class="area-label" id="area-label">Marketing area:</label>
+
         <div class="custom-dropdown" id="customDropdown">
-          <button 
-            type="button" 
-            class="liquid-select" 
-            id="dropdownButton" 
-            aria-haspopup="listbox" 
-            aria-expanded="false"
-            aria-labelledby="area-label dropdownButton">
+          <button type="button" class="liquid-select" id="dropdownButton" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="area-label dropdownButton">
             <span class="select-label" id="dropdownValue">General</span>
             <span class="chev" aria-hidden="true"></span>
           </button>
           <ul class="dropdown-menu" id="dropdownMenu" role="listbox" aria-labelledby="area-label"></ul>
         </div>
-        <button id="new" class="liquid-button">Affirm Me</button>
+
+        <button id="new" type="button" class="liquid-button">Affirm Me</button>
       </div>
-      
+
       <article class="card" aria-live="polite">
-        <i class="stamp hidden" id="stamp" aria-hidden="true"></i>
+        <div class="ma-topbar">
+          <div class="ma-pill" id="areaPill">Filed under: General Marketing</div>
+        </div>
+
         <div class="quote-wrap">
-          <div class="kicker" id="kicker">Filed Under Sound Thinking</div>
           <div id="affirmation-text" class="quote">Loading…</div>
         </div>
+
+        <div class="ma-card-url">marketeraffirmations.com</div>
+
         <div class="actions">
-          <button id="copy" class="liquid-button--light" aria-label="Copy caption">Copy</button>
+          <button id="copy" type="button" class="liquid-button liquid-button--light" aria-label="Copy caption">Copy</button>
+          <button id="share" type="button" class="liquid-button liquid-button--light" aria-label="Share image & link">Share</button>
+          <button id="download" type="button" class="liquid-button liquid-button--light" aria-label="Download image">Download</button>
         </div>
-        <img
-          class="card-sticker"
-          src="/public/graphics/card-flower.webp"
-          alt=""
-          loading="lazy"
-          decoding="async">
+
+        <img class="ma-sticker" id="cardSticker" src="/public/graphics/card-flower.webp" alt="" loading="lazy" decoding="async" crossOrigin="anonymous">
       </article>
     </section>
 
     <section id="faq" class="faq">
       <h2>FAQ</h2>
-
       <details>
-        <summary>What is this?</summary>
-        <div>
-          <p>A little corner of the internet where marketers can feel seen, judged and briefly entertained.</p>
-        </div>
+        <summary tabindex="0">What is this?</summary>
+        <div class="faq-answer"><p>A small corner of the internet where marketers feel seen, judged, and briefly entertained.</p></div>
       </details>
-
       <details>
-        <summary>Who is it for?</summary>
-        <div>
-          <p>Anyone who's ever rewritten the same CTA 17 times and still been told it doesn't pop.</p>
-        </div>
+        <summary tabindex="0">Who is it for?</summary>
+        <div class="faq-answer"><p>Anyone who has rewritten the same CTA 17 times and been told it still doesn’t pop.</p></div>
       </details>
-
       <details>
-        <summary>Is it motivational?</summary>
-        <div>
-          <p>Only if being seen counts as self-help. These won't motivate you, but they will make eye contact.</p>
-        </div>
+        <summary tabindex="0">Is it motivational?</summary>
+        <div class="faq-answer"><p>Only if being seen counts as self‑help. Mostly it’s catharsis.</p></div>
       </details>
-
       <details>
-        <summary>How does it work?</summary>
-        <div>
-          <p>Click to generate. Cry or copy, your call.</p>
-        </div>
+        <summary tabindex="0">How does it work?</summary>
+        <div class="faq-answer"><p>Pick an area, generate, then share or download as needed.</p></div>
       </details>
-
       <details>
-        <summary>Can I post these publicly?</summary>
-        <div>
-          <p>Yes. You can copy, share, or download a PNG. Attribution is appreciated but not required.</p>
-        </div>
+        <summary tabindex="0">Can I post these publicly?</summary>
+        <div class="faq-answer"><p>Yes. PNG downloads and app shares are enabled. Attribution appreciated.</p></div>
       </details>
-
       <details>
-        <summary>Is this serious?</summary>
-        <div>
-          <p>No. But your reaction might be.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>Are you collecting my data?</summary>
-        <div>
-          <p>Just enough to track usage and quietly obsess over engagement.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>Who made this?</summary>
-        <div>
-          <p>A marketer who got laid off and needed something to do.</p>
-        </div>
-      </details>
-
-      <details>
-        <summary>Can I support this?</summary>
-        <div>
-          <p>Yes. There's a Buy Me a Coffee link in the footer. It helps cover costs.</p>
-        </div>
+        <summary tabindex="0">Are you collecting my data?</summary>
+        <div class="faq-answer"><p>Minimal analytics for usage and reliability. No personal data sold or shared.</p></div>
       </details>
     </section>
+
+    <div class="after-faq-spacer" aria-hidden="true"></div>
   </div>
 
   <footer class="site-foot" role="contentinfo">
     <div class="foot-inner">
-      <a href="https://www.buymeacoffee.com/marstrat" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 145px !important;" ></a>
+      <a class="bmc" href="https://www.buymeacoffee.com/marstrat" target="_blank" rel="noopener">
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height:40px;width:145px;">
+      </a>
       <small class="foot-copy">© <span id="foot-year"></span> marketeraffirmations.com</small>
     </div>
   </footer>
 
-  <!-- Hidden export canvas -->
-  <canvas id="exportCanvas" width="1080" height="1080" class="hidden"></canvas>
+  <canvas id="exportCanvas" width="1080" height="1080" class="hidden" aria-hidden="true"></canvas>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"FAQPage",
-    "mainEntity":[
-      {"@type":"Question","name":"What is this?","acceptedAnswer":{"@type":"Answer","text":"A little corner of the internet where marketers can feel seen, judged and briefly entertained."}},
-      {"@type":"Question","name":"Who is it for?","acceptedAnswer":{"@type":"Answer","text":"Anyone who's ever rewritten the same CTA 17 times and still been told it doesn't pop."}},
-      {"@type":"Question","name":"Is it motivational?","acceptedAnswer":{"@type":"Answer","text":"Only if being seen counts as self-help. These won't motivate you, but they will make eye contact."}},
-      {"@type":"Question","name":"How does it work?","acceptedAnswer":{"@type":"Answer","text":"Click to generate. Cry or copy, your call."}},
-      {"@type":"Question","name":"Can I post these publicly?","acceptedAnswer":{"@type":"Answer","text":"Yes. You can copy, share, or download a PNG. Attribution is appreciated but not required."}},
-      {"@type":"Question","name":"Is this serious?","acceptedAnswer":{"@type":"Answer","text":"No. But your reaction might be."}},
-      {"@type":"Question","name":"Are you collecting my data?","acceptedAnswer":{"@type":"Answer","text":"Just enough to track usage and quietly obsess over engagement."}},
-      {"@type":"Question","name":"Who made this?","acceptedAnswer":{"@type":"Answer","text":"A marketer who got laid off and needed something to do."}},
-      {"@type":"Question","name":"Can I support this?","acceptedAnswer":{"@type":"Answer","text":"Yes. There's a Buy Me a Coffee link in the footer. It helps cover costs."}}
-    ]
-  }
-  </script>
-
-  <script src="app.js?v=share-fix"></script>
-  <script>(() => { const y=document.getElementById('foot-year'); if(y) y.textContent=new Date().getFullYear(); })();</script>
+  <script src="app.js?v=fixes-20251006f" defer></script>
+  <script>document.getElementById('foot-year').textContent=new Date().getFullYear();</script>
 </body>
 </html>
