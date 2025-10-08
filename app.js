@@ -1,24 +1,32 @@
 
-(async () => {
-  const AREAS = ["general","agency","brand","content","email","events","growth","performance","product","seo","social"];
-  const UI_LABELS = {
-    general:"General", agency:"Agency", brand:"Brand", content:"Content", email:"Email/CRM",
-    events:"Events", growth:"Growth", performance:"Performance", product:"Product", seo:"SEO", social:"Social"
-  };
+  (async () => {
+    const AREAS = ["general","agency","brand","email","events","growth","performance","product","seo","social"];
 
-  const PILL_NAMES = {
-    general:"General Marketing",
-    agency:"Agency",
-    brand:"Brand",
-    content:"Content",
-    email:"Email / CRM",
-    events:"Events",
-    growth:"Growth",
-    performance:"Performance",
-    product:"Product",
-    seo:"SEO",
-    social:"Social"
-  };
+    const UI_LABELS = {
+      general:"General",
+      agency:"Agency",
+      brand:"Brand",
+      email:"Email/CRM",
+      events:"Events",
+      growth:"Growth",
+      performance:"Performance",
+      product:"Product",
+      seo:"SEO",
+      social:"Social"
+    };
+
+    const PILL_NAMES = {
+      general:"General Marketing",
+      agency:"Agency",
+      brand:"Brand",
+      email:"Email / CRM",
+      events:"Events",
+      growth:"Growth",
+      performance:"Performance",
+      product:"Product",
+      seo:"SEO",
+      social:"Social"
+    };
 
   // runtime data store replaces the deleted const
   let AFFIRMATIONS = {};
