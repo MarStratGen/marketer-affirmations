@@ -3,3 +3,6 @@ X-Robots-Tag: noindex, nofollow, noarchive
 
 /top.html
 X-Robots-Tag: noindex, nofollow, noarchive
+
+/affirmations.json
+Cache-Control: no-store, no-cache, must-revalidate

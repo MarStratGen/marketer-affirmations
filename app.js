@@ -1,10 +1,5 @@
-/* Marketer Affirmations — fixes (2025-10-06g+++) FINAL
-   - bg-1920.webp forced across Share/Download
-   - Dropdown no longer changes quote or label
-   - 'Filed under' label now changes only when 'Affirm Me' is clicked
-*/
 
-(() => {
+(async () => {
   const AREAS = ["general","agency","brand","content","email","events","growth","performance","product","seo","social"];
   const UI_LABELS = {
     general:"General", agency:"Agency", brand:"Brand", content:"Content", email:"Email/CRM",
@@ -25,53 +20,60 @@
     social:"Social"
   };
 
-  const AFFIRMATIONS = {
-    general: [
-      "I accept the dashboard’s truth, even when it refreshes into a new one.",
-      "I protect the plan from vibes that arrive after the deadline.",
-      "I trust the brief that started as a question and ended as a spreadsheet."
-    ],
-    agency: [
-      "I maintain the timeline while the scope explores its feelings.",
-      "I honour the budget that returned with new friends."
-    ],
-    brand: [
-      "I protect the tone from urgent adjectives.",
-      "I accept the brand book as a living document and a warning."
-    ],
-    content: [
-      "I trust the draft saved message the same way I trust a politician’s wave.",
-      "I welcome feedback that arrives after publishing."
-    ],
-    email: [
-      "I forgive the list that grew on its own and none of it converts.",
-      "I accept the preview text that renders like a ransom note."
-    ],
-    events: [
-      "I maintain the run sheet while the venue discovers gravity.",
-      "I believe the badge printer will find peace."
-    ],
-    growth: [
-      "I surrender to the experiment that disproves the last ten.",
-      "I accept that ‘scale’ means today."
-    ],
-    performance: [
-      "I welcome the CPC that fell because everything else did.",
-      "I protect the naming convention from creativity."
-    ],
-    product: [
-      "I accept the launch date that learned to walk.",
-      "I maintain the deck that sells a feature we renamed."
-    ],
-    seo: [
-      "I surrender to algorithm updates that retroactively punish yesterday’s best practices.",
-      "I accept the sitemap as a suggestion."
-    ],
-    social: [
-      "I protect the content calendar from vibes-based requests.",
-      "I believe the next post will be the one that doesn’t need to be deleted."
-    ]
-  };
+  // runtime data store replaces the deleted const
+  let AFFIRMATIONS = {};
+
+  // Load /affirmations.json and convert it into { area: [text, ...] }
+  async function loadAffirmations() {
+    const AREAS_SET = new Set(AREAS);
+    const emptyMap = () => Object.fromEntries(AREAS.map(a => [a, []]));
+
+    try {
+      const res = await fetch('/affirmations.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const rows = await res.json(); // expects an array of { id, tags, text }
+
+      const map = emptyMap();
+
+      for (const row of Array.isArray(rows) ? rows : []) {
+        if (!row || typeof row.text !== 'string') continue;
+        const text = row.text.trim();
+        if (!text) continue;
+
+        // find first valid area tag, else default to general
+        let placed = false;
+        if (Array.isArray(row.tags)) {
+          for (const t of row.tags) {
+            if (AREAS_SET.has(t)) {
+              map[t].push(text);
+              placed = true;
+              break;
+            }
+          }
+        }
+        if (!placed) map.general.push(text);
+      }
+
+      // de-dupe each area
+      for (const a of AREAS) map[a] = [...new Set(map[a])];
+
+      AFFIRMATIONS = map;
+    } catch (e) {
+      // fallback: if you ever ship a /affirmations.js that sets window.AFFIRMATIONS
+      if (window.AFFIRMATIONS && typeof window.AFFIRMATIONS === 'object') {
+        AFFIRMATIONS = window.AFFIRMATIONS;
+        return;
+      }
+
+      // show an on-page error but keep the app alive
+      const elErr = document.getElementById('loadError');
+      if (elErr) {
+        elErr.textContent = 'Could not load /affirmations.json. Check the file path and JSON format.';
+        elErr.classList.remove('hidden');
+      }
+      AFFIRMATIONS = { general: ['Affirmations failed to load.'] };
+    }
+  }
 
   const el = {
     dropdownBtn: document.getElementById("dropdownButton"),
@@ -425,6 +427,7 @@
     ctx.fillText(line.trim(), x, yy);
   }
 
+  await loadAffirmations();
   buildDropdown();
   initFirstQuote();
 
