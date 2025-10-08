@@ -179,6 +179,26 @@
     return b36.padStart(8,"0").slice(-8);
   };
 
+    // Build an id -> { area, text } lookup after data loads
+    let IDMAP = {};
+    function buildIdMap() {
+      IDMAP = {};
+      for (const area of AREAS) {
+        const arr = AFFIRMATIONS[area] || [];
+        for (const text of arr) {
+          const id = shortId(`${area}|${text}`);
+          IDMAP[id] = { area, text };
+        }
+      }
+    }
+
+    // Read /a/:area/:id from the current path
+    function parsePermalink() {
+      const m = location.pathname.match(/^\/a\/([^/]+)\/([0-9a-z]{6,12})$/i);
+      if (!m) return { area: null, id: null };
+      return { area: decodeURIComponent(m[1]), id: m[2] };
+    }
+
   // NEW: canonical permalink uses path, not query
   const buildPermalink = () => {
     const id = shortId(`${currentArea}|${currentText}`);
@@ -242,10 +262,23 @@
     toggleDropdown(false); // Quote and pill label stay the same
   }
 
-  function initFirstQuote() {
-    setQuote(nextAffirmation());
-    updateAffirmLabel();
-  }
+    function initFirstQuote() {
+      const { area, id } = parsePermalink();
+
+      // If the URL has a valid id we recognise, show that exact quote
+      if (area && id && IDMAP[id] && IDMAP[id].area === area) {
+        currentArea = area;
+        const { text } = IDMAP[id];
+        setQuote(text);           
+        updateAffirmLabel();      
+        el.dropdownValue.textContent = UI_LABELS[currentArea] || currentArea;
+        return;
+      }
+
+      // Otherwise behave like normal first load
+      setQuote(nextAffirmation());
+      updateAffirmLabel();
+    }
 
   async function copyText() {
     try {
@@ -435,17 +468,28 @@
     ctx.fillText(line.trim(), x, yy);
   }
 
-  await loadAffirmations();
-  buildDropdown();
-  initFirstQuote();
+    await loadAffirmations();
+    buildIdMap();     
+    buildDropdown();
+    initFirstQuote();
 
-  el.newBtn.addEventListener("click", () => {
-    clickCount += 1;
-    localStorage.setItem(CLICK_KEY, String(clickCount));
-    updateAffirmLabel();
-    setQuote(nextAffirmation());
-    // (Optional) later: history.replaceState(null, "", `/a/${encodeURIComponent(currentArea)}/${shortId(`${currentArea}|${currentText}`)}`);
-  });
+    el.newBtn.addEventListener("click", () => {
+      // keep your click counter stuff
+      clickCount += 1;
+      localStorage.setItem(CLICK_KEY, String(clickCount));
+      updateAffirmLabel();
+
+      // pick and render a new quote
+      const txt = nextAffirmation();
+      setQuote(txt);
+
+      // update the address bar to the new canonical URL for this on-screen quote
+      const id = shortId(`${currentArea}|${currentText}`);
+      const path = `/a/${encodeURIComponent(currentArea)}/${id}`;
+      if (location.pathname !== path) {
+        history.replaceState({ area: currentArea, id }, "", path);
+      }
+    });
 
   el.dropdownBtn.addEventListener("click", () => toggleDropdown());
   document.addEventListener("click", (e) => {
