@@ -49,7 +49,7 @@ body{color:#1a1a1a;line-height:1.6;font-family:var(--sans);background:none}
 }
 .liquid-button:hover,.liquid-select:hover{border-color:rgba(203,168,98,.62);filter:brightness(1.03)}
 .liquid-button:active,.liquid-select:active{transform:scale(.98)}
-/* Card buttons keep same glass */
+/* Card buttons */
 .liquid-button--light{
   height:38px;padding:0 16px;color:#17382F;background:rgba(255,255,255,.18);border:1px solid rgba(203,168,98,.42);
   backdrop-filter:blur(12px) saturate(120%);-webkit-backdrop-filter:blur(12px) saturate(120%);
@@ -86,7 +86,7 @@ body{color:#1a1a1a;line-height:1.6;font-family:var(--sans);background:none}
 @media(min-width:720px){.quote-wrap{min-height:170px}}
 .quote{
   font-family:"Playfair Display","Cormorant Garamond",Georgia,serif;
-  font-size:clamp(34px,4.2vw,50px);
+  font-size:clamp(30px,3.6vw,44px);
   font-weight:400;line-height:1.22;letter-spacing:.1px;color:#141516;
   text-align:center;margin:0 0 12px;transition:opacity .25s,transform .25s
 }
