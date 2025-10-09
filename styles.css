@@ -123,8 +123,10 @@ body{color:#1a1a1a;line-height:1.6;font-family:var(--sans);background:none}
 .actions .liquid-button--light {
   flex: 0 0 auto;
   width: auto;
-  min-width: 140px;
+  min-width: 120px;   /* narrower default */
+  padding: 0 12px;    /* trims the air left/right on desktop too */
   text-align: center;
+  height: 38px;
 }
 
 @media (max-width: 520px) {
@@ -177,3 +179,18 @@ body{color:#1a1a1a;line-height:1.6;font-family:var(--sans);background:none}
 /* Copy button temporary text + bounce */
 .copy-okay{animation:copyPop .28s ease; }
 @keyframes copyPop{0%{transform:scale(.98)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+
+/* --- Final mobile tightening for buttons (overrides global 18px padding) --- */
+@media (max-width: 520px) {
+  .actions {
+    gap: 6px;
+    justify-content: center;
+  }
+
+  /* higher specificity & important flag to override base .liquid-button */
+  .actions .liquid-button--light {
+    min-width: 100px;
+    padding: 0 8px !important;
+    height: 40px;
+  }
+}
