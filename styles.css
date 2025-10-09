@@ -129,10 +129,13 @@ body{color:#1a1a1a;line-height:1.6;font-family:var(--sans);background:none}
 
 @media (max-width: 520px) {
   .actions {
-    gap: 10px;
+    gap: 8px;                  /* slightly tighter space between buttons */
+    justify-content: center;
   }
+
   .actions .liquid-button--light {
-    min-width: 120px;
+    min-width: 110px;          /* narrower base */
+    padding: 0 10px;           /* less air inside left/right */
   }
 }
 
