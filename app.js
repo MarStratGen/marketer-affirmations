@@ -269,15 +269,22 @@
       if (area && id && IDMAP[id] && IDMAP[id].area === area) {
         currentArea = area;
         const { text } = IDMAP[id];
-        setQuote(text);           
-        updateAffirmLabel();      
+        setQuote(text);
+        updateAffirmLabel();
         el.dropdownValue.textContent = UI_LABELS[currentArea] || currentArea;
         return;
       }
 
-      // Otherwise behave like normal first load
-      setQuote(nextAffirmation());
+      // Otherwise: pick one, SHOW it, and IMMEDIATELY set the canonical /a/:area/:id
+      const txt = nextAffirmation();
+      setQuote(txt);
       updateAffirmLabel();
+
+      const newId = shortId(`${currentArea}|${currentText}`);
+      const newPath = `/a/${encodeURIComponent(currentArea)}/${newId}`;
+      if (location.pathname !== newPath) {
+        history.replaceState({ area: currentArea, id: newId }, "", newPath);
+      }
     }
 
   async function copyText() {
