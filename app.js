@@ -411,43 +411,87 @@
     return await new Promise(res => el.canvas.toBlob(res, "image/png"));
   }
 
-  async function download() {
-    const blob = await exportPNGBlob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "affirmation.png";
-    document.body.appendChild(a);
-    a.click();
-    trackEvent('download'); // NEW
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    // (Optional) later: trackEvent('download');
-  }
-
-  async function share() {
-    try {
-      const blob = await exportPNGBlob();
-      const file = new File([blob], "affirmation.png", { type: "image/png" });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          title: "Marketer Affirmations",
-          text: currentText,
-          files: [file],
-          url: buildPermalink()
-        });
-        trackEvent('share'); // NEW
-        // (Optional) later: trackEvent('share');
-      } else {
-        const url = URL.createObjectURL(blob);
-        window.open(url, "_blank");
-        trackEvent('share'); // NEW
-        // (Optional) later: trackEvent('share');
-      }
-    } catch {
-      showToast("Share failed");
+    function isiOSLike() {
+      const ua = navigator.userAgent || '';
+      // iPhone/iPad/iPod, and iPadOS that reports as Macintosh with touch
+      return /iPad|iPhone|iPod/.test(ua) || (/Macintosh/.test(ua) && 'ontouchend' in document);
     }
-  }
+
+    // DOWNLOAD: normal blob download on desktop/Android; viewer-tab for iOS/Arc
+    async function download() {
+      const blob = await exportPNGBlob();
+
+      if (isiOSLike()) {
+        // iOS/Arc: open an image viewer tab; user long-presses "Save Image"
+        const dataUrl = await new Promise(res => {
+          const r = new FileReader();
+          r.onload = () => res(r.result);
+          r.readAsDataURL(blob);
+        });
+        const w = window.open('', '_blank');
+        if (w) w.location.href = dataUrl;
+        trackEvent('download');
+        return;
+      }
+
+      // Everyone else: fast, reliable direct download
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "affirmation.png";
+      document.body.appendChild(a);
+      a.click();
+      trackEvent('download');
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    // SHARE: works on Chrome/Arc Android (files), Android Firefox (url+text), iOS Safari/Arc (url+text)
+    // Last resort opens the image in a new tab as a viewer
+    async function share() {
+      try {
+        const blob = await exportPNGBlob();
+        const file = new File([blob], "affirmation.png", { type: "image/png" });
+        const permalink = buildPermalink(); 
+
+        // 1) Best path: full share with file (Chrome/Arc on Android, some iOS 16+)
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: "Marketer Affirmations",
+            text: currentText,
+            files: [file],
+            url: permalink
+          });
+          trackEvent('share');
+          return;
+        }
+
+        // 2) Standard Web Share without file (Android Firefox, iOS Safari/Arc)
+        if (navigator.share) {
+          await navigator.share({
+            title: "Marketer Affirmations",
+            text: `"${currentText}"`,
+            url: permalink
+          });
+          trackEvent('share');
+          return;
+        }
+
+        // 3) Last resort: open a viewer tab with the image
+        const dataUrl = await new Promise(res => {
+          const r = new FileReader();
+          r.onload = () => res(r.result);
+          r.readAsDataURL(blob);
+        });
+        const w = window.open('', '_blank'); 
+        if (w) w.location.href = dataUrl;
+        trackEvent('share');
+
+      } catch (err) {
+        showToast("Share failed");
+        console.error("Share error:", err);
+      }
+    }
 
   function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
     const words = text.split(" ");

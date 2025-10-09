@@ -95,8 +95,21 @@ body{color:#1a1a1a;line-height:1.6;font-family:var(--sans);background:none}
 .ma-card-url{position:absolute;left:50%;transform:translateX(-50%);bottom:10px;font:500 12.5px var(--sans);color:rgba(0,0,0,.40);user-select:none;pointer-events:none;z-index:1}
 
 /* Actions + short divider */
-.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;margin-top:8px;padding-top:24px}
+/* Actions + short divider (grid, stable widths) */
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0,1fr));
+  gap:12px;
+  justify-content:center;
+  position:relative;
+  z-index:1;
+  margin-top:8px;
+  padding-top:24px;
+}
+
 .actions::before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:min(360px,88%);height:1px;background:rgba(185,139,46,.18);border-radius:1px}
+
+.actions .liquid-button--light{ width:100%; }
 
 /* Sticker */
 .ma-sticker{
@@ -105,7 +118,7 @@ body{color:#1a1a1a;line-height:1.6;font-family:var(--sans);background:none}
 }
 @media(max-width:380px){ .ma-sticker{right:14px;bottom:14px;width:130px} }
 
-/* FAQ: plain answers */
+/* FAQ */
 .faq{max-width:720px;margin:20px auto 0;padding:12px 20px 0}
 .faq h2{font-family:"Playfair Display","Cormorant Garamond",Georgia,serif;font-size:36px;font-weight:600;margin:0 0 18px;color:#fff;text-shadow:0 0 20px rgba(0,0,0,.9),0 0 40px rgba(0,0,0,.6),0 2px 4px rgba(0,0,0,.8)}
 .faq details{border-top:1px solid rgba(255,255,255,.25);padding:14px 0;color:#fff}
@@ -121,7 +134,7 @@ body{color:#1a1a1a;line-height:1.6;font-family:var(--sans);background:none}
 .faq-answer{margin-top:8px}
 .faq-answer p{color:#fff;font-weight:500;line-height:1.7;font-size:16px}
 
-/* Footer + spacing (more black space above BMC) */
+/* Footer */
 .site-foot{background:#000;color:#fff;font-size:12px;border-top:1px solid rgba(255,255,255,.08);text-align:center}
 .foot-inner{max-width:1100px;margin:0 auto;padding:40px 20px 24px;display:grid;place-items:center;gap:16px}
 .bmc{margin-top:8px}
