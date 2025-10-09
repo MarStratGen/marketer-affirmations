@@ -413,10 +413,23 @@
     ctx.globalAlpha = 1;
   }
 
-  async function exportPNGBlob() {
-    await renderPNGToCanvas();
-    return await new Promise(res => el.canvas.toBlob(res, "image/png"));
-  }
+    async function exportPNGBlob() {
+      await renderPNGToCanvas();
+
+      // Try the normal path first
+      const blob = await new Promise(res => el.canvas.toBlob(res, "image/png"));
+      if (blob) return blob;
+
+      // Safari/iOS sometimes returns null. Fallback to dataURL → Blob without fetch.
+      const dataUrl = el.canvas.toDataURL("image/png");
+      const comma = dataUrl.indexOf(",");
+      const b64 = dataUrl.slice(comma + 1);
+      const binary = atob(b64);
+      const len = binary.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) bytes[i] = binary.charCodeAt(i);
+      return new Blob([bytes], { type: "image/png" });
+    }
 
     function isiOSLike() {
       const ua = navigator.userAgent || '';
