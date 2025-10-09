@@ -439,31 +439,49 @@
 
     // DOWNLOAD: normal blob download on desktop/Android; viewer-tab for iOS/Arc
     async function download() {
-      const blob = await exportPNGBlob();
+      try {
+        // Detect iOS / iPadOS / Mac with touch (iPad posing as Mac)
+        const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+          (/Macintosh/.test(navigator.userAgent) && 'ontouchend' in document);
 
-      if (isiOSLike()) {
-        // iOS/Arc: open an image viewer tab; user long-presses "Save Image"
-        const dataUrl = await new Promise(res => {
-          const r = new FileReader();
-          r.onload = () => res(r.result);
-          r.readAsDataURL(blob);
-        });
-        const w = window.open('', '_blank');
-        if (w) w.location.href = dataUrl;
+        // --- iPhone & iPad ---
+        // Open a blank tab synchronously (user gesture) BEFORE any await
+        if (iOS) {
+          const newTab = window.open('about:blank', '_blank');  // open immediately
+          const blob = await exportPNGBlob();
+
+          // Convert Blob → DataURL for display
+          const dataUrl = await new Promise(res => {
+            const reader = new FileReader();
+            reader.onload = () => res(reader.result);
+            reader.readAsDataURL(blob);
+          });
+
+          if (newTab) {
+            newTab.location.href = dataUrl;   // user long-presses → Save Image
+          } else {
+            showToast("Tap and hold the image to save.");
+          }
+          trackEvent('download');
+          return;
+        }
+
+        // --- Desktop & Android ---
+        const blob = await exportPNGBlob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "affirmation.png";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
         trackEvent('download');
-        return;
-      }
 
-      // Everyone else: fast, reliable direct download
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "affirmation.png";
-      document.body.appendChild(a);
-      a.click();
-      trackEvent('download');
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      } catch (err) {
+        console.error("Download error:", err);
+        showToast("Download failed");
+      }
     }
 
     // SHARE: works on Chrome/Arc Android (files), Android Firefox (url+text), iOS Safari/Arc (url+text)
