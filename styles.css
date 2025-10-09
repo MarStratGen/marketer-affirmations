@@ -98,7 +98,7 @@ body{color:#1a1a1a;line-height:1.6;font-family:var(--sans);background:none}
 /* Actions + short divider (grid, stable widths) */
 .actions{
   display:grid;
-  grid-template-columns:repeat(3, minmax(0,1fr));
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
   gap:12px;
   justify-content:center;
   position:relative;
