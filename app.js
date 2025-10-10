@@ -444,24 +444,39 @@
         const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
           (/Macintosh/.test(navigator.userAgent) && 'ontouchend' in document);
 
-        // --- iPhone & iPad ---
-        // Open a blank tab synchronously (user gesture) BEFORE any await
         if (iOS) {
-          const newTab = window.open('about:blank', '_blank');  // open immediately
-          const blob = await exportPNGBlob();
+          // open synchronously
+          const newTab = window.open('', '_blank');
+          if (!newTab) {
+            showToast("Tap and hold the image to save.");
+            return;
+          }
 
-          // Convert Blob → DataURL for display
+          // write a lightweight HTML shell immediately so Safari keeps the context
+          newTab.document.write(`
+            <!doctype html><html><head>
+              <meta name="viewport" content="width=device-width,initial-scale=1">
+              <title>Affirmation</title>
+              <style>
+                body{margin:0;background:#0f1212;display:grid;place-items:center;height:100vh}
+                img{max-width:100%;height:auto;box-shadow:0 4px 18px rgba(0,0,0,.5)}
+                p{color:#fff;font:600 14px Inter,sans-serif;margin-top:14px;text-align:center}
+              </style>
+            </head><body><p>Generating image...</p></body></html>
+          `);
+
+          // now build the blob asynchronously
+          const blob = await exportPNGBlob();
           const dataUrl = await new Promise(res => {
-            const reader = new FileReader();
-            reader.onload = () => res(reader.result);
-            reader.readAsDataURL(blob);
+            const r = new FileReader();
+            r.onload = () => res(r.result);
+            r.readAsDataURL(blob);
           });
 
-          if (newTab) {
-            newTab.location.href = dataUrl;   // user long-presses → Save Image
-          } else {
-            showToast("Tap and hold the image to save.");
-          }
+          // inject the image after blob is ready
+          newTab.document.body.innerHTML = `
+            <img src="${dataUrl}" alt="Affirmation"><p>Tap and hold the image to save to Photos</p>
+          `;
           trackEvent('download');
           return;
         }
